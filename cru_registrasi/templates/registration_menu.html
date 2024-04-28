@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Lagu</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #1DB954;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .button-container button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background-color: #1DB954;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin: 0 10px;
+        }
+        .button-container button:hover {
+            background-color: #0a802b;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>FORM REGISTRASI</h1>
+</header>
+<div class="container">
+    <div class="card">
+        <h2 style="text-align: center; margin-bottom: 20px;">Pilih Role</h2>
+        <div class="button-container">
+            <button onclick="selectUser()">Pengguna</button>
+            <button onclick="selectLabel()">Label</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function selectUser() {
+        // Handle selection for user
+        alert("Anda memilih pengguna");
+    }
+
+    function selectLabel() {
+        // Handle selection for label
+        alert("Anda memilih label");
+    }
+</script>
+</body>
+</html>
