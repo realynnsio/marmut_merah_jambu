@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Playlist</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #1DB954;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .playlist-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .playlist-info {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .playlist-info h2 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .playlist-info p {
+            margin: 0;
+            margin-bottom: 5px;
+        }
+        .song-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .song-list-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .song-list-item:last-child {
+            border-bottom: none;
+        }
+        .song-title {
+            margin: 0;
+            margin-bottom: 5px;
+        }
+        .song-artist {
+            margin: 0;
+            color: #888;
+        }
+        .song-duration {
+            margin: 0;
+            color: #888;
+            font-size: 14px;
+        }
+        .song-actions {
+            display: flex;
+        }
+        .song-actions button {
+            margin-left: 10px;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            background-color: #1DB954;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .song-actions button:hover {
+            background-color: #0a802b;
+        }
+        .playlist-actions {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .playlist-actions button {
+            margin-left: 10px;
+            margin-bottom: 20px;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            background-color: #1DB954;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .playlist-actions button:hover {
+            background-color: #0a802b;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Detail Playlist</h1>
+</header>
+<div class="container">
+    <div class="playlist-header">
+        <h2>Playlist Name</h2>
+        <p>Pembuat: John Doe</p>
+        <p>Total Durasi: 8 jam 20 menit</p>
+        <p>Tanggal Dibuat: 18/03/24</p>
+    </div>
+    <div class="playlist-actions">
+        <button>Shuffle Play</button>
+        <button>Kembali</button>
+        <button>Tambah Lagu</button>
+    </div>
+    <div class="playlist-info">
+        <h2>Deskripsi Playlist</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu ligula ac turpis interdum aliquet.</p>
+    </div>
+    <div class="song-list">
+        <div class="song-list-item">
+            <div>
+                <p class="song-title">Song 1</p>
+                <p class="song-artist">Artist 1</p>
+                <p class="song-duration">Durasi: 3 menit 30 detik</p>
+            </div>
+            <div class="song-actions">
+                <button>Lihat</button>
+                <button>Play</button>
+                <button>Hapus</button>
+            </div>
+        </div>
+        <div class="song-list-item">
+            <div>
+                <p class="song-title">Song 2</p>
+                <p class="song-artist">Artist 2</p>
+                <p class="song-duration">Durasi: 4 menit 15 detik</p>
+            </div>
+            <div class="song-actions">
+                <button>Lihat</button>
+                <button>Play</button>
+                <button>Hapus</button>
+            </div>
+        </div>
+        <div class="song-list-item">
+            <div>
+                <p class="song-title">Song 3</p>
+                <p class="song-artist">Artist 3</p>
+                <p class="song-duration">Durasi: 5 menit</p>
+            </div>
+            <div class="song-actions">
+                <button>Lihat</button>
+                <button>Play</button>
+                <button>Hapus</button>
+            </div>
+        </div>
+        <!-- Add more song list items as needed -->
+    </div>
+</div>
+</body>
+</html>
