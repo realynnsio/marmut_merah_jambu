@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'playlist',
-    'cru_registrasi'
+    'cru_registrasi',
+    'crud_kelola_album_song',
 ]
 
 MIDDLEWARE = [
