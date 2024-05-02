@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include 'navbar.html' %}
+
+    <div class="text-center pt-3">
+        <div class="flex justify-center items-center pb-5">
+            <h1>List episode pada podcast Agak Laen</h1>
+        </div>
+        
+        <table class="table-auto text-center mx-auto my-auto border border-gray-500">
+            <thead>
+                <tr>
+                    <th class="border border-gray-500 px-4 py-2">
+                        Judul Episode
+                    </th>
+                    <th class="border border-gray-500 px-4 py-2">
+                        Deskripsi
+                    </th>
+                    <th class="border border-gray-500 px-4 py-2">
+                        Durasi
+                    </th>
+                    <th class="border border-gray-500 px-4 py-2">
+                        Tanggal
+                    </th>
+                    <th class="border border-gray-500 px-4 py-2">
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="border border-gray-500 px-4 py-2"> Agak Laen!Versi:Ke Amerika </td>
+                    <td class="border border-gray-500 px-4 py-2"> S4E12. Komandan sudah kembali! Kami mau cerita gimana pilem kami bisa sampe negeri Tulang
+                        Sam. Selamat menikmati, mauliate </td>
+                    <td class="border border-gray-500 px-4 py-2"> 59 menit </td>
+                    <td class="border border-gray-500 px-4 py-2"> 23-03-2024 </td>
+                    <td class="border border-gray-500 px-4 py-2">
+                        <a href="">Hapus</a> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-500 px-4 py-2"> Agak Laen!Versi:Numpang </td>
+                    <td class="border border-gray-500 px-4 py-2"> S4E10. Mumpung lagi numpang di Studio ketua Bene sang tiktoker, kami mau cerita pengalaman
+                        numpang kami. Selamat menikmati, Mauliate </td>
+                    <td class="border border-gray-500 px-4 py-2"> 65 menit </td>
+                    <td class="border border-gray-500 px-4 py-2"> 09-03-2024 </td>
+                    <td class="border border-gray-500 px-4 py-2">
+                        <a href="">Hapus</a> 
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+{% endblock content %}

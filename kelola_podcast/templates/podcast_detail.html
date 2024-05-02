@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include 'navbar.html' %}
+
+<div class="text-center pt-3">
+    <div class="flex justify-center items-center pb-5">
+        <h1>Podcast Detail</h1>
+    </div>
+    <p class="text-center"> Judul: Podcast Raditya Dika</p>
+    <p class="text-center"> Genre: </p>
+    <p class="text-center"> - Comedy </p>
+    <p class="text-center"> Podcaster: Raditya Dika</p>
+    <p class="text-center"> Total durasi: 7 Jam 30 menit</p>
+    <p class="text-center"> Tanggal rilis: 24/04/2019</p>
+    <p class="text-center"> Tahun: 2019</p>
+    
+    <table class="table-auto mx-auto my-auto border border-gray-500">
+        <thead>
+            <tr class="text-center">
+                <th colspan="4" class="mx-auto my-auto text-center px-5">Daftar episode</th>
+            </tr>
+            <tr>
+                <th class="border border-gray-500 px-4 py-2">Judul Episode</th>
+                <th class="border border-gray-500 px-4 py-2">Deskripsi</th>
+                <th class="border border-gray-500 px-4 py-2">Durasi</th>
+                <th class="border border-gray-500 px-4 py-2">Tanggal</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="border border-gray-500 px-4 py-2"> Kangen Main DnD </td>
+                <td class="border border-gray-500 px-4 py-2"> Raditya Dika ngobrol bareng Pandu Winoto dan Rais Marasabessy tentang kangan dengan karakter
+                    pertama main DnD </td>
+                <td class="border border-gray-500 px-4 py-2">47 </td>
+                <td class="border border-gray-500 px-4 py-2"> 16/02/2024 </td>
+            </tr>
+            <tr>
+                <td class="border border-gray-500 px-4 py-2"> Bikin Podcast di Bandung </td>
+                <td class="border border-gray-500 px-4 py-2"> Raditya Dika ngobrol barang Rais Marasabessy tentang kenapa mereka ada di Bandung dan 
+                    membahas Spotify Wrapped </td>
+                <td class="border border-gray-500 px-4 py-2"> 58 </td>
+                <td class="border border-gray-500 px-4 py-2"> 20/12/2023 </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="pt-4">
+        <button class="border-2 border-black border-solid bg-green-500 rounded-xl px-10 py-2 text-white" id="showPopUp">Kembali</button>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<link rel = "stylesheet"
+href = "https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One">
+
+<style>
+    #card-navbar {
+        font-family: 'Montserrat', sans-serif;
+        border-color: #040302;
+        background: #1DB954;
+    }
+</style>
+
+<nav id = "card-navbar" class="relative flex w-full flex-wrap items-center justify-between  py-2 lg:py-4 border-b-4 border-yellow-900">
+    <div class="flex w-full flex-wrap items-center justify-between px-3">
+        <div class="flex">
+            <h1 class="ml-2"><a href="" class=" text-white no-underline">Marmut</a></h1>
+            <a href="" class="text-white text-lg pl-10 pt-2.5 no-underline">Dashboard</a>
+
+            <a href="" class="text-white text-lg pl-6 pt-2.5 no-underline ">Chart</a>
+            <a href="" class="text-white text-lg pl-6 pt-2.5 no-underline">Search Bar</a>
+
+            <a href="" class="text-white text-lg pl-6 pt-2.5 no-underline">Kelola Playlist</a>
+
+            <a href="" class="text-white text-lg pl-6 pt-2.5 no-underline">Langganan Paket</a>
+            <a href="" class="text-white text-lg pl-6 pt-2.5 no-underline">Kelola Podcast</a>
+        </div>
+    </div>
+  </nav>
+
+{% endblock %}
