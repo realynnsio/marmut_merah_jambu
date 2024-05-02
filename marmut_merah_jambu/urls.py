@@ -22,5 +22,6 @@ urlpatterns = [
     path('playlist/', include('playlist.urls')),
     path('cru_registrasi/', include('cru_registrasi.urls')),
     path('albums/', include('crud_kelola_album_song.urls')),
-    path('podcast/', include('kelola_podcast.urls'))
+    path('podcast/', include('kelola_podcast.urls')),
+    path('chart/', include('chart.urls'))
 ]
