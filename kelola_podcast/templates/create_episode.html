@@ -1,0 +1,37 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+
+{% include 'navbar.html' %}
+
+
+<div class="min-h-screen bg-gray-100 text-gray-800 antialiased px-4 py-6 flex flex-col flex-wrap justify-center sm:py-12">
+    <div class="relative py-2 sm:max-w-xl mx-auto text-center">
+        <span class="text-2xl font-light">Add New Episode to Podcast Agak Laen</span>
+        <div class="relative mt-4 bg-white shadow-md sm:rounded-lg text-left sm:mt-4">
+            <div class="py-10 px-8">
+                <form action=""> 
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="name" class="col-form-label">Judul:</label>
+                        <input type="text" class=" border w-full h-5 px-3 py-3 mt-1 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md" id="name" name="name"></input>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="col-form-label">Deskripsi:</label>
+                        <input type="text" class=" border w-full h-5 px-3 py-3 mt-1 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md" id="description" name="description"></input>
+                    </div>
+                    <div class="mb-3">
+                        <label for="category" class="col-form-label">Durasi:</label>
+                        <input type="text" class=" border w-full h-5 px-3 py-3 mt-1 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md" id="category" name="category"></input>
+                    </div>
+                    <div class="flex justify-center space-x-2">
+                        <button class="mt-5 bg-red-500 text-white py-2 px-10 rounded-lg hover:bg-red-600 " type="submit" value="Add Product">Back</button>
+                        <button class="mt-5 bg-green-500 text-white py-2 px-10 rounded-lg hover:bg-green-600 " type="submit" value="Add Product">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -11,3 +11,7 @@ def show_list_episode(request):
 def show_podcast_detail(request):
     context = {}
     return render(request, "podcast_detail.html", context)
+
+def show_form(request):
+    context = {}
+    return render(request, "create_episode.html", context)
