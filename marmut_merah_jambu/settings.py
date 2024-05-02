@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'cru_registrasi',
     'crud_kelola_album_song',
     'kelola_podcast',
-    'chart'
+    'chart',
+    'dashboard'
 ]
 
 MIDDLEWARE = [

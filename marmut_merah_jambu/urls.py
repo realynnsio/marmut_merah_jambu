@@ -19,9 +19,11 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('dashboard', include('dashboard.urls')),
     path('playlist/', include('playlist.urls')),
     path('cru_registrasi/', include('cru_registrasi.urls')),
     path('albums/', include('crud_kelola_album_song.urls')),
     path('podcast/', include('kelola_podcast.urls')),
-    path('chart/', include('chart.urls'))
+    path('chart/', include('chart.urls')),
+
 ]

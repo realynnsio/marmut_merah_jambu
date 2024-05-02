@@ -9,25 +9,49 @@ href = "https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One">
     #card-navbar {
         font-family: 'Montserrat', sans-serif;
         border-color: #040302;
-        background: #1DB954;
+        background: #FFFF;
     }
 </style>
 
-<nav id = "card-navbar" class="relative flex w-full flex-wrap items-center justify-between  py-2 lg:py-4 border-b-4 border-yellow-900">
+<nav id = "card-navbar" class="relative flex w-full flex-wrap items-center justify-between  py-2 lg:py-4 shadow">
     <div class="flex w-full flex-wrap items-center justify-between px-3">
         <div class="flex">
-            <h1 class="ml-2"><a href="" class=" text-white no-underline">Marmut</a></h1>
-            <a href="" class="text-white text-lg pl-10 pt-2.5 no-underline">Dashboard</a>
-
-            <a href="" class="text-white text-lg pl-6 pt-2.5 no-underline ">Chart</a>
-            <a href="" class="text-white text-lg pl-6 pt-2.5 no-underline">Search Bar</a>
-
-            <a href="" class="text-white text-lg pl-6 pt-2.5 no-underline">Kelola Playlist</a>
-
-            <a href="" class="text-white text-lg pl-6 pt-2.5 no-underline">Langganan Paket</a>
-            <a href="" class="text-white text-lg pl-6 pt-2.5 no-underline">Kelola Podcast</a>
+            <div class="flex pr-20">
+                <h1 class="ml-2"><a href="" class=" text-green-500 font-bold no-underline">Marmut Merah Jambu</a></h1>
+                <a href="" class="text-black text-lg pl-4 pt-2.5 no-underline">Dashboard</a>
+                <a href="" class="text-black text-lg pl-4 pt-2.5 no-underline ">Chart</a>
+                <div class="pt-2.5">
+                    <a href="#" class="text-black text-lg pl-6 pb-2.5 no-underline dropdown-toggle" id="popUp">Manage</a>
+                    <div class=" hidden absolute bg-white rounded-lg shadow-lg mt-2" id="show">
+                        <a href="#" class="block px-4 py-2 text-black no-underline">Kelola Playlist</a>
+                        <a href="#" class="block px-4 py-2 text-black no-underline">Langgan Paket</a>
+                        <a href="#" class="block px-4 py-2 text-black no-underline">Kelola Podcast</a>
+                    </div>
+                </div>
+            </div>
+            <div class="flex space-x-4 lg:pl-80 lg:ml-80 pl-40 ml-80 pt-2">
+                <form class="form-inline">
+                    <div class="input-group">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <span class="input-group-append">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        </span>
+                    </div>
+                  </form>
+                <a class="pt-2 no-underline text-black">Login</a>
+            </div>
+            
         </div>
     </div>
   </nav>
+
+  <script>
+    $(document).ready(function() {
+      $("#popUp").click(function() {
+          $("#show").toggleClass("hidden"); // Menggunakan toggleClass untuk mengganti class 'hidden'
+      });
+  });  
+</script>
+
 
 {% endblock %}
