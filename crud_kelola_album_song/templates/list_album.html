@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% block title %}List Album{% endblock title %}
+
+{% block content %}
+<style>
+    body {
+        font-family: 'Montserrat', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+    header {
+        background-color: #1DB954;
+        color: #fff;
+        padding: 20px 0;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .grid-container {
+        display: grid;
+        grid-template-columns: 0.5fr 4fr;
+        grid-gap: 24px;
+        padding-top: 2%;
+        padding-left: 2.5%;
+        padding-right: 2.5%;
+        padding-bottom: 2%;
+    }
+    .album-actions button {
+        margin-bottom: 10px;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        background-color: #1DB954;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .album-actions button:hover {
+        background-color: #0a802b;
+    }
+    .add-album-button {
+        width: 100%;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        background-color: #1DB954;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .add-album-button:hover {
+        background-color: #0a802b;
+    }
+</style>
+
+<!-- Content -->
+
+<header>
+    <h1>DAFTAR ALBUM</h1>
+</header>
+
+<div class="grid-container">
+
+    <div class="grid-child">
+        <button class="add-album-button" onclick="add_album()">Tambah Album</button>
+    </div>
+    
+    <div class="grid-child">
+
+        <table class="table" style="width:100%">
+            <thead>
+                <tr>
+                    <th scope="col" style="width:8%">#</th>
+                    <th scope="col">Judul</th>
+                    <th scope="col">Label</th>
+                    <th scope="col">Jumlah Lagu</th>
+                    <th scope="col">Total Durasi</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody id="table_content">
+                <!-- Daftar Album -->
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Album 1</td>
+                    <td>LabelA</td>
+                    <td>0</td>
+                    <td>0 menit</td>
+                    <td class="album-actions">
+                        <div class="container">
+                            <div class="row">
+                              <div class="col">
+                                <button class="song-list-button" onclick="song_list()">Lihat Daftar Lagu</button>
+                              </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                  <button class="add-song-button" onclick="add_song()">Tambah Lagu</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                            <div class="col">
+                                <button class="delete-album-button">Hapus</button>
+                            </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Album 2 -->
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Album 2</td>
+                    <td>LabelB</td>
+                    <td>2</td>
+                    <td>4 menit</td>
+                    <td class="album-actions">
+                        <div class="container">
+                            <div class="row">
+                              <div class="col">
+                                <button class="song-list-button" onclick="song_list()">Lihat Daftar Lagu</button>
+                              </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                  <button class="add-song-button" onclick="add_song()">Tambah Lagu</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                            <div class="col">
+                                <button class="delete-album-button">Hapus</button>
+                            </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                
+            </tbody> 
+        </table>
+    </div>
+</div>
+
+<!-- Scripts -->
+
+<script>
+    function add_album() {
+         location.href = "/albums/add/";
+    } 
+
+    function song_list() {
+         location.href = "/albums/detail/";
+    } 
+
+    function add_song() {
+         location.href = "/albums/add-song/";
+    } 
+</script>
+
+{% endblock content %}

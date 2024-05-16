@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Lagu{% endblock title %}
+
+{% block content %}
+<style>
+    body {
+        font-family: 'Montserrat', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+    header {
+        background-color: #1DB954;
+        color: #fff;
+        padding: 20px 0;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    .form-container {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    .form-container h2 {
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    .form-group input[type="text"] {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+    .readonly-input {
+        background-color: #f0f0f0; /* Grey background color */
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    .form-group select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        appearance: none;
+        background-position: calc(100% - 20px) center;
+        background-size: 12px 12px;
+        background-repeat: no-repeat;
+        color: #555;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .form-group select:focus {
+        outline: none;
+        border-color: #1DB954;
+    }
+    .submit-button {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        background-color: #1DB954;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .submit-button:hover {
+        background-color: #0a802b;
+    }
+</style>
+
+<header>
+    <h1>CREATE LAGU</h1>
+</header>
+<div class="container">
+
+     <div class="form-container">
+        <h2>Isi Detail Lagu</h2>
+
+        <form action="#">
+            <div class="form-group">
+                <label for="staticAlbum" class="col-sm-2 col-form-label">Album:</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext readonly-input" id="staticAlbum" value="Album1">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="judul">Judul:</label>
+                <input type="text" id="judul" name="judul" placeholder="Masukkan judul">
+            </div>
+
+            <div class="form-group">
+                <label for="artist">Artist:</label>
+                <select class="form-select">
+                    <option selected value="current-artist">Current Artist</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="songwriter">Songwriter:</label>
+                <select data-mdb-select-init multiple data-mdb-placeholder="Not Selected">
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                    <option value="4">Four</option>
+                    <option value="5">Five</option>
+                  </select>
+            </div>
+
+            <div class="form-group">
+                <label for="genre">Genre:</label>
+                <select data-mdb-select-init multiple data-mdb-placeholder="Not Selected">
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                    <option value="4">Four</option>
+                    <option value="5">Five</option>
+                  </select>
+            </div>
+
+            <div class="form-group">
+                <label for="durasi">Durasi:</label>
+                <input type="number" class="form-control" id="durasi" name="durasi">
+            </div>
+            
+            <button type="submit" class="submit-button">Submit</button>
+        </form>
+    </div>
+</div>
+
+<!-- Scripts -->
+
+<script>
+</script>
+
+{% endblock content %}

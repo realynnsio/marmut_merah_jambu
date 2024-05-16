@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}List Royalti{% endblock title %}
+
+{% block content %}
+<style>
+    body {
+        font-family: 'Montserrat', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+    header {
+        background-color: #1DB954;
+        color: #fff;
+        padding: 20px 0;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .grid-container {
+        display: grid;
+        grid-gap: 24px;
+        padding-top: 2%;
+        padding-left: 2.5%;
+        padding-right: 2.5%;
+        padding-bottom: 2%;
+    }
+</style>
+
+<!-- Content -->
+
+<header>
+    <h1>LIST ROYALTI</h1>
+</header>
+
+<div class="grid-container">
+
+    <div class="grid-child">
+        <table class="table" style="width:100%;">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Judul Lagu</th>
+                    <th scope="col">Judul Album</th>
+                    <th scope="col">Total Play</th>
+                    <th scope="col">Total Download</th>
+                    <th scope="col">Total Royalti Didapat</th>
+                </tr>
+            </thead>
+
+            <tbody id="table_content">
+                <!-- Daftar Royalti -->
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Lagu1</td>
+                    <td>Album1</td>
+                    <td>3</td>
+                    <td>0</td>
+                    <td>Rp 450000</td>
+                </tr>
+
+                <!-- Royalti 2 -->
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Lagu2</td>
+                    <td>Album2</td>
+                    <td>2</td>
+                    <td>2</td>
+                    <td>Rp 520000</td>
+                </tr>
+                
+            </tbody> 
+        </table>
+
+    </div>
+
+</div>
+
+<!-- Scripts -->
+
+<script>
+</script>
+
+{% endblock content %}
