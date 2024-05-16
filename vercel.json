@@ -20,13 +20,8 @@
       "dest": "marmut_merah_jambu/wsgi.py"
     }
   ],
-  "build": {
-    "env": {
-      "PYTHON_VERSION": "3.9"
-    },
-    "commands": [
-      "chmod +x build_files.sh",
-      "./build_files.sh"
-    ]
+  "buildCommand": "chmod +x build_files.sh && ./build_files.sh",
+  "env": {
+    "PYTHON_VERSION": "3.9"
   }
 }
