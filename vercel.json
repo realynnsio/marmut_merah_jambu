@@ -1,27 +1,32 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "marmut_merah_jambu/wsgi.py",
-        "use": "@vercel/python",
-        "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
-      },
-      {
-        "src": "build_files.sh",
-        "use": "@vercel/static-build",
-        "config": {
-          "distDir": "staticfiles_build"
-        }
+  "version": 2,
+  "builds": [
+    {
+      "src": "marmut_merah_jambu/wsgi.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.9"
       }
-    ],
-    "routes": [
-      {
-        "src": "/static/(.*)",
-        "dest": "/static/$1"
-      },
-      {
-        "src": "/(.*)",
-        "dest": "marmut_merah_jambu/wsgi.py"
-      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "marmut_merah_jambu/wsgi.py"
+    }
+  ],
+  "build": {
+    "env": {
+      "PYTHON_VERSION": "3.9"
+    },
+    "commands": [
+      "chmod +x build_files.sh",
+      "./build_files.sh"
     ]
   }
+}
