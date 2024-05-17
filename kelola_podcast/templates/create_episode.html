@@ -10,23 +10,23 @@
         <span class="text-2xl font-light">Add New Episode to Podcast Agak Laen</span>
         <div class="relative mt-4 bg-white shadow-md sm:rounded-lg text-left sm:mt-4">
             <div class="py-10 px-8">
-                <form action=""> 
+                <form action="{% url 'kelola_podcast:add_episode' id_podcast=data %}" method="post">
                     {% csrf_token %}
                     <div class="mb-3">
-                        <label for="name" class="col-form-label">Judul:</label>
-                        <input type="text" class=" border w-full h-5 px-3 py-3 mt-1 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md" id="name" name="name"></input>
+                        <label for="judul" class="col-form-label">Judul:</label>
+                        <input type="text" class="border w-full h-5 px-3 py-3 mt-1 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md" id="judul" name="judul">
                     </div>
                     <div class="mb-3">
-                        <label for="description" class="col-form-label">Deskripsi:</label>
-                        <input type="text" class=" border w-full h-5 px-3 py-3 mt-1 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md" id="description" name="description"></input>
+                        <label for="deskripsi" class="col-form-label">Deskripsi:</label>
+                        <input type="text" class="border w-full h-5 px-3 py-3 mt-1 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md" id="deskripsi" name="deskripsi">
                     </div>
                     <div class="mb-3">
-                        <label for="category" class="col-form-label">Durasi:</label>
-                        <input type="text" class=" border w-full h-5 px-3 py-3 mt-1 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md" id="category" name="category"></input>
+                        <label for="durasi" class="col-form-label">Durasi:</label>
+                        <input type="text" class="border w-full h-5 px-3 py-3 mt-1 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md" id="durasi" name="durasi">
                     </div>
                     <div class="flex justify-center space-x-2">
-                        <button class="mt-5 bg-red-500 text-white py-2 px-10 rounded-lg hover:bg-red-600 " type="submit" value="Add Product">Back</button>
-                        <button class="mt-5 bg-green-500 text-white py-2 px-10 rounded-lg hover:bg-green-600 " type="submit" value="Add Product">Add</button>
+                        <a href="{% url 'kelola_podcast:show_list_podcast' %}" class="mt-5 bg-red-500 text-white py-2 px-10 rounded-lg hover:bg-red-600 no-underline">Back</a>
+                        <button type="submit" class="mt-5 bg-green-500 text-white py-2 px-10 rounded-lg hover:bg-green-600">Add</button>
                     </div>
                 </form>
             </div>

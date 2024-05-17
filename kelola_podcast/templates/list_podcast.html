@@ -8,7 +8,7 @@
         <div class="flex justify-center items-center pb-5">
             <h1>List podcast</h1>
             <div class="pl-6">
-                <button class="border-2 border-black border-solid bg-green-500 rounded-xl px-4 py-2 text-white" id="showPopUp">Create podcast</button>
+                <a href="{% url 'kelola_podcast:show_form_podcast' %}", class="border-2 border-black border-solid bg-green-500 rounded-xl px-4 py-2 text-white no-underline" >Create podcast</a>
             </div>
         </div>
         
@@ -30,117 +30,24 @@
                 </tr>
             </thead>
             <tbody>
+                {% for result in results %}
                 <tr>
-                    <td class="border border-gray-500 px-4 py-2"> Agak Laen </td>
-                    <td class="border border-gray-500 px-4 py-2"> 5 </td>
-                    <td class="border border-gray-500 px-4 py-2"> 240 menit </td>
+                    <td class="border border-gray-500 px-4 py-2"> {{result.judul}} </td>
+                    <td class="border border-gray-500 px-4 py-2"> {{result.jumlah_episode}} </td>
+                    <td class="border border-gray-500 px-4 py-2"> {{result.total_durasi}} </td>
                     <td class="border border-gray-500 px-4 py-2">
                         <div class="flex flex-col">
-                            <a href="">Lihat daftar episode</a> 
-                            <a href="">Tambah episode</a> 
-                            <a href="">Hapus</a> 
+                            <a href="{% url 'kelola_podcast:show_list_episode' id_input=result.id %}">Lihat daftar episode</a> 
+                            <a href="{% url 'kelola_podcast:show_form_episode' id_podcast=result.id %}">Tambah episode</a> 
+                            <a href="{% url 'kelola_podcast:delete_podcast' id_konten=result.id %}">Hapus</a> 
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td class="border border-gray-500 px-4 py-2"> Rintik sedu </td>
-                    <td class="border border-gray-500 px-4 py-2"> 5 </td>
-                    <td class="border border-gray-500 px-4 py-2"> 240 menit </td>
-                    <td class="border border-gray-500 px-4 py-2">
-                        <div class="flex flex-col">
-                            <a href="">Lihat daftar episode</a> 
-                            <a href="">Tambah episode</a> 
-                            <a href="">Hapus</a> 
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border border-gray-500 px-4 py-2"> Podcast Raditya Dika </td>
-                    <td class="border border-gray-500 px-4 py-2"> 5 </td>
-                    <td class="border border-gray-500 px-4 py-2"> 240 menit </td>
-                    <td class="border border-gray-500 px-4 py-2">
-                        <div class="flex flex-col">
-                            <a href="">Lihat daftar episode</a> 
-                            <a href="">Tambah episode</a> 
-                            <a href="">Hapus</a> 
-                        </div>
-                    </td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
+        <p></p>
     </div>
 
-    <div class="hidden z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true" id="modal">
-        <!--
-          Background backdrop, show/hide based on modal state.
-      
-          Entering: "ease-out duration-300"
-            From: "opacity-0"
-            To: "opacity-100"
-          Leaving: "ease-in duration-200"
-            From: "opacity-100"
-            To: "opacity-0"
-        -->
-        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-      
-        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-          <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <!--
-              Modal panel, show/hide based on modal state.
-      
-              Entering: "ease-out duration-300"
-                From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                To: "opacity-100 translate-y-0 sm:scale-100"
-              Leaving: "ease-in duration-200"
-                From: "opacity-100 translate-y-0 sm:scale-100"
-                To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            -->
-            <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                <div class="relative py-2 sm:max-w-xl text-center">
-                    <span class="text-2xl font-light">Add New Podcast</span>
-                <div class="relative bg-white shadow-md sm:rounded-lg text-left">
-                <div class="py-10 px-8">
-                    <form id="form" onsubmit="return false;"> 
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <label for="name" class="col-form-label">Judul:</label>
-                            <input type="text" class=" border w-full h-5 px-3 py-3 mt-1 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md" id="name" name="name"></input>
-                        </div>
-                        <div class="mb-3">
-                            <label for="description" class="col-form-label">Genre:</label>
-                            <input type="text" class=" border w-full h-5 px-3 py-3 mt-1 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md" id="description" name="description"></input>
-                        </div>
-                        <div class="mb-3">
-                            <label for="category" class="col-form-label">Durasi:</label>
-                            <input type="text" class=" border w-full h-5 px-3 py-3 mt-1 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md" id="category" name="category"></input>
-                        </div>
-                        <div class="modal-footer space-x-2">
-                            <button type="button" class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600" id="close_button">Close</button>
-                            <button type="button" class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600" id="button_add">Add Podcast</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-    <script>
-        $("#button_add").click(function () {
-    $("#modal").css("display", "none"); 
-    });
-
-    $("#close_button").click(function() {
-        $("#modal").css("display", "none");
-    });
-
-    $(document).ready(function() {
-            $("#showPopUp").click(function() {
-                $("#modal").css("display", "block");
-                document.getElementById("form").reset();
-            });
-        });
-    </script>
-
+   
 {% endblock content %}

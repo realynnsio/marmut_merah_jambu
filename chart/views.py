@@ -7,3 +7,7 @@ def show_chart(request):
 def show_chart_detail(request):
     context = {}
     return render(request, "detail_chart.html", context)
+
+def show_chart_detail_daily(request):
+    
+    return

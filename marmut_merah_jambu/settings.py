@@ -55,6 +55,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
 ROOT_URLCONF = 'marmut_merah_jambu.urls'
 
 TEMPLATES = [
@@ -81,8 +85,13 @@ WSGI_APPLICATION = 'marmut_merah_jambu.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        "NAME": "postgres",
+        "USER": "postgres.cucamuatyldtkvxripor",
+        "PASSWORD": "Basdat-7-marmut",
+        "HOST": "aws-0-ap-southeast-1.pooler.supabase.com",
+        "PORT": "5432",
+        "OPTIONS": {"options": "-c search_path=marmut"},
     }
 }
 

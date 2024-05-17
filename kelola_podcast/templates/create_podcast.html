@@ -1,0 +1,44 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+
+{% include 'navbar.html' %}
+
+
+<div class="min-h-screen bg-gray-100 text-gray-800 antialiased px-4 py-6 flex flex-col flex-wrap justify-center sm:py-12">
+    <div class="relative py-2 sm:max-w-xl mx-auto text-center">
+        <span class="text-2xl font-light">Add New Podcast</span>
+        <div class="relative mt-4 bg-white shadow-md sm:rounded-lg text-left sm:mt-4">
+            <div class="py-10 px-8">
+                <form action="{% url 'kelola_podcast:add_podcast' %}" method="post"> 
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="judul" class="col-form-label">Judul:</label>
+                        <input type="text" class="border w-full h-5 px-3 py-3 mt-1 hover:outline-none focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-md" id="judul" name="judul">
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label">Genre:</label><br>
+                        <input type="checkbox" id="comedy" name="genre" value="Comedy">
+                        <label for="comedy">Comedy</label><br>
+                        <input type="checkbox" id="drama" name="genre" value="Drama">
+                        <label for="drama">Drama</label><br>
+                        <input type="checkbox" id="tech" name="genre" value="Tech">
+                        <label for="tech">Tech</label><br>
+                        <input type="checkbox" id="education" name="genre" value="Education">
+                        <label for="education">Education</label><br>
+                        <input type="checkbox" id="horror" name="genre" value="Horror">
+                        <label for="horror">Horror</label><br>
+                        <input type="checkbox" id="self_improvement" name="genre" value="Self improvement">
+                        <label for="self_improvement">Self improvement</label><br>
+                    </div>
+                    <div class="modal-footer space-x-2">
+                        <a href="{% url 'kelola_podcast:show_list_podcast' %}" class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 no-underline">Back</a>
+                        <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600">Add Podcast</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

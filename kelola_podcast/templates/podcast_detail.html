@@ -8,14 +8,15 @@
     <div class="flex justify-center items-center pb-5">
         <h1>Podcast Detail</h1>
     </div>
-    <p class="text-center"> Judul: Podcast Raditya Dika</p>
+    {% for result in results %}
+    {% if result.judul_podcast %}
+    <p class="text-center"> Judul: {{result.judul_podcast}}</p>
     <p class="text-center"> Genre: </p>
-    <p class="text-center"> - Comedy </p>
-    <p class="text-center"> Podcaster: Raditya Dika</p>
-    <p class="text-center"> Total durasi: 7 Jam 30 menit</p>
-    <p class="text-center"> Tanggal rilis: 24/04/2019</p>
-    <p class="text-center"> Tahun: 2019</p>
-    
+    <p class="text-center"> {{result.genre_podcast}}</p>
+    <p class="text-center"> Podcaster: {{result.nama_podcaster}}</p>
+    <p class="text-center"> Total durasi: {{result.total_durasi_podcast}}</p>
+    <p class="text-center"> Tanggal rilis: {{result.tanggal_rilis_podcast}}</p>
+    <p class="text-center"> Tahun: {{result.tahun_rilis_podcast}}</p>
     <table class="table-auto mx-auto my-auto border border-gray-500">
         <thead>
             <tr class="text-center">
@@ -29,24 +30,18 @@
             </tr>
         </thead>
         <tbody>
+            {% endif %}
             <tr>
-                <td class="border border-gray-500 px-4 py-2"> Kangen Main DnD </td>
-                <td class="border border-gray-500 px-4 py-2"> Raditya Dika ngobrol bareng Pandu Winoto dan Rais Marasabessy tentang kangan dengan karakter
-                    pertama main DnD </td>
-                <td class="border border-gray-500 px-4 py-2">47 </td>
-                <td class="border border-gray-500 px-4 py-2"> 16/02/2024 </td>
+                <td class="border border-gray-500 px-4 py-2"> {{ result.judul_episode }} </td>
+                <td class="border border-gray-500 px-4 py-2"> {{ result.deskripsi_episode }} </td>
+                <td class="border border-gray-500 px-4 py-2"> {{ result.total_durasi_episode }} </td>
+                <td class="border border-gray-500 px-4 py-2"> {{ result.tanggal_rilis_episode }} </td>
             </tr>
-            <tr>
-                <td class="border border-gray-500 px-4 py-2"> Bikin Podcast di Bandung </td>
-                <td class="border border-gray-500 px-4 py-2"> Raditya Dika ngobrol barang Rais Marasabessy tentang kenapa mereka ada di Bandung dan 
-                    membahas Spotify Wrapped </td>
-                <td class="border border-gray-500 px-4 py-2"> 58 </td>
-                <td class="border border-gray-500 px-4 py-2"> 20/12/2023 </td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
     <div class="pt-4">
-        <button class="border-2 border-black border-solid bg-green-500 rounded-xl px-10 py-2 text-white" id="showPopUp">Kembali</button>
+        <a href="../" class="border-2 border-black border-solid bg-green-500 rounded-xl px-10 py-2 text-white no-underline">Kembali</a>
     </div>
 </div>
 
