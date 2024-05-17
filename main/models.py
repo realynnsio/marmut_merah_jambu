@@ -1,3 +1,8 @@
 from django.db import models
 
-# Create your models here.
+class Paket(models.Model):
+    jenis = models.CharField(max_length=50, primary_key=True)
+    harga = models.IntegerField()
+
+    class Meta:
+        db_table = 'paket'  # Specify the exact table name in the database

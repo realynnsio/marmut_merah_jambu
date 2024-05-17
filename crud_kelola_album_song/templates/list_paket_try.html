@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}Daftar Paket{% endblock title %}
+
+{% block content %}
+<style>
+    body {
+        font-family: 'Montserrat', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+    header {
+        background-color: #1DB954;
+        color: #fff;
+        padding: 20px 0;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .grid-container {
+        display: grid;
+        grid-gap: 24px;
+        padding-top: 2%;
+        padding-left: 2.5%;
+        padding-right: 2.5%;
+        padding-bottom: 2%;
+    }
+    .album-actions button {
+        margin-bottom: 10px;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        background-color: #1DB954;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .album-actions button:hover {
+        background-color: #0a802b;
+    }
+    .add-album-button {
+        width: 100%;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        background-color: #1DB954;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .add-album-button:hover {
+        background-color: #0a802b;
+    }
+</style>
+
+<!-- Content -->
+
+<header>
+    <h1>DAFTAR PAKET</h1>
+</header>
+
+<div class="grid-container">
+    
+    <div class="grid-child">
+
+        <table class="table" style="width:100%">
+            <thead>
+                <tr>
+                    <th scope="col" style="width:8%">#</th>
+                    <th scope="col">Jenis</th>
+                    <th scope="col">Harga</th>
+                </tr>
+            </thead>
+            <tbody id="table_content">
+
+                {% for p in pakets %}
+
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ p.jenis }}</td>
+                    <td>{{ p.harga }}</td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody> 
+        </table>
+    </div>
+</div>
+
+<!-- Scripts -->
+
+<script>
+</script>
+
+{% endblock content %}

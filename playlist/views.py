@@ -1,10 +1,14 @@
 from django.shortcuts import render
+from .models import Playlist
 
 # Create your views here.
 def show_all_playlist(request):
+    playlist_all = Playlist.objects.all()
+
     context = {
         'name': 'Pak Bepe',
-        'class': 'PBP A'
+        'class': 'PBP A',
+        "playlists": playlist_all,
     }
     return render(request, "all_playlist.html", context)
 
