@@ -21,10 +21,20 @@ class Akun(models.Model):
     tanggal_lahir = models.DateField()
     is_verified = models.BooleanField()
     kota_asal = models.CharField(max_length=50)
+    
+    # Add any additional fields or methods as needed
+
+    def __str__(self):
+        return self.nama
 
     class Meta:
         db_table = 'akun'  # Specify the exact table name in the database
 
+    def check_password(self, raw_password):
+        """
+        Check if the given raw password matches the stored password for this user.
+        """
+        return raw_password == self.password
 
 class Konten(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
