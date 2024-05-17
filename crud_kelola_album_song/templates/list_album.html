@@ -179,7 +179,7 @@
 
 <script>
     function add_album() {
-         location.href = "/albums/add/";
+         location.href = "{% url 'crud_kelola_album_song:create_album' %}";
     } 
 
     function song_list() {

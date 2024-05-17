@@ -162,7 +162,7 @@ def login_user(request):
 
         if not (email and password):
             context = {'message': "Email dan password harus diisi!", 'gagal': True}
-            return render(request, 'login_form.html', context)
+            return render(request, 'login.html', context)
 
         query = f"""
         SELECT COUNT(*)
@@ -223,8 +223,11 @@ def login_user(request):
             return HttpResponseRedirect(reverse('dashboard:show_dashboard')) 
         else:
             context = {'message': "Email atau password salah!", 'gagal': True}
-            return render(request, 'login_form.html', context)
+            return render(request, 'login.html', context)
     else:
-        return render(request, 'login_form.html')
+        return render(request, 'login.html')
        
 
+def logout(request):
+    request.session.flush()
+    return redirect('/')
