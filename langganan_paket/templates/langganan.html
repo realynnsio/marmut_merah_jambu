@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <title>Langganan Paket</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 0 0 0 0;
+        }
+        .search-container {
+            border: 1px solid #4CAF50;
+            border-radius: 10px;
+            padding: 20px;
+            width: 400px;
+            display: flex;
+            align-items: center;
+        }
+        input[type="text"] {
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            padding: 10px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .table-container {
+            margin-left: 20px;
+            margin-right: 20px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table-container th,
+        .table-container td {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: left;
+        }
+        .table-container th {
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 0 0 0 0;
+        }
+        .table-container tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .table-container tr:hover {
+            background-color: #ddd;
+        }
+        .table-container td:last-child {
+            text-align: right;
+        }
+        .table-container th:last-child,
+        .table-container td:last-child {
+            width: 150px;
+        }
+        .table-container th:nth-child(2),
+        .table-container td:nth-child(2) {
+            width: 200px;
+        }
+    </style>
+    <div class="header">
+        <h1>Paket Langganan</h1>
+    </div>
+    <div style="padding: 20px;">
+        <table class="table-container">
+            <thead>
+                <tr> 
+                    <th colspan="3">
+                        <div style="display: flex; justify-content: space-between;">
+                            Paket Langganan
+                            <a href = "/langganan_paket/show_riwayat/"><button>Riwayat Transaksi</button></a>
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th>Jenis</th>
+                    <th>Harga</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for paket in paket %}
+                <tr>
+                    <td>{{ paket.jenis }}</td>
+                    <td>{{ paket.harga }}</td>
+                    <td><a href="/langganan_paket/payment?jenis={{ paket.jenis }}&harga={{ paket.harga }}"><button>Berlangganan</button></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}

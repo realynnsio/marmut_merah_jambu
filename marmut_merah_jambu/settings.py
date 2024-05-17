@@ -51,7 +51,10 @@ INSTALLED_APPS = [
     'main',
     'kelola_podcast',
     'chart',
-    'dashboard'
+    'dashboard',
+    'langganan_paket',
+    'pencarian',
+    'downloaded_songs'
 ]
 
 MIDDLEWARE = [
