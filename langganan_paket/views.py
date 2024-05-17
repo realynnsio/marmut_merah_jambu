@@ -68,9 +68,8 @@ def submit_payment(request):
                         SELECT %s
                         WHERE NOT EXISTS (SELECT 1 FROM deleted_emails);""", [email,email])
         cursor.close()
-        context = show_riwayat(request)
-        return render(request, "Riwayat.html", context)
-    return HttpResponse("Tidak dapat membeli paket, anda masih dalam masa aktif", status=405)
+    context = show_riwayat(request)
+    return render(request, "Riwayat.html", context)
 
 def show_riwayat(request):
     user = context_user_getter(request)
