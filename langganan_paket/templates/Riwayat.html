@@ -85,13 +85,13 @@
             </tr>
         </thead>
         <tbody>
-            {% for hasil in result %}
+            {% for result in hasil %}
             <tr>
-                <td>{{ hasil.jenis }}</td>
-                <td>{{ hasil.mulai }}</td>
-                <td>{{ hasil.berakhir }}</td>
-                <td>{{ hasil.metode }}</td>
-                <td>{{ hasil.nominal }}</td>
+                <td>{{ result.jenis }}</td>
+                <td>{{ result.mulai }}</td>
+                <td>{{ result.berakhir }}</td>
+                <td>{{ result.metode }}</td>
+                <td>{{ result.nominal }}</td>
             </tr>
             {% endfor %}
         </tbody>
