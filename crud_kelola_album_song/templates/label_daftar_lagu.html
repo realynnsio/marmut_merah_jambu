@@ -58,7 +58,7 @@
 <!-- Content -->
 
 <header>
-    <h1>DAFTAR LAGU PADA ALBUM1</h1>
+    <h1>DAFTAR LAGU PADA {{ judul_album }}</h1>
 </header>
 
 <div class="grid-container">
@@ -77,13 +77,14 @@
                 </tr>
             </thead>
             <tbody id="table_content">
-                <!-- Daftar Song pada Album -->
+                {% for song in songs %}
+
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Lagu 1</td>
-                    <td>2 menit</td>
-                    <td>3</td>
-                    <td>0</td>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ song.judul }}</td>
+                    <td>{{ song.durasi }} menit</td>
+                    <td>{{ song.total_play }}</td>
+                    <td>{{ song.total_download }}</td>
                     <td class="album-actions">
                         <div class="container">
                             <div class="row">
@@ -93,36 +94,14 @@
                             </div>
                             <div class="row">
                             <div class="col">
-                                <button class="delete-album-button">Hapus</button>
+                                <button class="delete-album-button" onclick="delete_song_from_album('{{ song.id_konten }}')">Hapus</button>
                             </div>
                             </div>
                         </div>
                     </td>
                 </tr>
 
-                <!-- Song 2 -->
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Lagu 2</td>
-                    <td>3 menit</td>
-                    <td>2</td>
-                    <td>2</td>
-                    <td class="album-actions">
-                        <div class="container">
-                            <div class="row">
-                              <div class="col">
-                                <button class="song-list-button">Lihat Detail</button>
-                              </div>
-                            </div>
-                            <div class="row">
-                            <div class="col">
-                                <button class="delete-album-button">Hapus</button>
-                            </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                
+                {% endfor %}
             </tbody> 
         </table>
     </div>
@@ -131,6 +110,13 @@
 <!-- Scripts -->
 
 <script>
+    function delete_song_from_album(songId) {
+        // Confirm deletion
+        if (confirm("Are you sure you want to delete this song?")) {
+            // Redirect to the delete URL with the albumId
+            location.href = `/albums/label/delete-song/${songId}/`;
+        }
+    }
 </script>
 
 {% endblock content %}

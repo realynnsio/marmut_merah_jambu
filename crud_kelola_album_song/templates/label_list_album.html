@@ -76,50 +76,31 @@
                 </tr>
             </thead>
             <tbody id="table_content">
-                <!-- Daftar Album -->
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Album 1</td>
-                    <td>0</td>
-                    <td>0 menit</td>
-                    <td class="album-actions">
-                        <div class="container">
-                            <div class="row">
-                              <div class="col">
-                                <button class="song-list-button" onclick="song_list()">Lihat Daftar Lagu</button>
-                              </div>
-                            </div>
-                            <div class="row">
-                            <div class="col">
-                                <button class="delete-album-button">Hapus</button>
-                            </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
+                {% if list_album %}
+                    {% for album in list_album %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ album.judul }}</td>
+                        <td>{{ album.jumlah_lagu }}</td>
+                        <td>{{ album.total_durasi }} menit</td>
+                        <td class="album-actions">
+                            <div class="container">
+                                <div class="row">
+                                  <div class="col">
+                                    <button class="song-list-button" onclick="song_list('{{ album.id }}')">Lihat Daftar Lagu</button>
+                                  </div>
+                                </div>
 
-                <!-- Album 2 -->
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Album 2</td>
-                    <td>2</td>
-                    <td>4 menit</td>
-                    <td class="album-actions">
-                        <div class="container">
-                            <div class="row">
-                              <div class="col">
-                                <button class="song-list-button" onclick="song_list()">Lihat Daftar Lagu</button>
-                              </div>
+                                <div class="row">
+                                <div class="col">
+                                    <button class="delete-album-button" onclick="delete_album('{{ album.id }}')">Hapus</button>
+                                </div>
+                                </div>
                             </div>
-                            <div class="row">
-                            <div class="col">
-                                <button class="delete-album-button">Hapus</button>
-                            </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
             </tbody> 
         </table>
     </div>
@@ -128,9 +109,18 @@
 <!-- Scripts -->
 
 <script>
-    function song_list() {
-         location.href = "/albums/label/detail/";
-    } 
+    function song_list(albumId) {
+         location.href = `/albums/label/detail/${albumId}/`;
+    }
+
+    function delete_album(albumId) {
+          // Confirm deletion
+        if (confirm("Are you sure you want to delete this album?")) {
+            // Redirect to the delete URL with the albumId
+            location.href = `/albums/label/delete/${albumId}/`;
+        }
+    }
+
 </script>
 
 {% endblock content %}

@@ -92,11 +92,12 @@
      <div class="form-container">
         <h2>Isi Detail Lagu</h2>
 
-        <form action="#">
+        <form action="{% url 'crud_kelola_album_song:add_song_to_album' %}" method="post">
+            {% csrf_token %}
             <div class="form-group">
                 <label for="staticAlbum" class="col-sm-2 col-form-label">Album:</label>
                 <div class="col-sm-10">
-                    <input type="text" readonly class="form-control-plaintext readonly-input" id="staticAlbum" value="Album1">
+                    <input type="text" readonly class="form-control-plaintext readonly-input" id="staticAlbum" name="staticAlbum" value="{{ album.judul }}">
                 </div>
             </div>
 
@@ -105,44 +106,45 @@
                 <input type="text" id="judul" name="judul" placeholder="Masukkan judul">
             </div>
 
+            {% if request.session.is_artist %}
             <div class="form-group">
                 <label for="artist">Artist:</label>
-                <select class="form-select">
-                    <option selected value="current-artist">Current Artist</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
+                <input type="text" id="artist" name="artist" value="{{ artist_name }}" readonly>
             </div>
-            
+            {% else %}
             <div class="form-group">
-                <label for="songwriter">Songwriter:</label>
-                <select data-mdb-select-init multiple data-mdb-placeholder="Not Selected">
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                    <option value="4">Four</option>
-                    <option value="5">Five</option>
-                  </select>
+                <label for="artist">Artist:</label>
+                <select id="artist" name="artist" class="form-select">
+                    {% for artist in artists %}
+                    <option value="{{ artist.nama }}">{{ artist.nama }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% endif %}
+
+            <div class="form-group">
+                <label for="songwriters">Songwriters:</label>
+                <select id="songwriters" name="songwriters" class="form-select" multiple>
+                    {% for songwriter in songwriters %}
+                    <option value="{{ songwriter.nama }}">{{ songwriter.nama }}</option>
+                    {% endfor %}
+                </select>
             </div>
 
             <div class="form-group">
-                <label for="genre">Genre:</label>
-                <select data-mdb-select-init multiple data-mdb-placeholder="Not Selected">
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                    <option value="4">Four</option>
-                    <option value="5">Five</option>
-                  </select>
+                <label for="genres">Genres:</label>
+                <select id="genres" name="genres" class="form-select" multiple>
+                    {% for genre in genres %}
+                    <option value="{{ genre.genre }}">{{ genre.genre }}</option>
+                    {% endfor %}
+                </select>
             </div>
 
             <div class="form-group">
-                <label for="durasi">Durasi:</label>
-                <input type="number" class="form-control" id="durasi" name="durasi">
+                <label for="durasi">Durasi (dalam menit):</label>
+                <input type="number" id="durasi" name="durasi" placeholder="Masukkan durasi" min="0" max="999" step="1" required>
             </div>
             
-<<<<<<< HEAD
             <button type="submit" class="submit-button">Submit</button>
         </form>
     </div>
@@ -153,10 +155,4 @@
 <script>
 </script>
 
-=======
-            <button type="submit" class="submit-button">Create Song</button>
-        </form>
-    </div>
-</div>
->>>>>>> origin/athar2
 {% endblock content %}

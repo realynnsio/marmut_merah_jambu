@@ -1,15 +1,3 @@
-def get_album_query():
-    return f"""
-        SELECT
-            a.judul,
-            l.nama,
-            a.jumlah_lagu,
-            a.total_durasi
-        FROM
-            ALBUM as a
-            JOIN LABEL as l ON a.id_label= l.id
-        ;
-    """
 def get_artist_nama(email):
     return f"""
         SELECT a.nama
@@ -37,6 +25,7 @@ def get_artist_id(email):
 def get_artist_albums(id):
     return f"""
         SELECT
+            a.id,
             a.judul,
             l.nama,
             a.jumlah_lagu,
@@ -61,6 +50,7 @@ def get_songwriter_id(email):
 def get_songwriter_albums(id):
     return f"""
         SELECT
+            a.id,
             a.judul,
             l.nama,
             a.jumlah_lagu,
