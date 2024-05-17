@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example Layout</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 10px 10px 0 0;
+        }
+        .search-container {
+            border: 1px solid #4CAF50;
+            border-radius: 10px;
+            padding: 20px;
+            width: 400px;
+            display: flex;
+            align-items: center;
+        }
+        input[type="text"] {
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            padding: 10px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        button {
+            padding: 10px;
+            background-color: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Riwayat Transaksi Paket</h1>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Jenis</th>
+                <th>Tanggal Dimulai</th>
+                <th>Tanggal Berakhir</th>
+                <th>Metode Pembayaran</th>
+                <th>Nominal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hasil in result %}
+            <tr>
+                <td>{{ hasil.jenis }}</td>
+                <td>{{ hasil.mulai }}</td>
+                <td>{{ hasil.berakhir }}</td>
+                <td>{{ hasil.metode }}</td>
+                <td>{{ hasil.nominal }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div style="text-align: center; margin-top: 20px;">
+        <a href = "/langganan_paket/show_list_paket/"><button>Kembali</button></a>
+    </div>
+</body>
+</html>
