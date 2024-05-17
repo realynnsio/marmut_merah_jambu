@@ -66,7 +66,7 @@
 <div class="container">
     <div class="form-container">
         <h2>Isi Detail Playlist</h2>
-        <form action="#">
+        <form action="{% url 'playlist:add_playlist' %}" method="post">
             <div class="form-group">
                 <label for="judul">Judul:</label>
                 <input type="text" id="judul" name="judul" placeholder="Masukkan judul playlist">
@@ -75,6 +75,7 @@
                 <label for="deskripsi">Deskripsi:</label>
                 <input type="text" id="deskripsi" name="deskripsi" placeholder="Masukkan deskripsi playlist">
             </div>
+            <p>{{ pesan }}</p>
             <button type="submit" class="submit-button">Submit</button>
         </form>
     </div>
@@ -109,7 +110,7 @@
                             Manage
                         </a>
                         <div class="dropdown-menu" aria-labelledby="manage" id="dropdown-contents">
-                            <a class="dropdown-item" href="#">Playlist</a>
+                            <a class="dropdown-item" href="{% url 'playlist:show_playlist' %}">Playlist</a>
                             <a class="dropdown-item" href="#">Langganan Paket</a>
                         </div>
                     </li>

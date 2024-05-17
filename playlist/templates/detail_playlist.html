@@ -111,21 +111,23 @@
     <h1>DETAIL PLAYLIST</h1>
 </header>
 <div class="container" id="container">
+    {% for info in playlist_info %}
     <div class="playlist-header">
-        <h2>Playlist Name</h2>
-        <p>Pembuat: John Doe</p>
-        <p>Total Durasi: 8 jam 20 menit</p>
-        <p>Tanggal Dibuat: 18/03/24</p>
+        <h2>{{ info.0 }}</h2>
+        <p>Pembuat: {{ info.1 }}</p>
+        <p>Total Durasi: {{ info.2 }}</p>
+        <p>Tanggal Dibuat: {{ info.3 }}</p>
     </div>
     <div class="playlist-actions">
         <button>Shuffle Play</button>
-        <button>Kembali</button>
+        <button onclick="location.href = '/playlist/all'">Kembali</button>
         <button>Tambah Lagu</button>
     </div>
     <div class="playlist-info">
         <h2>Deskripsi Playlist</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu ligula ac turpis interdum aliquet.</p>
+        <p>{{ info.4 }}</p>
     </div>
+    {% endfor %}
     <div class="song-list">
         <div class="song-list-item">
             <div>
@@ -166,7 +168,6 @@
         <!-- Add more song list items as needed -->
     </div>
 </div>
-<<<<<<< HEAD
 
 <script>
     async function navbarOption() {
@@ -197,7 +198,7 @@
                             Manage
                         </a>
                         <div class="dropdown-menu" aria-labelledby="manage" id="dropdown-contents">
-                            <a class="dropdown-item" href="#">Playlist</a>
+                                   <a class="dropdown-item" href="{% url 'playlist:show_playlist' %}">Playlist</a>
                             <a class="dropdown-item" href="#">Langganan Paket</a>
                         </div>
                     </li>
@@ -241,7 +242,7 @@
         contents = document.getElementsByClassName("playlist-actions")
         htmlString = `
         <button>Shuffle Play</button>
-        <button>Kembali</button>
+       <button onclick="location.href = '/playlist/all'">Kembali</button>
         `
         for (var i = 0; i < contents.length; i++) {
             contents[i].innerHTML = htmlString;
@@ -270,7 +271,3 @@
 {% endblock content %}
 
 
-
-=======
-{% endblock content %}
->>>>>>> origin/athar2
