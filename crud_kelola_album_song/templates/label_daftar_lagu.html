@@ -19,7 +19,6 @@
     }
     .grid-container {
         display: grid;
-        grid-template-columns: 0.5fr 4fr;
         grid-gap: 24px;
         padding-top: 2%;
         padding-left: 2.5%;
@@ -63,10 +62,6 @@
 </header>
 
 <div class="grid-container">
-
-    <div class="grid-child">
-        <button class="add-album-button" onclick="add_song()">Tambah Lagu</button>
-    </div>
     
     <div class="grid-child">
 
@@ -136,9 +131,6 @@
 <!-- Scripts -->
 
 <script>
-    function add_song() {
-         location.href = "/albums/add-song/";
-    } 
 </script>
 
 {% endblock content %}

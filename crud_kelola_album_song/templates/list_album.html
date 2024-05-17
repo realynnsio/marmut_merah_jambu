@@ -65,7 +65,7 @@
 <div class="grid-container">
 
     <div class="grid-child">
-        <button class="add-album-button">Tambah Album</button>
+        <button class="add-album-button" onclick="add_album()">Tambah Album</button>
     </div>
     
     <div class="grid-child">
@@ -81,9 +81,41 @@
                     <th scope="col">Action</th>
                 </tr>
             </thead>
+
             <tbody id="table_content">
+
+                {% if list_album %}
+                    {% for album in list_album %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ album.judul }}</td>
+                        <td>{{ album.nama }}</td>
+                        <td>{{ album.jumlah_lagu }}</td>
+                        <td>{{ album.total_durasi }} menit</td>
+                        <td class="album-actions">
+                            <div class="container">
+                                <div class="row">
+                                  <div class="col">
+                                    <button class="song-list-button" onclick="song_list()">Lihat Daftar Lagu</button>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                      <button class="add-song-button" onclick="add_song()">Tambah Lagu</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                <div class="col">
+                                    <button class="delete-album-button">Hapus</button>
+                                </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
                 <!-- Daftar Album -->
-                <tr>
+                <!-- <tr>
                     <th scope="row">1</th>
                     <td>Album 1</td>
                     <td>LabelA</td>
@@ -93,12 +125,12 @@
                         <div class="container">
                             <div class="row">
                               <div class="col">
-                                <button class="song-list-button">Lihat Daftar Lagu</button>
+                                <button class="song-list-button" onclick="song_list()">Lihat Daftar Lagu</button>
                               </div>
                             </div>
                             <div class="row">
                                 <div class="col">
-                                  <button class="add-song-button">Tambah Lagu</button>
+                                  <button class="add-song-button" onclick="add_song()">Tambah Lagu</button>
                                 </div>
                             </div>
                             <div class="row">
@@ -108,10 +140,10 @@
                             </div>
                         </div>
                     </td>
-                </tr>
+                </tr> -->
 
                 <!-- Album 2 -->
-                <tr>
+                <!-- <tr>
                     <th scope="row">2</th>
                     <td>Album 2</td>
                     <td>LabelB</td>
@@ -121,12 +153,12 @@
                         <div class="container">
                             <div class="row">
                               <div class="col">
-                                <button class="song-list-button">Lihat Daftar Lagu</button>
+                                <button class="song-list-button" onclick="song_list()">Lihat Daftar Lagu</button>
                               </div>
                             </div>
                             <div class="row">
                                 <div class="col">
-                                  <button class="add-song-button">Tambah Lagu</button>
+                                  <button class="add-song-button" onclick="add_song()">Tambah Lagu</button>
                                 </div>
                             </div>
                             <div class="row">
@@ -136,11 +168,27 @@
                             </div>
                         </div>
                     </td>
-                </tr>
+                </tr> -->
                 
             </tbody> 
         </table>
     </div>
 </div>
+
+<!-- Scripts -->
+
+<script>
+    function add_album() {
+         location.href = "{% url 'crud_kelola_album_song:create_album' %}";
+    } 
+
+    function song_list() {
+         location.href = "/albums/detail/";
+    } 
+
+    function add_song() {
+         location.href = "/albums/add-song/";
+    } 
+</script>
 
 {% endblock content %}

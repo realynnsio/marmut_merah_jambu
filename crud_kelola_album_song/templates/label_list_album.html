@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Daftar Lagu{% endblock title %}
+{% block title %}List Album{% endblock title %}
 
 {% block content %}
 <style>
@@ -19,7 +19,6 @@
     }
     .grid-container {
         display: grid;
-        grid-template-columns: 0.5fr 4fr;
         grid-gap: 24px;
         padding-top: 2%;
         padding-left: 2.5%;
@@ -59,14 +58,10 @@
 <!-- Content -->
 
 <header>
-    <h1>DAFTAR LAGU PADA ALBUM1</h1>
+    <h1>DAFTAR ALBUM</h1>
 </header>
 
 <div class="grid-container">
-
-    <div class="grid-child">
-        <button class="add-album-button" onclick="add_song()">Tambah Lagu</button>
-    </div>
     
     <div class="grid-child">
 
@@ -75,25 +70,23 @@
                 <tr>
                     <th scope="col" style="width:8%">#</th>
                     <th scope="col">Judul</th>
-                    <th scope="col">Durasi</th>
-                    <th scope="col">Total Play</th>
-                    <th scope="col">Total Download</th>
+                    <th scope="col">Jumlah Lagu</th>
+                    <th scope="col">Total Durasi</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody id="table_content">
-                <!-- Daftar Song pada Album -->
+                <!-- Daftar Album -->
                 <tr>
                     <th scope="row">1</th>
-                    <td>Lagu 1</td>
-                    <td>2 menit</td>
-                    <td>3</td>
+                    <td>Album 1</td>
                     <td>0</td>
+                    <td>0 menit</td>
                     <td class="album-actions">
                         <div class="container">
                             <div class="row">
                               <div class="col">
-                                <button class="song-list-button">Lihat Detail</button>
+                                <button class="song-list-button" onclick="song_list()">Lihat Daftar Lagu</button>
                               </div>
                             </div>
                             <div class="row">
@@ -105,18 +98,17 @@
                     </td>
                 </tr>
 
-                <!-- Song 2 -->
+                <!-- Album 2 -->
                 <tr>
                     <th scope="row">2</th>
-                    <td>Lagu 2</td>
-                    <td>3 menit</td>
+                    <td>Album 2</td>
                     <td>2</td>
-                    <td>2</td>
+                    <td>4 menit</td>
                     <td class="album-actions">
                         <div class="container">
                             <div class="row">
                               <div class="col">
-                                <button class="song-list-button">Lihat Detail</button>
+                                <button class="song-list-button" onclick="song_list()">Lihat Daftar Lagu</button>
                               </div>
                             </div>
                             <div class="row">
@@ -136,8 +128,8 @@
 <!-- Scripts -->
 
 <script>
-    function add_song() {
-         location.href = "/albums/add-song/";
+    function song_list() {
+         location.href = "/albums/label/detail/";
     } 
 </script>
 

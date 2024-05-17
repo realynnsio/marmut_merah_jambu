@@ -3,6 +3,9 @@ from django.db import connection
 from django.views.decorators.csrf import csrf_exempt
 import uuid
 from django.http import HttpResponseRedirect
+from main.helper.function import *
+from cru_registrasi.query import *
+import random
 
 
 # Create your views here.
@@ -30,6 +33,43 @@ def registration_label_form(request):
 def login_form(request):
     context = {}
     return render(request, "login.html", context)
+
+@csrf_exempt
+def register_label(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        nama = request.POST.get('nama')
+        kontak = request.POST.get('kontak')
+    if (not (email and password and nama and kontak)):
+        context = {'message': "Harap isi data dengan benar!",
+                   'gagal': True}
+        return render(request, 'registration_menu.html', context)
+    else:
+        with connection.cursor() as cursor:
+            cursor.execute(f"SELECT COUNT(*) FROM MARMUT.AKUN WHERE email = '{email}'")
+            row = cursor.fetchone()
+            email_exists = row[0] > 0
+
+            if email_exists:
+                context = {'message': "Email sudah terdaftar!",
+                           'gagal': True}
+                return render(request, 'registration_menu.html', context)
+            else :
+                id_label = uuid.uuid4()
+                id_pemilik_hak_cipta = uuid.uuid4()
+                royalti_list = [10,20,30,40,50]
+                query1 = f"""
+                            INSERT INTO MARMUT.PEMILIK_HAK_CIPTA VALUES ('{id_pemilik_hak_cipta}', '{random.choice(royalti_list)}')
+                            """
+                query2 = f"""
+                            INSERT INTO MARMUT.LABEL VALUES ('{id_label}', '{nama}', '{email}', '{password}', '{kontak}', '{id_pemilik_hak_cipta}')
+                            """
+                with connection.cursor() as cursor:
+                    cursor.execute(query1)
+                    cursor.execute(query2)
+                    
+                return HttpResponseRedirect(reverse('cru_registrasi:login_form'))
 
 @csrf_exempt
 def register_user(request):
@@ -122,7 +162,7 @@ def login_user(request):
 
         if not (email and password):
             context = {'message': "Email dan password harus diisi!", 'gagal': True}
-            return render(request, 'login_form.html', context)
+            return render(request, 'login.html', context)
 
         query = f"""
         SELECT COUNT(*)
@@ -180,15 +220,14 @@ def login_user(request):
             else:
                 request.session['is_songwriter'] = False
 
-            return HttpResponseRedirect(reverse('dashboard:show_dashboard'))  #
+            return HttpResponseRedirect(reverse('dashboard:show_dashboard')) 
         else:
             context = {'message': "Email atau password salah!", 'gagal': True}
-            return render(request, 'login_form.html', context)
+            return render(request, 'login.html', context)
     else:
-        return render(request, 'login_form.html')
+        return render(request, 'login.html')
        
 
-        
-
-
-
+def logout(request):
+    request.session.flush()
+    return redirect('/')

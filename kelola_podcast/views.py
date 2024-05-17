@@ -5,12 +5,10 @@ import datetime
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.db import connection
+from .decorators import podcaster_required
 
 
-
-
-
-# @login_required
+@podcaster_required
 def show_list_podcast(request):
     user_email = request.session.get('email')
 
@@ -47,6 +45,8 @@ def show_list_podcast(request):
     context = {'results': result_data}
     return render(request, "list_podcast.html", context)
 
+
+@podcaster_required
 def show_list_episode(request, id_input):
     query = f"""
     SELECT KONTEN.id, EPISODE.id_episode, EPISODE.judul, EPISODE.deskripsi, EPISODE.tanggal_rilis, 
@@ -168,12 +168,14 @@ def show_podcast_detail(request, id_input):
     context = {'results': result_data}
     return render(request, "podcast_detail.html", context)
 
+@podcaster_required
 def show_form_episode(request, id_podcast):
 
 
     context = {'data' : id_podcast }
     return render(request, "create_episode.html", context)
 
+@podcaster_required
 def show_form_podcast(request):
     context = {}
     return render(request, "create_podcast.html", context)
@@ -237,7 +239,8 @@ def add_podcast(request):
 
         add_podcast_raw(judul, genres, konten_id, tanggal_rilis, user_email)
         return HttpResponseRedirect(reverse('kelola_podcast:show_list_podcast'))
-    
+
+@podcaster_required
 def add_episode(request, id_podcast):
         judul = request.POST.get('judul')
         deskripsi = request.POST.get('deskripsi')
@@ -248,7 +251,7 @@ def add_episode(request, id_podcast):
         add_episode_raw(episode_id, id_podcast, judul, deskripsi, durasi, tanggal_rilis)
         return HttpResponseRedirect(reverse('kelola_podcast:show_list_podcast'))
      
-
+@podcaster_required
 def delete_episode(request, id_episode, id_konten):
     query = f"""
     DELETE FROM MARMUT.EPISODE WHERE id_episode = '{id_episode}'
@@ -259,6 +262,7 @@ def delete_episode(request, id_episode, id_konten):
 
     return HttpResponseRedirect(reverse('kelola_podcast:show_list_episode', kwargs={'id_input': id_konten}))
 
+@podcaster_required
 def delete_podcast(request, id_konten):
 
     query = f"""

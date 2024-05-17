@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'crud_kelola_album_song',
     'kelola_podcast',
     'chart',
-    'dashboard'
+    'dashboard',
+    'main'
 ]
 
 MIDDLEWARE = [
