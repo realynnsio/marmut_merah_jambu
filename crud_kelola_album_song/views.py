@@ -1,5 +1,4 @@
 from django.shortcuts import render
-<<<<<<< HEAD
 import datetime
 import re
 import uuid
@@ -11,8 +10,6 @@ from main.helper.function import parse
 # from event.helper import convert_to_slug, convert_to_title
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
-=======
->>>>>>> origin/athar2
 
 # Create your views here.
 def show_list_album(request):
