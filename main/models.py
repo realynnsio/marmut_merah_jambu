@@ -1,13 +1,7 @@
 from django.db import models
 import uuid
 
-class Paket(models.Model):
-    jenis = models.CharField(max_length=50, primary_key=True)
-    harga = models.IntegerField()
-
-    class Meta:
-        db_table = 'paket'  # Specify the exact table name in the database
-
+# AKUN ----------------------------------------------------------------------------------------
 class Akun(models.Model):
     email = models.EmailField(primary_key=True)
     password = models.CharField(max_length=50)
@@ -36,6 +30,8 @@ class Akun(models.Model):
         """
         return raw_password == self.password
 
+# KONTEN ----------------------------------------------------------------------------------------
+
 class Konten(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     judul = models.CharField(max_length=100)
@@ -46,9 +42,54 @@ class Konten(models.Model):
     class Meta:
         db_table = 'konten'  # Specify the exact table name in the database
 
+# PAKET ----------------------------------------------------------------------------------------
+
+class Paket(models.Model):
+    jenis = models.CharField(max_length=50, primary_key=True)
+    harga = models.IntegerField()
+
+    class Meta:
+        db_table = 'paket'  # Specify the exact table name in the database
+
+# PLAYLIST ----------------------------------------------------------------------------------------
+
+class Playlist(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    class Meta:
+        db_table = 'playlist'  # Specify the exact table name in the database
+
+# PEMILIK HAK CIPTA --------------------------------------------------------------------------------
+
 class PemilikHakCipta(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     rate_royalti = models.IntegerField()
 
     class Meta:
         db_table = 'pemilik_hak_cipta'
+
+# PREMIUM ----------------------------------------------------------------------------------------
+
+class Premium(models.Model):
+    email = models.OneToOneField(Akun, on_delete=models.CASCADE, primary_key=True, db_column='email')
+
+    class Meta:
+        db_table = 'premium'
+
+# NON PREMIUM ----------------------------------------------------------------------------------------
+
+class NonPremium(models.Model):
+    email = models.OneToOneField(Akun, on_delete=models.CASCADE, primary_key=True, db_column='email')
+
+    class Meta:
+        db_table = 'non_premium'
+
+# PODCASTER ----------------------------------------------------------------------------------------
+
+class Podcaster(models.Model):
+    email = models.OneToOneField(Akun, on_delete=models.CASCADE, primary_key=True, db_column='email')
+
+    class Meta:
+        db_table = 'podcaster'
+
+#  ----------------------------------------------------------------------------------------
