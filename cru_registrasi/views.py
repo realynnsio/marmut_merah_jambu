@@ -3,6 +3,8 @@ from django.db import connection
 from django.views.decorators.csrf import csrf_exempt
 import uuid
 from django.http import HttpResponseRedirect
+from main.helper.function import *
+from cru_registrasi.query import *
 
 
 # Create your views here.
@@ -136,18 +138,55 @@ def login_user(request):
             user_exists = row[0] > 0
 
         if user_exists:
-            # Logika ketika login berhasil
-            request.session['email'] = email  # Menyimpan email di session
-            return HttpResponseRedirect(reverse('dashboard:show_dashboard'))  # Redirect ke halaman utama
+            request.session['email'] = email  
+
+            query2 = f"""
+                    SELECT COUNT(*) FROM MARMUT.ARTIST, MARMUT.AKUN WHERE email = email_akun AND email_akun = '{email}' 
+                    """
+            
+            with connection.cursor() as cursor:
+                cursor.execute(query2)
+                row = cursor.fetchone()
+                is_artist = row[0] > 0
+
+            if is_artist:
+                request.session['is_artist'] = True
+            else:
+                request.session['is_artist'] = False
+            
+            query3 = f"""
+                    SELECT COUNT(*) FROM MARMUT.PODCASTER, MARMUT.AKUN WHERE PODCASTER.email = AKUN.email AND PODCASTER.email = '{email}' 
+                    """
+            
+            with connection.cursor() as cursor:
+                cursor.execute(query3)
+                row = cursor.fetchone()
+                is_podcaster = row[0] > 0
+
+            if is_podcaster:
+                request.session['is_podcaster'] = True
+            else:
+                request.session['is_podcaster'] = False
+            
+            query4 = f"""
+                    SELECT COUNT(*) FROM MARMUT.SONGWRITER, MARMUT.AKUN WHERE email_akun = AKUN.email AND email_akun = '{email}' 
+                    """
+            
+            with connection.cursor() as cursor:
+                cursor.execute(query4)
+                row = cursor.fetchone()
+                is_songwriter = row[0] > 0
+
+            if is_songwriter:
+                request.session['is_songwriter'] = True
+            else:
+                request.session['is_songwriter'] = False
+
+            return HttpResponseRedirect(reverse('dashboard:show_dashboard')) 
         else:
-            # Logika ketika login gagal
             context = {'message': "Email atau password salah!", 'gagal': True}
             return render(request, 'login_form.html', context)
     else:
         return render(request, 'login_form.html')
        
-
-        
-
-
 
