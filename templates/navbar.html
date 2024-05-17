@@ -89,7 +89,7 @@
                     <a class="nav-link" href="#">Dashboard</a>
                   </li>
                 
-                {% if not request.session.is_label %}
+                {% if request.session.is_pengguna %}
                 <li class="nav-item">
                 <a class="nav-link" href="#">Chart</a>
                 </li>
@@ -100,8 +100,8 @@
                         Manage
                     </a>
                     <div class="dropdown-menu" aria-labelledby="manage">
-
-                        {% if not request.session.is_label %}
+                        
+                        {% if request.session.is_pengguna %}
                         <a class="dropdown-item" href="#">Playlist</a>
                         <a class="dropdown-item" href="{% url 'langganan_paket:show_list_paket' %}">Langganan Paket</a>
                         <a class="dropdown-item" href="{% url 'downloaded_songs:download_list' %}">Downloaded Songs</a>

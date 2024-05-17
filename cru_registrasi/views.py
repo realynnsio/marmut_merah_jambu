@@ -232,6 +232,7 @@ def login_user(request):
                 request.session['is_songwriter'] = False
             
             request.session['is_label'] = False
+            request.session['is_pengguna'] = True
 
             return HttpResponseRedirect(reverse('dashboard:show_dashboard'))
         
@@ -241,6 +242,7 @@ def login_user(request):
             request.session['is_podcaster'] = False
             request.session['is_songwriter'] = False
             request.session['is_label'] = True
+            request.session['is_pengguna'] = False
 
             return HttpResponseRedirect(reverse('dashboard:show_dashboard'))
 

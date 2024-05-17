@@ -14,31 +14,34 @@ from django.http import HttpResponseRedirect
 
 # Create your views here.
 def show_song_list_album(request, album_id):
-    cursor = connection.cursor()
-    cursor.execute("set search_path to marmut;")
-
-    cursor.execute(
-        f"""
-            SELECT *
-            FROM KONTEN JOIN SONG ON SONG.id_konten = KONTEN.id
-            WHERE SONG.id_album = '{album_id}'
-            ;
-        """
-    )
-    res = parse(cursor)
+    email = request.session.get('email')
 
     songs = []
-    for song in res:
-        songs.append(song)
+    judul_album = ""
 
-    cursor.execute(
-        f"""
-            SELECT judul
-            FROM ALBUM
-            WHERE id = '{album_id}';
-        """
-    )
-    judul_album = parse(cursor)[0].get('judul')
+    with connection.cursor() as cursor:
+        cursor.execute("set search_path to marmut;")
+        cursor.execute(
+            f"""
+                SELECT *
+                FROM KONTEN JOIN SONG ON SONG.id_konten = KONTEN.id
+                WHERE SONG.id_album = '{album_id}'
+                ;
+            """
+        )
+        res = parse(cursor)
+
+        for song in res:
+            songs.append(song)
+
+        cursor.execute(
+            f"""
+                SELECT judul
+                FROM ALBUM
+                WHERE id = '{album_id}';
+            """
+        )
+        judul_album = parse(cursor)[0].get('judul')
 
     context = {
         "songs" : songs,
@@ -202,6 +205,8 @@ def show_label_album(request):
     return render(request, "label_list_album.html", context)
 
 def show_label_song_list(request, album_id):
+    email = request.session.get('email')
+
     cursor = connection.cursor()
     cursor.execute("set search_path to marmut;")
 
@@ -233,7 +238,7 @@ def show_label_song_list(request, album_id):
         "judul_album" : judul_album,
         "id_album" : album_id,
     }
-    
+
     return render(request, "label_daftar_lagu.html", context)
 
 
