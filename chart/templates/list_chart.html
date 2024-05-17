@@ -25,31 +25,31 @@
                 <tr>
                     <td class="border border-gray-500 px-4 py-2"> Daily Top 20 </td>
                     <td class="border border-gray-500 px-4 py-2">
-                        <a href="">Lihat Daftar Lagu</a> 
+                        <a href="{% url 'chart:chart_detail_daily' %}" class="no-underline">Lihat Daftar Lagu</a> 
                     </td>
                 </tr>
                 <tr>
                     <td class="border border-gray-500 px-4 py-2"> Weekly Top 20 </td>
                     <td class="border border-gray-500 px-4 py-2">
-                        <a href="">Lihat Daftar Lagu</a> 
+                        <a href="{% url 'chart:chart_detail_weekly' %}" class="no-underline">Lihat Daftar Lagu</a> 
                     </td>
                 </tr>
                 <tr>
                     <td class="border border-gray-500 px-4 py-2"> Monthly Top 20 </td>
                     <td class="border border-gray-500 px-4 py-2">
-                        <a href="">Lihat Daftar Lagu</a> 
+                        <a href="{% url 'chart:chart_detail_monthly' %}" class="no-underline">Lihat Daftar Lagu</a> 
                     </td>
                 </tr>
                 <tr>
                     <td class="border border-gray-500 px-4 py-2"> Yearly Top 20 </td>
                     <td class="border border-gray-500 px-4 py-2">
-                        <a href="">Lihat Daftar Lagu</a> 
+                        <a href="{% url 'chart:chart_detail_year' %}" class="no-underline">Lihat Daftar Lagu</a> 
                     </td>
                 </tr>
             </tbody>
         </table>
         <div class="pt-4">
-            <button class="border-2 border-black border-solid bg-green-500 rounded-xl px-10 py-2 text-white" id="showPopUp">Kembali</button>
+            <a href=""  class="border-2 border-black border-solid bg-green-500 rounded-xl px-10 py-2 text-white no-underline" id="showPopUp">Kembali</a>
         </div>
         
     </div>

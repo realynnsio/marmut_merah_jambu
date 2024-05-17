@@ -12,7 +12,9 @@ from django.db import connection
 
 # @login_required
 def show_list_podcast(request):
-    query = """
+    user_email = request.session.get('email')
+
+    query = f"""
     SELECT KONTEN.judul, COALESCE(COUNT(id_episode), 0) AS episode, KONTEN.id,
     CASE
         WHEN SUM(EPISODE.durasi) % 60 = 0 THEN (SUM(EPISODE.durasi) / 60) || ' jam'
@@ -22,6 +24,7 @@ def show_list_podcast(request):
     FROM MARMUT.PODCAST
     LEFT JOIN MARMUT.KONTEN ON id_konten = id
     LEFT JOIN MARMUT.EPISODE ON id_konten_podcast = id_konten 
+    WHERE PODCAST.email_podcaster = '{user_email}'
     GROUP BY KONTEN.judul, KONTEN.id
     """
     results = execute_raw_query(query)
@@ -177,14 +180,24 @@ def show_form_podcast(request):
 
 def add_podcast_raw(judul, genres, konten_id, tanggal_rilis, user_email):
 
-    query = f"""
-    INSERT INTO KONTEN VALUES (id, judul, tanggal_rilis, tahun, durasi)
-    VALUES ({konten_id}, {judul}, {tanggal_rilis}, {tanggal_rilis.year}, 0)
+    query1 = f"""
+    SELECT AKUN.nama FROM MARMUT.AKUN, MARMUT.PODCASTER WHERE PODCASTER.email = AKUN.email AND PODCASTER.email = '{user_email}'
     """
 
-    # query = f"""
-    # INSERT INTO MARMUT.KONTEN VALUES ('{konten_id}', '{judul}', '{tanggal_rilis}', '{tanggal_rilis.year}', 540)
-    # """
+    results = execute_raw_query(query1)
+
+    result_data = []
+
+    for result in results:
+        nama = result[0];
+
+    result_data.append({
+        'nama': nama
+    })
+
+    query = f"""
+    INSERT INTO MARMUT.KONTEN VALUES ('{konten_id}', '{judul}', '{tanggal_rilis}', '{tanggal_rilis.year}', 540)
+    """
 
     with connection.cursor() as cursor:
         cursor.execute(query)
@@ -198,7 +211,7 @@ def add_podcast_raw(judul, genres, konten_id, tanggal_rilis, user_email):
             cursor.execute(query1)
 
     query2 = f"""
-    INSERT INTO MARMUT.PODCAST VALUES('{konten_id}', 'usermarmut5@gmail.com')
+    INSERT INTO MARMUT.PODCAST VALUES('{konten_id}', '{user_email}')
     """
 
     with connection.cursor() as cursor:
@@ -220,9 +233,9 @@ def add_podcast(request):
         konten_id = uuid.uuid4()
         tanggal_rilis = datetime.date.today();
 
-        # user = request.user
+        user_email = request.session.get('email')
 
-        add_podcast_raw(judul, genres, konten_id, tanggal_rilis, 'usermarmut5@gmail.com')
+        add_podcast_raw(judul, genres, konten_id, tanggal_rilis, user_email)
         return HttpResponseRedirect(reverse('kelola_podcast:show_list_podcast'))
     
 def add_episode(request, id_podcast):
