@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from main.models import Paket
+# from main.models import Paket
 
 # Create your views here.
 def show_list_album(request):
@@ -25,10 +25,3 @@ def show_label_album(request):
 def show_label_song_list(request):
     context = {}
     return render(request, "label_daftar_lagu.html", context)
-
-def show_paket(request):
-    paket_all = Paket.objects.all()
-    context = {
-        "pakets" : paket_all,
-    }
-    return render(request, "list_paket_try.html", context)
