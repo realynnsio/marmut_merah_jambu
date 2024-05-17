@@ -87,33 +87,46 @@ def show_podcast_detail(request, id_input):
         WHEN EPISODE.durasi % 60 = 0 THEN (EPISODE.durasi / 60) || ' jam'
         WHEN EPISODE.durasi / 60 = 0 THEN (EPISODE.durasi % 60) || ' menit'
         ELSE EPISODE.durasi / 60 || ' jam ' || (EPISODE.durasi % 60) || ' menit'
-    END AS total_durasi_episode,
-    CASE
-        WHEN SUM(EPISODE.durasi) % 60 = 0 THEN (SUM(EPISODE.durasi) / 60) || ' jam'
-        WHEN SUM(EPISODE.durasi) / 60 = 0 THEN (SUM(EPISODE.durasi) % 60) || ' menit'
-        ELSE (SUM(EPISODE.durasi) / 60) || ' jam ' || (SUM(EPISODE.durasi) % 60) || ' menit'
-    END AS total_durasi_podcast
+    END AS total_durasi_episode
     FROM MARMUT.KONTEN LEFT JOIN MARMUT.PODCAST ON PODCAST.id_konten = KONTEN.id 
     LEFT JOIN MARMUT.PODCASTER ON PODCASTER.email = PODCAST.email_podcaster 
     LEFT JOIN MARMUT.AKUN ON AKUN.email = PODCASTER.email 
     LEFT JOIN MARMUT.GENRE ON GENRE.id_konten = KONTEN.id 
     LEFT JOIN MARMUT.EPISODE ON EPISODE.id_konten_podcast = PODCAST.id_konten
-WHERE 
-    KONTEN.id = '{id_input}'
-GROUP BY 
-    KONTEN.judul, 
-    AKUN.nama, 
-    KONTEN.tanggal_rilis, 
-    KONTEN.tahun, 
-    EPISODE.judul, 
-    EPISODE.deskripsi, 
-    EPISODE.tanggal_rilis, 
-    EPISODE.durasi
+    WHERE 
+        KONTEN.id = '{id_input}'
+    GROUP BY 
+        KONTEN.judul, 
+        AKUN.nama, 
+        KONTEN.tanggal_rilis, 
+        KONTEN.tahun, 
+        EPISODE.judul, 
+        EPISODE.deskripsi, 
+        EPISODE.tanggal_rilis, 
+        EPISODE.durasi
+    """
+
+    query2 = f"""
+    SELECT KONTEN.judul,
+    CASE
+        WHEN SUM(EPISODE.durasi) % 60 = 0 THEN (SUM(EPISODE.durasi) / 60) || ' jam'
+        WHEN SUM(EPISODE.durasi) / 60 = 0 THEN (SUM(EPISODE.durasi) % 60) || ' menit'
+        ELSE (SUM(EPISODE.durasi) / 60) || ' jam ' || (SUM(EPISODE.durasi) % 60) || ' menit'
+    END AS total_durasi
+    FROM MARMUT.PODCAST
+    LEFT JOIN MARMUT.KONTEN ON id_konten = id
+    LEFT JOIN MARMUT.EPISODE ON id_konten_podcast = id_konten 
+    WHERE KONTEN.id = '{id_input}'
+    GROUP BY KONTEN.judul
     """
 
     results = execute_raw_query(query)
+    results2 = execute_raw_query(query2)
 
     result_data = []
+
+    result2 = results2[0]
+    total_durasi_podcast = result2[1]
 
     for result in results:
         judul_podcast = result[0]
@@ -125,9 +138,8 @@ GROUP BY
         tanggal_rilis_episode = result[6]
         genre_podcast = result[7]
         total_durasi_episode = result [8]
-        total_durasi_podcast = result[9]
 
-        if(len(result_data) == 0):
+        if len(result_data) == 0:
             result_data.append({
                 'judul_podcast': judul_podcast,
                 'nama_podcaster': nama_podcaster,
@@ -139,6 +151,7 @@ GROUP BY
                 'genre_podcast' : genre_podcast,
                 'total_durasi_episode' : total_durasi_episode,
                 'total_durasi_podcast' : total_durasi_podcast
+
             })
         else:
             result_data.append({
@@ -147,9 +160,8 @@ GROUP BY
                 'tanggal_rilis_episode' : tanggal_rilis_episode,
                 'genre_podcast' : genre_podcast,
                 'total_durasi_episode' : total_durasi_episode,
-                'total_durasi_podcast' : total_durasi_podcast
             })
-        
+
     context = {'results': result_data}
     return render(request, "podcast_detail.html", context)
 
@@ -165,14 +177,14 @@ def show_form_podcast(request):
 
 def add_podcast_raw(judul, genres, konten_id, tanggal_rilis, user_email):
 
-    # query = f"""
-    # INSERT INTO KONTEN VALUES (id, judul, tanggal_rilis, tahun, durasi)
-    # VALUES ({konten_id}, {judul}, {tanggal_rilis}, {tanggal_rilis.year}, 0)
-    # """
-
     query = f"""
-    INSERT INTO MARMUT.KONTEN VALUES ('{konten_id}', '{judul}', '{tanggal_rilis}', '{tanggal_rilis.year}', 0)
+    INSERT INTO KONTEN VALUES (id, judul, tanggal_rilis, tahun, durasi)
+    VALUES ({konten_id}, {judul}, {tanggal_rilis}, {tanggal_rilis.year}, 0)
     """
+
+    # query = f"""
+    # INSERT INTO MARMUT.KONTEN VALUES ('{konten_id}', '{judul}', '{tanggal_rilis}', '{tanggal_rilis.year}', 540)
+    # """
 
     with connection.cursor() as cursor:
         cursor.execute(query)
