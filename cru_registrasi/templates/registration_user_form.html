@@ -100,7 +100,7 @@
 <div class="container">
     <div class="form-container">
         <h2>Registrasi Pengguna</h2>
-        <form action="#">
+        <form action="{% url 'cru_registrasi:registrasi_user' %}" method="post">
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" placeholder="Masukkan email">
@@ -114,38 +114,32 @@
                 <input type="text" id="nama" name="nama" placeholder="Masukkan nama">
             </div>
             <div class="form-group">
-                <label for="gender">Gender:</label>
-                <select id="gender" name="gender">
-                    <option value="wanita">Wanita</option>
-                    <option value="pria">Pria</option>
-                </select>
+                <label for="tempat_lahir">Tempat lahir:</label>
+                <input type="text" id="tempat_lahir" name="tempat_lahir" placeholder="Masukkan tempatlahir">
             </div>
             <div class="form-group">
-                <label for="tempat_lahir">Tempat Lahir:</label>
-                <input type="text" id="tempat_lahir" name="tempat_lahir" placeholder="Masukkan tempat lahir">
+                <label for="tanggal_lahir">tanggal lahir:</label>
+                <input type="date" id="tanggal_lahir" name="tanggal_lahir" placeholder="Masukkan tanggal_lahir">
             </div>
             <div class="form-group">
-                <label for="tanggal_lahir">Tanggal Lahir:</label>
-                <input type="date" id="tanggal_lahir" name="tanggal_lahir">
-            </div>
-            <div class="form-group">
-                <label for="kota_asal">Kota Asal:</label>
+                <label for="kota_asal">Kota asal:</label>
                 <input type="text" id="kota_asal" name="kota_asal" placeholder="Masukkan kota asal">
             </div>
             <div class="form-group">
-                <label>Role:</label>
-                <label class="checkbox-label" for="role_podcaster">
-                    <input type="checkbox" id="role_podcaster" name="role_podcaster">
-                    Podcaster
-                </label>
-                <label class="checkbox-label" for="role_artist">
-                    <input type="checkbox" id="role_artist" name="role_artist">
-                    Artist
-                </label>
-                <label class="checkbox-label" for="role_songwriter">
-                    <input type="checkbox" id="role_songwriter" name="role_songwriter">
-                    Songwriter
-                </label>
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender">
+                    <option value="0">Wanita</option>
+                    <option value="1">Pria</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="col-form-label">Role:</label><br>
+                <input type="checkbox" id="podcaster" name="role" value="podcaster">
+                <label for="podcaster">Podcaster</label><br>
+                <input type="checkbox" id="artist" name="role" value="artist">
+                <label for="artist">Artist</label><br>
+                <input type="checkbox" id="songwriter" name="role" value="songwiter">
+                <label for="songwiter">Songwriter</label><br>
             </div>
             <button type="submit" class="submit-button">Register</button>
         </form>
