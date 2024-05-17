@@ -111,12 +111,12 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'postgres',
-            "USER": "postgres",
-            "PASSWORD": "postgres",
-            "HOST": "localhost",
+            "NAME": "postgres",
+            "USER": "postgres.cucamuatyldtkvxripor",
+            "PASSWORD": "Basdat-7-marmut",
+            "HOST": "aws-0-ap-southeast-1.pooler.supabase.com",
             "PORT": "5432",
-            "OPTIONS": {"options": "-c search_path=public"},
+            "OPTIONS": {"options": "-c search_path=marmut"},
         }
     }
 
