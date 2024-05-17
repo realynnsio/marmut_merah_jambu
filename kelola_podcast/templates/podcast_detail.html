@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include 'navbar.html' %}
+
+<div class="text-center pt-3">
+    <div class="flex justify-center items-center pb-5">
+        <h1>Podcast Detail</h1>
+    </div>
+    {% for result in results %}
+    {% if result.judul_podcast %}
+    <p class="text-center"> Judul: {{result.judul_podcast}}</p>
+    <p class="text-center"> Genre: </p>
+    <p class="text-center"> {{result.genre_podcast}}</p>
+    <p class="text-center"> Podcaster: {{result.nama_podcaster}}</p>
+    <p class="text-center"> Total durasi: {{result.total_durasi_podcast}}</p>
+    <p class="text-center"> Tanggal rilis: {{result.tanggal_rilis_podcast}}</p>
+    <p class="text-center"> Tahun: {{result.tahun_rilis_podcast}}</p>
+    <table class="table-auto mx-auto my-auto border border-gray-500">
+        <thead>
+            <tr class="text-center">
+                <th colspan="4" class="mx-auto my-auto text-center px-5">Daftar episode</th>
+            </tr>
+            <tr>
+                <th class="border border-gray-500 px-4 py-2">Judul Episode</th>
+                <th class="border border-gray-500 px-4 py-2">Deskripsi</th>
+                <th class="border border-gray-500 px-4 py-2">Durasi</th>
+                <th class="border border-gray-500 px-4 py-2">Tanggal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% endif %}
+            <tr>
+                <td class="border border-gray-500 px-4 py-2"> {{ result.judul_episode }} </td>
+                <td class="border border-gray-500 px-4 py-2"> {{ result.deskripsi_episode }} </td>
+                <td class="border border-gray-500 px-4 py-2"> {{ result.total_durasi_episode }} </td>
+                <td class="border border-gray-500 px-4 py-2"> {{ result.tanggal_rilis_episode }} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="pt-4">
+        <a href="../" class="border-2 border-black border-solid bg-green-500 rounded-xl px-10 py-2 text-white no-underline">Kembali</a>
+    </div>
+</div>
+
+{% endblock content %}

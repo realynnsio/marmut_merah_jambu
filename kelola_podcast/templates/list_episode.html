@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include 'navbar.html' %}
+
+    <div class="text-center pt-3">
+        <div class="flex justify-center items-center pb-5">
+            <h1>List episode pada podcast Agak Laen</h1>
+        </div>
+        
+        <table class="table-auto text-center mx-auto my-auto border border-gray-500">
+            <thead>
+                <tr>
+                    <th class="border border-gray-500 px-4 py-2">
+                        Judul Episode
+                    </th>
+                    <th class="border border-gray-500 px-4 py-2">
+                        Deskripsi
+                    </th>
+                    <th class="border border-gray-500 px-4 py-2">
+                        Durasi
+                    </th>
+                    <th class="border border-gray-500 px-4 py-2">
+                        Tanggal
+                    </th>
+                    <th class="border border-gray-500 px-4 py-2">
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results %}
+                <tr>
+                    <td class="border border-gray-500 px-4 py-2"> {{result.judul}} </td>
+                    <td class="border border-gray-500 px-4 py-2"> {{result.deskripsi}} </td>
+                    <td class="border border-gray-500 px-4 py-2"> {{result.durasi}} </td>
+                    <td class="border border-gray-500 px-4 py-2"> {{result.tanggal_rilis}} </td>
+                    <td class="border border-gray-500 px-4 py-2">
+                        <a href="{% url 'kelola_podcast:delete_episode' id_konten=result.id_konten id_episode=result.id_episode %}">Hapus</a> 
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="pt-4">
+            <a href="{% url 'kelola_podcast:show_list_podcast' %}" class="border-2 border-black border-solid bg-green-500 rounded-xl px-10 py-2 text-white no-underline">Kembali</a>
+        </div>
+    </div>
+   
+
+{% endblock content %}

@@ -49,6 +49,9 @@ INSTALLED_APPS = [
     'crud_kelola_album_song',
     'royalti',
     'main',
+    'kelola_podcast',
+    'chart',
+    'dashboard'
 ]
 
 MIDDLEWARE = [
@@ -60,6 +63,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 ROOT_URLCONF = 'marmut_merah_jambu.urls'
@@ -170,7 +177,3 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# AUTHENTICATION_BACKENDS = [
-#     'django.contrib.auth.backends.ModelBackend',  # Default Django authentication backend
-# ]

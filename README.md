@@ -15,5 +15,3 @@
 [Frontend](https://docs.google.com/document/d/1CRhaha3WEb1wrgtDZNTsBZL2Yo29mW0SYdUmjZurRGc/edit)
 
 [SQL DDL](https://docs.google.com/document/d/1dDep_LcWmoOcpOCAYbU31NKmN1Df-CVlmneKLBDfpq0/edit)
-
-

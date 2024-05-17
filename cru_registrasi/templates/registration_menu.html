@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrasi Menu</title>
+    <title>Tambah Lagu</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
@@ -36,7 +37,7 @@
             justify-content: center;
             margin-bottom: 20px;
         }
-        .button-container button {
+        .button-container a {
             padding: 12px 20px;
             border: none;
             border-radius: 8px;
@@ -60,22 +61,22 @@
     <div class="card">
         <h2 style="text-align: center; margin-bottom: 20px;">Pilih Role</h2>
         <div class="button-container">
-            <button onclick="selectUser()">Pengguna</button>
-            <button onclick="selectLabel()">Label</button>
+            <a href="{% url 'cru_registrasi:registration_user_form' %}" class="no-underline">Pengguna</a>
+            <a href="{% url 'cru_registrasi:registration_label_form' %}" class="no-underline">Label</a>
         </div>
     </div>
 </div>
 
 <script>
-    function selectUser() {
-        // Handle selection for user
-        alert("Anda memilih pengguna");
-    }
+    // function selectUser() {
+    //     // Handle selection for user
+    //     alert("Anda memilih pengguna");
+    // }
 
-    function selectLabel() {
-        // Handle selection for label
-        alert("Anda memilih label");
-    }
+    // function selectLabel() {
+    //     // Handle selection for label
+    //     alert("Anda memilih label");
+    // }
 </script>
 </body>
 </html>
