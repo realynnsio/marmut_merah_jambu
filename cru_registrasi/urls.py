@@ -1,5 +1,6 @@
 from django.urls import path
 from cru_registrasi.views import show_registration_menu, registration_user_form, registration_label_form, register_user, login_form, login_user
+from cru_registrasi.views import logout
 
 app_name = 'cru_registrasi'
 
@@ -9,5 +10,6 @@ urlpatterns = [
     path('label/', registration_label_form, name='registration_label_form'),
     path('registrasi/', register_user, name='registrasi_user'),
     path('login/', login_form, name='login_form'),
-    path('login-validation/', login_user, name='login_user')
+    path('login-validation/', login_user, name='login_user'),
+    path('logout/', logout, name='logout'),
 ]

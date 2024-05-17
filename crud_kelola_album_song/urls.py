@@ -1,7 +1,7 @@
 from django.urls import path
 from crud_kelola_album_song.views import show_list_album, show_song_list_album, daftar_album
 from crud_kelola_album_song.views import create_song, create_album
-from crud_kelola_album_song.views import show_label_album, show_label_song_list
+from crud_kelola_album_song.views import show_label_album, show_label_song_list, add_album
 
 app_name = 'crud_kelola_album_song'
 
@@ -12,4 +12,5 @@ urlpatterns = [
     path('add/', create_album, name='create_album'),
     path('label/', show_label_album, name='show_label_album'),
     path('label/detail/', show_label_song_list, name='show_label_song_list'),
+    path('add-album/', add_album, name='add_album'),
 ]
