@@ -29,6 +29,9 @@ urlpatterns = [
     path('podcast/', include('kelola_podcast.urls')),
     path('chart/', include('chart.urls')),
     path('royalti/', include('royalti.urls')),
+    path('langganan_paket/', include('langganan_paket.urls')),
+    path('pencarian/', include('pencarian.urls')),
+    path('downloaded_songs/', include('downloaded_songs.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
