@@ -92,4 +92,103 @@ class Podcaster(models.Model):
     class Meta:
         db_table = 'podcaster'
 
-#  ----------------------------------------------------------------------------------------
+# GENRE ----------------------------------------------------------------------------------------
+
+class Genre(models.Model):
+    id_konten = models.OneToOneField(Konten, on_delete=models.CASCADE, primary_key=True, to_field='id', db_column='id_konten')
+    genre = models.CharField(max_length=50)
+
+    class Meta:
+        db_table = 'genre'
+        unique_together = ('id_konten', 'genre')
+
+# TRANSACTION ----------------------------------------------------------------------------------------
+
+class Transaction(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    jenis_paket = models.OneToOneField(Paket, on_delete=models.CASCADE, to_field='jenis', db_column='jenis_paket')
+    email = models.OneToOneField(Akun, on_delete=models.CASCADE, to_field='email', db_column='email')
+    timestamp_dimulai = models.DateTimeField()
+    timestamp_berakhir = models.DateTimeField()
+    metode_bayar = models.CharField(max_length=50)
+    nominal = models.IntegerField()
+
+    class Meta:
+        db_table = 'transaction'
+        unique_together = ('id', 'jenis_paket', 'email')
+
+    def __str__(self):
+        return f"Transaction {self.id} for {self.email}"
+
+# SONGWRITER ----------------------------------------------------------------------------------------
+
+class Songwriter(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    email_akun = models.OneToOneField(Akun, on_delete=models.CASCADE, to_field='email', db_column='email')
+    id_pemilik_hak_cipta = models.OneToOneField(PemilikHakCipta, on_delete=models.CASCADE, to_field='id', db_column='id_pemilik_hak_cipta')
+
+    class Meta:
+        db_table = 'songwriter'
+
+    def __str__(self):
+        return f"Songwriter {self.id}"
+    
+# USER PLAYLIST ----------------------------------------------------------------------------------------
+
+class UserPlaylist(models.Model):
+    email_pembuat = models.OneToOneField(Akun, on_delete=models.CASCADE, to_field='email', db_column='email_pembuat')
+    id_user_playlist = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    judul = models.CharField(max_length=100)
+    deskripsi = models.CharField(max_length=500)
+    jumlah_lagu = models.IntegerField()
+    tanggal_dibuat = models.DateField()
+    id_playlist = models.OneToOneField(Playlist, on_delete=models.CASCADE, to_field='id', db_column='id_playlist')
+    total_durasi = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = 'user_playlist'
+        unique_together = ('email_pembuat', 'id_user_playlist')
+
+    def __str__(self):
+        return f"Playlist {self.judul} by {self.email_pembuat}"
+
+# CHART ----------------------------------------------------------------------------------------
+
+class Chart(models.Model):
+    tipe = models.CharField(max_length=50, primary_key=True)
+    id_playlist = models.OneToOneField(Playlist, on_delete=models.CASCADE, to_field='id', db_column='id_playlist')
+
+    class Meta:
+        db_table = 'chart'
+
+    def __str__(self):
+        return self.tipe
+    
+# LABEL ----------------------------------------------------------------------------------------
+
+class Label(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    nama = models.CharField(max_length=100)
+    email = models.EmailField()
+    password = models.CharField(max_length=50)
+    kontak = models.CharField(max_length=50)
+    id_pemilik_hak_cipta = models.OneToOneField(PemilikHakCipta, on_delete=models.CASCADE, to_field='id', db_column='id_pemilik_hak_cipta')
+
+    class Meta:
+        db_table = 'label'
+
+    def __str__(self):
+        return self.nama
+
+# ARTIST ----------------------------------------------------------------------------------------
+
+class Artist(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    email_akun = models.OneToOneField(Akun, on_delete=models.CASCADE, to_field='email', db_column='email_akun')
+    id_pemilik_hak_cipta = models.OneToOneField(PemilikHakCipta, on_delete=models.CASCADE, to_field='id', db_column='id_pemilik_hak_cipta')
+
+    class Meta:
+        db_table = 'artist'
+
+    def __str__(self):
+        return f"Artist {self.id}"
