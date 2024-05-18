@@ -20,98 +20,83 @@
         margin: 0 auto;
         padding: 0 20px;
     }
-    .playlist-container {
-        display: flex;
-        margin-bottom: 20px;
-        padding: 10px; /* Padding di sekeliling playlist */
-        box-sizing: border-box; /* Padding tidak akan menambah lebar playlist */
-    }
-    .playlist {
+    .form-container {
         background-color: #fff;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        width: 100%; /* Kartu memenuhi lebar kontainer */
-        display: flex;
-        justify-content: space-between; /* Penambahan */
-        align-items: center; /* Penambahan */
-    }
-    .playlist-info {
-        flex-grow: 1;
         padding: 20px;
+        margin-bottom: 20px;
     }
-    .playlist-info h2 {
+    .form-container h2 {
         margin-top: 0;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
     }
-    .playlist-info p {
-        margin: 0;
+    .form-group {
+        margin-bottom: 20px;
+    }
+    .form-group label {
+        display: block;
         margin-bottom: 5px;
     }
-    .playlist-actions {
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-    .playlist-actions button {
-        margin-bottom: 10px;
-        padding: 8px 16px;
-        border: none;
-        border-radius: 4px;
-        background-color: #1DB954;
-        color: #fff;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-    .playlist-actions button:hover {
-        background-color: #0a802b;
-    }
-    /* Gaya tambahan untuk button tambah playlist */
-    .add-playlist-button {
+    .form-group input {
         width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    .submit-button {
         padding: 12px 20px;
         border: none;
         border-radius: 8px;
-        background-color: #4CAF50;
-        color: white;
+        background-color: #1DB954;
+        color: #fff;
         font-size: 16px;
         cursor: pointer;
         transition: background-color 0.3s ease;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-    .add-playlist-button:hover {
-        background-color: #45a049;
+    .submit-button:hover {
+        background-color: #0a802b;
     }
 </style>
 
 <header>
-    <h1>DAFTAR PLAYLIST</h1>
+    <h1>EDIT PLAYLIST</h1>
 </header>
 <div class="container">
-    {% for playlist in playlists %}
-    <div class="playlist-container">
-        <div class="playlist">
-            <div class="playlist-info">
-                <h2>{{ playlist.2 }}</h2>
-                <p>Jumlah lagu: {{ playlist.4 }}</p>
-                <p>Total durasi: {{ playlist.7 }}</p>
+    <div class="form-container">
+        <h2>Ubah Detail Playlist</h2>
+        <form id="form-registrasi">
+            <div class="form-group">
+                <label for="judul">Judul:</label>
+                <input type="text" id="judul" name="judul" placeholder="Masukkan judul playlist">
             </div>
-            <div class="playlist-actions">
-                <button onclick="location.href = 'detail-playlist/{{ playlist.6 }}/'">Detail</button>
-                <button onclick="location.href = '/playlist/edit-playlist-form/{{ playlist.6 }}'">Ubah</button>
-                <button onclick="location.href = 'delete-playlist/{{ playlist.6 }}/'">Hapus</button>
+            <div class="form-group">
+                <label for="deskripsi">Deskripsi:</label>
+                <input type="text" id="deskripsi" name="deskripsi" placeholder="Masukkan deskripsi playlist">
             </div>
-        </div>
+            <p>{{ pesan }}</p>
+            <button type="submit" class="submit-button" onclick="submitForm()">Submit</button>
+        </form>
     </div>
-    {% endfor %}
-</div>
-<div class="container">
-    <!-- Button tambah playlist yang telah dihias -->
-    <button class="add-playlist-button" onclick="location.href = '/playlist/add-playlist-form/'">Tambah Playlist</button>
 </div>
 
 <script>
+
+    async function submitForm() {
+        var form = new FormData(document.querySelector('#form-registrasi'))
+
+        var action = confirm("Apakah informasi yang Anda masukkan sudah benar?")
+        if (action) {
+            fetch(`/playlist/edit-playlist/{{ id_playlist }}`, {
+                method: "POST",
+                body: new FormData(document.querySelector('#form-registrasi'))
+            })
+
+            document.getElementById("form-registrasi").reset()
+            return false
+        }
+    }
     async function navbarOption() {
         var contents = document.getElementById("important")
 
@@ -159,7 +144,7 @@
                   </form>
 
                 <li class="nav-item" style="margin-left: 4%;">
-                <a class="nav-link" href="#">Logout</a>
+                <a class="nav-link" href="#">Login</a>
                 </li>
 
               </div>

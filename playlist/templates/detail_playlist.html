@@ -122,7 +122,7 @@
         <button>Shuffle Play</button>
         <button onclick="location.href = '/playlist/all'">Kembali</button>
         {% if own_playlist %}
-            <button>Tambah Lagu</button>
+            <button onclick="location.href = '/playlist/add-song/{{ info.5 }}/'">Tambah Lagu</button>
         {% endif %}
     </div>
     <div class="playlist-info">
@@ -141,7 +141,7 @@
                 <button>Lihat</button>
                 <button>Play</button>
                 {% if own_playlist %}
-                    <button>Hapus</button>
+                    <button onclick="location.href = '/playlist/delete-song/{{ song.2 }}/'">Hapus</button>
                 {% endif %}
             </div>
         </div>

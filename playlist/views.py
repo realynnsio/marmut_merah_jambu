@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, reverse
+from django.http import HttpResponse
 from django.db import connection
 from django.views.decorators.csrf import csrf_exempt
 import uuid
@@ -32,11 +33,11 @@ def show_detail_playlist(request, id):
     email_logged_in = request.session['email']
 
     query1 = f"""
-                SELECT judul, nama, total_durasi, tanggal_dibuat, deskripsi FROM MARMUT.USER_PLAYLIST, MARMUT.AKUN WHERE id_playlist = '{id}' AND email_pembuat = email
+                SELECT judul, nama, total_durasi, tanggal_dibuat, deskripsi, id_playlist FROM MARMUT.USER_PLAYLIST, MARMUT.AKUN WHERE id_playlist = '{id}' AND email_pembuat = email
             """
 
     query2 = f"""
-                SELECT K.judul, AK.nama
+                SELECT K.judul, AK.nama, K.id
                 FROM MARMUT.PLAYLIST_SONG PS, MARMUT.SONG S, MARMUT.KONTEN K, MARMUT.ARTIST AT, MARMUT.AKUN AK
                 WHERE PS.id_playlist = '{id}' AND PS.id_song = S.id_konten AND S.id_konten = K.id AND S.id_artist = AT.id AND AT.email_akun = AK.email
             """
@@ -73,7 +74,7 @@ def add_playlist_form(request):
 @csrf_exempt
 def add_playlist(request):
     if request.method == 'POST':
-        print("JAMAL")
+
         judul = request.POST.get('judul')
         deskripsi = request.POST.get('deskripsi')
 
@@ -98,13 +99,87 @@ def add_playlist(request):
                 cursor.execute(query2)
             return HttpResponseRedirect(reverse('playlist:show_playlist'))
 
-
-def add_song_form(request):
+def edit_playlist_form(request, id):
     context = {
-        'name': 'Pak Bepe',
-        'class': 'PBP A'
+        'id_playlist' : id,
+    }
+    return render(request, "edit_playlist_form.html", context)
+
+@csrf_exempt
+def edit_playlist(request, id):
+    if request.method == 'POST':
+
+        judul = request.POST.get('judul')
+        deskripsi = request.POST.get('deskripsi')
+
+        print(judul)
+        print(deskripsi)
+
+        if (not(judul and deskripsi)):
+            context = {'pesan': "Harap isi data dengan benar!",
+                       'gagal': True}
+            return render(request, "add_playlist_form.html", context)
+        else:
+
+            query1 = f"""
+                        UPDATE MARMUT.USER_PLAYLIST
+                        SET judul = '{judul}', deskripsi = '{deskripsi}'
+                        WHERE id_playlist = '{id}'
+                        """
+            
+            with connection.cursor() as cursor:
+                cursor.execute(query1)
+                
+            return HttpResponseRedirect(reverse('playlist:show_playlist'))
+
+def add_song_form(request, id):
+    all_songs = []
+    query1 = f"""
+                SELECT K.judul, AK.nama, K.id
+                FROM MARMUT.SONG S, MARMUT.KONTEN K, MARMUT.ARTIST AT, MARMUT.AKUN AK
+                WHERE S.id_konten = K.id AND S.id_artist = AT.id AND AT.email_akun = AK.email
+                """
+
+    with connection.cursor() as cursor:
+        cursor.execute(query1)
+        row = cursor.fetchall()
+        all_songs = row
+        
+    context = {
+        'songs': all_songs,
+        'id_playlist' : id,
     }
     return render(request, "add_song_form.html", context)
+
+def delete_song(request, id):
+
+    query1 = f"""
+                DELETE FROM MARMUT.PLAYLIST_SONG WHERE id_song = '{id}'
+                """
+
+    with connection.cursor() as cursor:
+        cursor.execute(query1)
+
+    return HttpResponseRedirect(reverse('playlist:show_playlist'))
+
+def delete_playlist(request, id):
+
+    query1 = f"""
+                DELETE FROM MARMUT.USER_PLAYLIST WHERE id_playlist = '{id}'
+                """
+    query2 = f"""
+                DELETE FROM MARMUT.PLAYLIST_SONG WHERE id_playlist = '{id}'
+                """
+    query3 = f"""
+                DELETE FROM MARMUT.PLAYLIST WHERE id = '{id}'
+                """
+
+    with connection.cursor() as cursor:
+        cursor.execute(query1)
+        cursor.execute(query2)
+        cursor.execute(query3)
+
+    return HttpResponseRedirect(reverse('playlist:show_playlist'))
 
 def show_detail_song(request):
     context = {
@@ -113,9 +188,15 @@ def show_detail_song(request):
     }
     return render(request, "detail_song.html", context)
 
-def add_song_to_user_playlist_form(request):
-    context = {
-        'name': 'Pak Bepe',
-        'class': 'PBP A'
-    }
-    return render(request, "add_song_to_user_playlist_form.html", context)
+@csrf_exempt
+def add_song_to_user_playlist_form(request, id_playlist):
+    id_song = request.POST.get("lagu")
+
+    query1 = f"""
+                INSERT INTO MARMUT.PLAYLIST_SONG VALUES ('{id_playlist}', '{id_song}')
+                """
+
+    with connection.cursor() as cursor:
+        cursor.execute(query1)
+
+    return HttpResponseRedirect(reverse('playlist:show_playlist'))

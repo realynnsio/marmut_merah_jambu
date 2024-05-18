@@ -78,22 +78,35 @@
 <div class="container">
     <div class="form-container">
         <h2>Pilih Lagu</h2>
-        <form action="#">
+        <form id="form-registrasi">
             <div class="form-group">
                 <label for="lagu">Lagu:</label>
                 <select id="lagu" name="lagu">
-                    <option value="lagu1">Judul Lagu 1 - Nama Artis 1</option>
-                    <option value="lagu2">Judul Lagu 2 - Nama Artis 2</option>
-                    <option value="lagu3">Judul Lagu 3 - Nama Artis 3</option>
-                    <!-- Tambahkan opsi lain sesuai kebutuhan -->
+                    {% for song in songs %}
+                    <option value='{{ song.2 }}'>{{ song.0 }} - {{ song.1 }}</option>
+                    {% endfor %}
                 </select>
             </div>
-            <button type="submit" class="submit-button">Submit</button>
+            <button type="submit" class="submit-button" onclick="submitForm()" >Submit</button>
         </form>
     </div>
 </div>
 
 <script>
+    async function submitForm() {
+        var form = new FormData(document.querySelector('#form-registrasi'))
+
+        var action = confirm("Apakah informasi yang Anda masukkan sudah benar?")
+        if (action) {
+            fetch(`/playlist/add-song-to-user-playlist/{{ id_playlist }}`, {
+                method: "POST",
+                body: new FormData(document.querySelector('#form-registrasi'))
+            })
+
+            document.getElementById("form-registrasi").reset()
+            return false
+        }
+    }
     async function navbarOption() {
         var contents = document.getElementById("important")
 
