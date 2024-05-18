@@ -88,23 +88,37 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Dashboard</a>
                   </li>
-
+                
+                {% if request.session.is_pengguna %}
                 <li class="nav-item">
                 <a class="nav-link" href="#">Chart</a>
                 </li>
+                {% endif %}
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="manage" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Manage
                     </a>
                     <div class="dropdown-menu" aria-labelledby="manage">
+                        
+                        {% if request.session.is_pengguna %}
                         <a class="dropdown-item" href="#">Playlist</a>
-                        <a class="dropdown-item" href="{% url 'langganan_paket:show_list_paket' %}">Langganan Paket</a>
+                        <a class="dropdown-item" href="{% url 'langganan_paket:show_list_paket' %}">Langganan Paket akskaskaksas</a>
                         <a class="dropdown-item" href="{% url 'downloaded_songs:download_list' %}">Downloaded Songs</a>
-                        <a class="dropdown-item" href="#">Podcast</a>
+                        <a class="dropdown-item" href="{% url 'kelola_podcast:show_list_podcast' %}">Podcast</a>
+                        {% endif %}
+
+                        {% if request.session.is_artist or request.session.is_songwriter %}
                         <a class="dropdown-item" href="{% url 'crud_kelola_album_song:daftar_album' %}">Album & Songs</a>
-                        <a class="dropdown-item" href="">Album</a>
+                        {% endif %}
+                        
+                        {% if request.session.is_label %}
+                        <a class="dropdown-item" href="{% url 'crud_kelola_album_song:show_label_album' %}">Album</a>
+                        {% endif %}
+
+                        {% if request.session.is_artist or request.session.is_songwriter or request.session.is_label %}
                         <a class="dropdown-item" href="#">Royalti</a>
+                        {% endif %}
                     </div>
                 </li>
             </ul>
