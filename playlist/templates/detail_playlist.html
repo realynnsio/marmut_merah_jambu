@@ -121,7 +121,9 @@
     <div class="playlist-actions">
         <button>Shuffle Play</button>
         <button onclick="location.href = '/playlist/all'">Kembali</button>
-        <button>Tambah Lagu</button>
+        {% if own_playlist %}
+            <button>Tambah Lagu</button>
+        {% endif %}
     </div>
     <div class="playlist-info">
         <h2>Deskripsi Playlist</h2>
@@ -129,43 +131,21 @@
     </div>
     {% endfor %}
     <div class="song-list">
+        {% for song in songs %}
         <div class="song-list-item">
             <div>
-                <p class="song-title">Song 1</p>
-                <p class="song-artist">Artist 1</p>
-                <p class="song-duration">Durasi: 3 menit 30 detik</p>
+                <p class="song-title">{{ song.0 }}</p>
+                <p class="song-artist">{{ song.1 }}</p>
             </div>
             <div class="song-actions">
                 <button>Lihat</button>
                 <button>Play</button>
-                <button>Hapus</button>
+                {% if own_playlist %}
+                    <button>Hapus</button>
+                {% endif %}
             </div>
         </div>
-        <div class="song-list-item">
-            <div>
-                <p class="song-title">Song 2</p>
-                <p class="song-artist">Artist 2</p>
-                <p class="song-duration">Durasi: 4 menit 15 detik</p>
-            </div>
-            <div class="song-actions">
-                <button>Lihat</button>
-                <button>Play</button>
-                <button>Hapus</button>
-            </div>
-        </div>
-        <div class="song-list-item">
-            <div>
-                <p class="song-title">Song 3</p>
-                <p class="song-artist">Artist 3</p>
-                <p class="song-duration">Durasi: 5 menit</p>
-            </div>
-            <div class="song-actions">
-                <button>Lihat</button>
-                <button>Play</button>
-                <button>Hapus</button>
-            </div>
-        </div>
-        <!-- Add more song list items as needed -->
+        {% endfor %}
     </div>
 </div>
 
@@ -248,7 +228,7 @@
             contents[i].innerHTML = htmlString;
         }
     }
-    someonePlaylist()
+    // someonePlaylist()
 
     async function noPlaylist() {
         var contents = document.getElementsByClassName("container")

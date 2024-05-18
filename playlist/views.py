@@ -19,7 +19,6 @@ def show_all_playlist(request):
     with connection.cursor() as cursor:
         cursor.execute(query)
         row = cursor.fetchall()
-        print(row)
         result = row
         print(result)
 
@@ -28,20 +27,41 @@ def show_all_playlist(request):
 
 def show_detail_playlist(request, id):
     playlist_info = []
+    songs = []
+    is_own_playlist = False
+    email_logged_in = request.session['email']
+
     query1 = f"""
                 SELECT judul, nama, total_durasi, tanggal_dibuat, deskripsi FROM MARMUT.USER_PLAYLIST, MARMUT.AKUN WHERE id_playlist = '{id}' AND email_pembuat = email
             """
 
     query2 = f"""
-                SELECT judul, nama FROM MARMUT.PLAYLIST_SONG,  WHERE id_playlist = '{id}'
+                SELECT K.judul, AK.nama
+                FROM MARMUT.PLAYLIST_SONG PS, MARMUT.SONG S, MARMUT.KONTEN K, MARMUT.ARTIST AT, MARMUT.AKUN AK
+                WHERE PS.id_playlist = '{id}' AND PS.id_song = S.id_konten AND S.id_konten = K.id AND S.id_artist = AT.id AND AT.email_akun = AK.email
+            """
+
+    query3 = f"""
+                SELECT email_pembuat FROM MARMUT.USER_PLAYLIST WHERE id_playlist = '{id}'    
             """
     with connection.cursor() as cursor:
         cursor.execute(query1)
         row = cursor.fetchall()
         playlist_info = row
+
+        cursor.execute(query2)
+        row = cursor.fetchall()
+        songs = row
+        print(len(row))
+
+        cursor.execute(query3)
+        row = cursor.fetchone()
+        is_own_playlist = email_logged_in == row[0]
         
     context = {
-        'playlist_info' : playlist_info
+        'playlist_info' : playlist_info,
+        'own_playlist' : is_own_playlist,
+        'songs' : songs,
     }
     return render(request, "detail_playlist.html", context)
 
