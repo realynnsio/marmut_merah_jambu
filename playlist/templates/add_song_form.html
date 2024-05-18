@@ -98,7 +98,7 @@
 
         var action = confirm("Apakah informasi yang Anda masukkan sudah benar?")
         if (action) {
-            fetch(`/playlist/add-song-to-user-playlist/{{ id_playlist }}`, {
+            fetch(`/playlist/add-song-to-user-playlist/{{ id_playlist }}/`, {
                 method: "POST",
                 body: new FormData(document.querySelector('#form-registrasi'))
             })

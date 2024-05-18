@@ -6,7 +6,9 @@ import uuid
 from django.http import HttpResponseRedirect
 from main.helper.function import *
 from cru_registrasi.query import *
-from datetime import date
+from datetime import date, datetime
+import datetime
+import time
 
 
 # Create your views here.
@@ -163,7 +165,6 @@ def delete_song(request, id):
     return HttpResponseRedirect(reverse('playlist:show_playlist'))
 
 def delete_playlist(request, id):
-
     query1 = f"""
                 DELETE FROM MARMUT.USER_PLAYLIST WHERE id_playlist = '{id}'
                 """
@@ -181,10 +182,35 @@ def delete_playlist(request, id):
 
     return HttpResponseRedirect(reverse('playlist:show_playlist'))
 
-def show_detail_song(request):
+def show_detail_song(request, id_song, id_playlist):
+    songs_info=[]
+    songwriter_info=[]
+    query1 = f"""
+                SELECT K.judul, G.genre, AK.nama, K.durasi, K.tanggal_rilis, K.tahun, S.total_play, S.total_download, AB.judul
+                FROM MARMUT.SONG S, MARMUT.KONTEN K, MARMUT.ARTIST AT, MARMUT.AKUN AK, MARMUT.GENRE G, MARMUT.ALBUM AB
+                WHERE S.id_konten = '{id_song}' AND S.id_konten = K.id AND S.id_artist = AT.id AND AT.email_akun = AK.email AND G.id_konten = K.id AND AB.id = S.id_album
+                """
+
+    query2 = f"""
+                SELECT A.nama
+                FROM MARMUT.SONGWRITER SW, MARMUT.SONGWRITER_WRITE_SONG SWS, MARMUT.AKUN A
+                WHERE SWS.id_song = '{id_song}' AND SWS.id_songwriter = SW.id AND SW.email_akun = A.email
+                """
+
+    with connection.cursor() as cursor:
+        cursor.execute(query1)
+        row = cursor.fetchall()
+        songs_info = row
+
+        cursor.execute(query2)
+        row = cursor.fetchall()
+        songwriter_info = row
+
     context = {
-        'name': 'Pak Bepe',
-        'class': 'PBP A'
+        'id_song': id_song,
+        'infos' : songs_info,
+        'songwriter' : songwriter_info,
+        'id_playlist' : id_playlist
     }
     return render(request, "detail_song.html", context)
 
@@ -200,3 +226,51 @@ def add_song_to_user_playlist_form(request, id_playlist):
         cursor.execute(query1)
 
     return HttpResponseRedirect(reverse('playlist:show_playlist'))
+
+def add_song_to_playlist_form(request, id_song):
+    result = []
+    email_logged_in = request.session['email']
+    query = f"""
+                SELECT * FROM MARMUT.USER_PLAYLIST WHERE email_pembuat = '{email_logged_in}'
+            """
+
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        row = cursor.fetchall()
+        result = row
+
+    context = {'playlists' : result,
+               'id_song' : id_song}
+    return render(request, "add_song_to_playlist_form.html", context)
+
+@csrf_exempt
+def add_song_to_playlist(request, id_song):
+    id_playlist = request.POST.get("playlist")
+    
+    query1 = f"""
+                INSERT INTO MARMUT.PLAYLIST_SONG VALUES ('{id_playlist}', '{id_song}')
+                """
+
+    with connection.cursor() as cursor:
+        cursor.execute(query1)
+
+    return HttpResponseRedirect(reverse('playlist:show_playlist'))
+
+@csrf_exempt
+def play_song(request, id_song):
+    email_logged_in = request.session['email']
+    curr_timestamp = datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
+
+    query1 = f"""
+                INSERT INTO MARMUT.AKUN_PLAY_SONG VALUES ('{email_logged_in}', '{id_song}', '{curr_timestamp}')
+                """
+
+    with connection.cursor() as cursor:
+        cursor.execute(query1)
+        
+    print(email_logged_in)
+    print(curr_timestamp)
+    print(id_song)
+
+    return HttpResponseRedirect(reverse('playlist:show_playlist'))
+    

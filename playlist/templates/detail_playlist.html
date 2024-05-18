@@ -129,7 +129,6 @@
         <h2>Deskripsi Playlist</h2>
         <p>{{ info.4 }}</p>
     </div>
-    {% endfor %}
     <div class="song-list">
         {% for song in songs %}
         <div class="song-list-item">
@@ -138,8 +137,8 @@
                 <p class="song-artist">{{ song.1 }}</p>
             </div>
             <div class="song-actions">
-                <button>Lihat</button>
-                <button>Play</button>
+                <button onclick="location.href = '/playlist/detail-song/{{ song.2 }}/{{ info.5 }}/'">Lihat</button>
+                <button onclick="location.href = '/playlist/detail-song/{{ song.2 }}/{{ info.5 }}/'">Play</button>
                 {% if own_playlist %}
                     <button onclick="location.href = '/playlist/delete-song/{{ song.2 }}/'">Hapus</button>
                 {% endif %}
@@ -147,6 +146,7 @@
         </div>
         {% endfor %}
     </div>
+    {% endfor %}
 </div>
 
 <script>
