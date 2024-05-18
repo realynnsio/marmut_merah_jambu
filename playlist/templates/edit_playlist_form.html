@@ -61,12 +61,12 @@
 </style>
 
 <header>
-    <h1>TAMBAH PLAYLIST</h1>
+    <h1>EDIT PLAYLIST</h1>
 </header>
 <div class="container">
     <div class="form-container">
-        <h2>Isi Detail Playlist</h2>
-        <form action="{% url 'playlist:add_playlist' %}" method="post">
+        <h2>Ubah Detail Playlist</h2>
+        <form id="form-registrasi">
             <div class="form-group">
                 <label for="judul">Judul:</label>
                 <input type="text" id="judul" name="judul" placeholder="Masukkan judul playlist">
@@ -76,12 +76,27 @@
                 <input type="text" id="deskripsi" name="deskripsi" placeholder="Masukkan deskripsi playlist">
             </div>
             <p>{{ pesan }}</p>
-            <button type="submit" class="submit-button">Submit</button>
+            <button type="submit" class="submit-button" onclick="submitForm()">Submit</button>
         </form>
     </div>
 </div>
 
 <script>
+
+    async function submitForm() {
+        var form = new FormData(document.querySelector('#form-registrasi'))
+
+        var action = confirm("Apakah informasi yang Anda masukkan sudah benar?")
+        if (action) {
+            fetch(`/playlist/edit-playlist/{{ id_playlist }}/`, {
+                method: "POST",
+                body: new FormData(document.querySelector('#form-registrasi'))
+            })
+
+            document.getElementById("form-registrasi").reset()
+            return false
+        }
+    }
     async function navbarOption() {
         var contents = document.getElementById("important")
 

@@ -130,6 +130,22 @@
     .modal-buttons button:hover {
         background-color: #0a802b;
     }
+    .slider-container {
+        width: 100%;
+        max-width: 400px;
+        margin: auto;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+    .slider-container form {
+        width: 100%;
+    }
+    input[type="range"] {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
 </style>
 
 
@@ -138,63 +154,66 @@
 </header>
 <div class="container">
     <div class="song-detail-card">
+        {% for info in infos %}
         <div class="song-detail-item">
             <label>Judul:</label>
-            <span>Song1</span>
+            <span>{{ info.0 }}</span>
         </div>
         <div class="song-detail-item">
             <label>Genre(s):</label>
             <ul>
-                <li>Genre1</li>
-                <li>Genre2</li>
+                <li>{{ info.1 }}</li>
+                <li></li>
             </ul>
         </div>
         <div class="song-detail-item">
             <label>Artist:</label>
-            <span>Artist1</span>
+            <span>{{ info.2 }}</span>
         </div>
         <div class="song-detail-item">
             <label>Songwriter(s):</label>
-            <ul>
-                <li>Songwriter1</li>
-                <li>Songwriter2</li>
-            </ul>
+            {% for writer in songwriter %}
+                <ul>
+                    <li>{{ writer.0 }}</li>
+                </ul>
+            {% endfor %}
         </div>
         <div class="song-detail-item">
             <label>Durasi:</label>
-            <span>3 menit</span>
+            <span>{{ info.3 }}</span>
         </div>
         <div class="song-detail-item">
             <label>Tanggal Rilis:</label>
-            <span>18/03/24</span>
+            <span>{{ info.4 }}</span>
         </div>
         <div class="song-detail-item">
             <label>Tahun:</label>
-            <span>2024</span>
+            <span>{{ info.5 }}</span>
         </div>
         <div class="song-detail-item">
             <label>Total Play:</label>
-            <span>0</span>
+            <span>{{ info.6 }}</span>
         </div>
         <div class="song-detail-item">
             <label>Total Downloads:</label>
-            <span>0</span>
+            <span>{{ info.7 }}</span>
         </div>
         <div class="song-detail-item">
             <label>Album:</label>
-            <span>Album1</span>
+            <span>{{ info.8 }}</span>
         </div>
         <div class="slider-container">
-            <div class="slider">
-                <div class="slider-thumb"></div>
-            </div>
+            <form id="form-registrasi">
+                <input type="range" id="slider" name="slider" min="0" max="100" value="0">
         </div>
         <div class="song-actions">
-            <button>Tombol Play</button>
-            <button>Tombol Add to Playlist</button>
+            <button onclick="submitForm()">Tombol Play</button>
+            </form>
+            <button onclick="location.href = '/playlist/add-song-to-playlist-form/{{ id_song }}/'">Tombol Add to Playlist</button>
             <button onclick="showDownloadModal()">Tombol Download</button>
-            <button>Tombol Kembali</button>
+            <button onclick="location.href = '/playlist/all/detail-playlist/{{ id_playlist }}/'">Tombol Kembali</button>
         </div>
+        {% endfor %}
     </div>
 </div>
 <!-- Modal Download -->
@@ -209,6 +228,22 @@
 </div>
 
 <script>
+    async function submitForm() {
+        var slider_value = document.getElementById("slider").value
+        console.log(slider_value)
+        var form = new FormData(document.querySelector('#form-registrasi'))
+
+        if (slider_value > 70) {
+            fetch(`/playlist/play-song/{{ id_song }}/`, {
+                method: "POST",
+                body: new FormData(document.querySelector('#form-registrasi'))
+            })
+
+            document.getElementById("form-registrasi").reset()
+            return false
+        }
+    }
+
     // Fungsi untuk menampilkan modal download
     function showDownloadModal() {
         var modal = document.getElementById("downloadModal");

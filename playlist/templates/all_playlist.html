@@ -89,54 +89,26 @@
     <h1>DAFTAR PLAYLIST</h1>
 </header>
 <div class="container">
+    {% for playlist in playlists %}
     <div class="playlist-container">
         <div class="playlist">
             <div class="playlist-info">
-                <h2>Playlist 1</h2>
-                <p>Jumlah lagu: 10</p>
-                <p>Total durasi: 45 menit</p>
+                <h2>{{ playlist.2 }}</h2>
+                <p>Jumlah lagu: {{ playlist.4 }}</p>
+                <p>Total durasi: {{ playlist.7 }}</p>
             </div>
             <div class="playlist-actions">
-                <button>Detail</button>
-                <button>Ubah</button>
-                <button>Hapus</button>
+                <button onclick="location.href = 'detail-playlist/{{ playlist.6 }}/'">Detail</button>
+                <button onclick="location.href = '/playlist/edit-playlist-form/{{ playlist.6 }}'">Ubah</button>
+                <button onclick="location.href = 'delete-playlist/{{ playlist.6 }}/'">Hapus</button>
             </div>
         </div>
     </div>
-    <!-- Penambahan playlist 2 - 5 -->
-    <div class="playlist-container">
-        <div class="playlist">
-            <div class="playlist-info">
-                <h2>Playlist 2</h2>
-                <p>Jumlah lagu: 10</p>
-                <p>Total durasi: 45 menit</p>
-            </div>
-            <div class="playlist-actions">
-                <button>Detail</button>
-                <button>Ubah</button>
-                <button>Hapus</button>
-            </div>
-        </div>
-    </div>
-    <div class="playlist-container">
-        <div class="playlist">
-            <div class="playlist-info">
-                <h2>Playlist 3</h2>
-                <p>Jumlah lagu: 10</p>
-                <p>Total durasi: 45 menit</p>
-            </div>
-            <div class="playlist-actions">
-                <button>Detail</button>
-                <button>Ubah</button>
-                <button>Hapus</button>
-            </div>
-        </div>
-    </div>
-    <!-- Daftar playlist disini -->
+    {% endfor %}
 </div>
 <div class="container">
     <!-- Button tambah playlist yang telah dihias -->
-    <button class="add-playlist-button">Tambah Playlist</button>
+    <button class="add-playlist-button" onclick="location.href = '/playlist/add-playlist-form/'">Tambah Playlist</button>
 </div>
 
 <script>
@@ -168,7 +140,7 @@
                             Manage
                         </a>
                         <div class="dropdown-menu" aria-labelledby="manage" id="dropdown-contents">
-                            <a class="dropdown-item" href="#">Playlist</a>
+                            <a class="dropdown-item" href="{% url 'playlist:show_playlist' %}">Playlist</a>
                             <a class="dropdown-item" href="#">Langganan Paket</a>
                         </div>
                     </li>
@@ -187,7 +159,7 @@
                   </form>
 
                 <li class="nav-item" style="margin-left: 4%;">
-                <a class="nav-link" href="#">Login</a>
+                <a class="nav-link" href="#">Logout</a>
                 </li>
 
               </div>
