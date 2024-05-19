@@ -54,21 +54,25 @@ def submit_payment(request):
         timestamp_berakhir_string = timestamp_berakhir.strftime('%Y-%m-%d %H:%M:%S')
         email = user.get('email')
         id = uuid.uuid4()
-        with connection.cursor() as cursor:
-            cursor.execute(""" INSERT INTO marmut.TRANSACTION (id, jenis_paket, email, timestamp_dimulai, timestamp_berakhir, metode_bayar, nominal) 
-            VALUES (%s,%s,%s,%s,%s,%s,%s)""", (str(id), jenis_paket, email, timestamp_dimulai, timestamp_berakhir_string, metode_bayar, nominal))
-            cursor.execute(""" WITH deleted_emails AS (
-                            DELETE FROM marmut.non_premium 
-                            WHERE email = %s
-                            RETURNING email
-                        )
-                        INSERT INTO marmut.premium (email)
-                        SELECT email FROM deleted_emails
-                        UNION ALL
-                        SELECT %s
-                        WHERE NOT EXISTS (SELECT 1 FROM deleted_emails);""", [email,email])
-        cursor.close()
-    context = show_riwayat(request)
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(""" INSERT INTO marmut.TRANSACTION (id, jenis_paket, email, timestamp_dimulai, timestamp_berakhir, metode_bayar, nominal) 
+                VALUES (%s,%s,%s,%s,%s,%s,%s)""", (str(id), jenis_paket, email, timestamp_dimulai, timestamp_berakhir_string, metode_bayar, nominal))
+                cursor.execute(""" WITH deleted_emails AS (
+                                DELETE FROM marmut.non_premium 
+                                WHERE email = %s
+                                RETURNING email
+                            )
+                            INSERT INTO marmut.premium (email)
+                            SELECT email FROM deleted_emails
+                            UNION ALL
+                            SELECT %s
+                            WHERE NOT EXISTS (SELECT 1 FROM deleted_emails);""", [email,email])
+                cursor.close()
+                context = show_riwayat(request)
+        except Exception:
+            context = {'error_message': "Anda masih dalam masa berlangganan"}
+            return render (request, "gagal.html", context)
     return render(request, "Riwayat.html", context)
 
 def show_riwayat(request):

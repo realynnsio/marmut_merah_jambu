@@ -9,8 +9,7 @@ from .query import *
 
 # Create your views here.
 def show_dashboard(request):
-    email = request.session.get('email')
-
+    email = request.session.get('email')    
     with connection.cursor() as cursor:
         cursor.execute("set search_path to marmut;")
         cursor.execute(get_user(email))

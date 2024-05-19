@@ -25,9 +25,9 @@ def get_downloaded_songs(request):
 
 def download_list(request):
     downloaded_songs = get_downloaded_songs(request)
-    context = {
-        'downloaded_songs': downloaded_songs
-    }
+    user = context_user_getter(request)
+    status = user.get('status')
+    context = {'downloaded_songs': downloaded_songs, 'status':status}
     return render(request, "list_download.html", context)
 
 

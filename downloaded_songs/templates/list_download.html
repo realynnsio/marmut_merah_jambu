@@ -139,9 +139,15 @@
                         </tr>
                     {% endfor %}
                 {% else %}
+                    {% if status %}
                     <tr>
                         <td colspan="4" style="text-align: center;">You haven't downloaded any songs yet</td>
                     </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" style="text-align: center;">Kamu belum berlanggan</td>
+                    </tr>
+                    {% endif %}
                 {% endif %}
             </tbody>
         </table>
