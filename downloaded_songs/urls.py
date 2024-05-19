@@ -4,5 +4,5 @@ app_name = 'downloaded_songs'
 
 urlpatterns = [
     path('download/', download_list, name='download_list'),
-    path('hapus_song/', delete_song, name='download_list'),
+    path('hapus_song/', delete_song, name='delete_song'),
 ]

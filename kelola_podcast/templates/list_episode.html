@@ -6,7 +6,9 @@
 
     <div class="text-center pt-3">
         <div class="flex justify-center items-center pb-5">
-            <h1>List episode pada podcast Agak Laen</h1>
+            {% for judul_podcast in results2 %}
+            <h1>List episode pada podcast {{judul_podcast.judul_podcast}}</h1>
+            {% endfor %}
         </div>
         
         <table class="table-auto text-center mx-auto my-auto border border-gray-500">

@@ -1,5 +1,5 @@
 from django.urls import path
-from playlist.views import show_all_playlist, show_detail_playlist, add_playlist_form, add_song_form, show_detail_song, add_song_to_user_playlist_form, add_playlist, delete_song, delete_playlist, edit_playlist, edit_playlist_form, add_song_to_playlist_form, add_song_to_playlist, play_song
+from playlist.views import show_all_playlist, show_detail_playlist, add_playlist_form, add_song_form, show_detail_song, add_song_to_user_playlist_form, add_playlist, delete_song, delete_playlist, edit_playlist, edit_playlist_form, add_song_to_playlist_form, add_song_to_playlist, play_song, show_detail_song_from_podcast 
 
 app_name = 'playlist'
 
@@ -17,5 +17,6 @@ urlpatterns = [
     path('add-song-to-user-playlist/<str:id_playlist>/', add_song_to_user_playlist_form, name='add_song_to_user_playlist_form'),
     path('add-song-to-playlist-form/<str:id_song>/', add_song_to_playlist_form, name='add_song_to_playlist_form'),
     path('add-song-to-playlist/<str:id_song>/', add_song_to_playlist, name='add_song_to_playlist'),
-    path('play-song/<str:id_song>/', play_song, name='play_song')
+    path('play-song/<str:id_song>/', play_song, name='play_song'),
+    path('detail-song/<str:id_song>/', show_detail_song_from_podcast, name='show_detail_song_from_podcast')
 ]

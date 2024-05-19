@@ -42,7 +42,7 @@ def show_list_podcast(request):
             'total_durasi' : total_durasi
         })
 
-    context = {'results': result_data}
+    context = {'results': result_data,}
     return render(request, "list_podcast.html", context)
 
 
@@ -60,6 +60,25 @@ def show_list_episode(request, id_input):
     """
 
     results = execute_raw_query(query)
+
+    query2 = f"""
+    SELECT KONTEN.judul
+    FROM MARMUT.KONTEN, MARMUT.PODCAST, MARMUT.EPISODE 
+    WHERE id_konten = id AND id_konten_podcast = id_konten AND id = '{id_input}';
+    """
+
+    results2 = execute_raw_query(query2)
+
+    list_judul_podcast = []
+
+    for result2 in results2:
+        judul_podcast = result2[0]
+
+
+        if len(list_judul_podcast) == 0 : 
+            list_judul_podcast.append({
+                'judul_podcast': judul_podcast,
+            })
 
     result_data = []
 
@@ -80,7 +99,10 @@ def show_list_episode(request, id_input):
             'id_episode': id_episode
         })
     
-    context = {'results': result_data}
+    context = {
+        'results': result_data, 
+        'results2' : list_judul_podcast
+        }
     return render(request, 'list_episode.html', context)
 
 def show_podcast_detail(request, id_input):
@@ -171,8 +193,30 @@ def show_podcast_detail(request, id_input):
 @podcaster_required
 def show_form_episode(request, id_podcast):
 
+    query = f"""
+            SELECT KONTEN.judul
+            FROM MARMUT.KONTEN, MARMUT.PODCAST, MARMUT.EPISODE 
+            WHERE id_konten = id AND id_konten_podcast = id_konten AND id = '{id_podcast}';
+            """
 
-    context = {'data' : id_podcast }
+    results = execute_raw_query(query)
+
+    list_judul_podcast = []
+
+    for result in results:
+        judul_podcast = result[0]
+
+
+        if len(list_judul_podcast) == 0 : 
+            list_judul_podcast.append({
+                'judul_podcast': judul_podcast,
+            })
+
+
+    context = {
+        'data' : id_podcast,
+        'results' : list_judul_podcast
+                }
     return render(request, "create_episode.html", context)
 
 @podcaster_required
