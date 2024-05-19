@@ -174,6 +174,17 @@ def login_user(request):
             cursor.execute(query)
             row = cursor.fetchone()
             user_exists = row[0] > 0
+        
+        with connection.cursor() as cursor:
+            cursor.execute(
+                f"""
+                    SELECT COUNT(*)
+                    FROM MARMUT.LABEL
+                    WHERE EMAIL = '{email}' AND password = '{password}';
+                """
+            )
+            row = cursor.fetchone()
+            label_exists = row[0] > 0
 
         if user_exists:
             request.session['email'] = email  
@@ -220,7 +231,36 @@ def login_user(request):
             else:
                 request.session['is_songwriter'] = False
 
-            return HttpResponseRedirect(reverse('dashboard:show_dashboard')) 
+            query5 = f"""
+                    SELECT COUNT(*) FROM MARMUT.PREMIUM WHERE email = '{email}';
+                    """
+            
+            with connection.cursor() as cursor:
+                cursor.execute(query5)
+                row = cursor.fetchone()
+                is_premium = row[0] > 0
+            
+            if is_premium:
+                request.session['is_premium'] = True
+            else:
+                request.session['is_premium'] = False
+            
+            request.session['is_label'] = False
+            request.session['is_pengguna'] = True
+
+            return HttpResponseRedirect(reverse('dashboard:show_dashboard'))
+        
+        elif label_exists:
+            request.session['email'] = email
+            request.session['is_artist'] = False
+            request.session['is_podcaster'] = False
+            request.session['is_songwriter'] = False
+            request.session['is_label'] = True
+            request.session['is_pengguna'] = False
+            request.session['is_premium'] = False
+
+            return HttpResponseRedirect(reverse('dashboard:show_dashboard'))
+
         else:
             context = {'message': "Email atau password salah!", 'gagal': True}
             return render(request, 'login.html', context)

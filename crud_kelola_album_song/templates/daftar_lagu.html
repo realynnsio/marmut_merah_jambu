@@ -3,6 +3,9 @@
 {% block title %}Daftar Lagu{% endblock title %}
 
 {% block content %}
+
+{% include 'navbar.html' %}
+
 <style>
     body {
         font-family: 'Montserrat', sans-serif;
@@ -59,13 +62,13 @@
 <!-- Content -->
 
 <header>
-    <h1>DAFTAR LAGU PADA ALBUM1</h1>
+    <h1>DAFTAR LAGU PADA {{ judul_album }}</h1>
 </header>
 
 <div class="grid-container">
 
     <div class="grid-child">
-        <button class="add-album-button" onclick="add_song()">Tambah Lagu</button>
+        <button class="add-album-button" onclick="add_song('{{ id_album }}')">Tambah Lagu</button>
     </div>
     
     <div class="grid-child">
@@ -82,51 +85,33 @@
                 </tr>
             </thead>
             <tbody id="table_content">
-                <!-- Daftar Song pada Album -->
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Lagu 1</td>
-                    <td>2 menit</td>
-                    <td>3</td>
-                    <td>0</td>
-                    <td class="album-actions">
-                        <div class="container">
-                            <div class="row">
-                              <div class="col">
-                                <button class="song-list-button">Lihat Detail</button>
-                              </div>
-                            </div>
-                            <div class="row">
-                            <div class="col">
-                                <button class="delete-album-button">Hapus</button>
-                            </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
+                {% if songs %}
+                    {% for song in songs %}
 
-                <!-- Song 2 -->
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Lagu 2</td>
-                    <td>3 menit</td>
-                    <td>2</td>
-                    <td>2</td>
-                    <td class="album-actions">
-                        <div class="container">
-                            <div class="row">
-                              <div class="col">
-                                <button class="song-list-button">Lihat Detail</button>
-                              </div>
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ song.judul }}</td>
+                        <td>{{ song.durasi }} menit</td>
+                        <td>{{ song.total_play }}</td>
+                        <td>{{ song.total_download }}</td>
+                        <td class="album-actions">
+                            <div class="container">
+                                <div class="row">
+                                <div class="col">
+                                    <button class="song-list-button">Lihat Detail</button>
+                                </div>
+                                </div>
+                                <div class="row">
+                                <div class="col">
+                                    <button class="delete-album-button" onclick="delete_song_from_album('{{ song.id_konten }}')">Hapus</button>
+                                </div>
+                                </div>
                             </div>
-                            <div class="row">
-                            <div class="col">
-                                <button class="delete-album-button">Hapus</button>
-                            </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+                {% endif %}
                 
             </tbody> 
         </table>
@@ -136,8 +121,15 @@
 <!-- Scripts -->
 
 <script>
-    function add_song() {
-         location.href = "/albums/add-song/";
+    function delete_song_from_album(songId) {
+        // Confirm deletion
+        if (confirm("Are you sure you want to delete this song?")) {
+            // Redirect to the delete URL with the albumId
+            location.href = `/albums/delete-song/${songId}/`;
+        }
+    }
+    function add_song(albumId) {
+         location.href = `/albums/add-song/${albumId}/`;
     } 
 </script>
 
