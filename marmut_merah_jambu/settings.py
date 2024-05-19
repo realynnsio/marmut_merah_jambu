@@ -96,40 +96,40 @@ WSGI_APPLICATION = 'marmut_merah_jambu.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         "NAME": "postgres",
-#         "USER": "postgres.cucamuatyldtkvxripor",
-#         "PASSWORD": "Basdat-7-marmut",
-#         "HOST": "aws-0-ap-southeast-1.pooler.supabase.com",
-#         "PORT": "5432",
-#         "OPTIONS": {"options": "-c search_path=marmut"},
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        "NAME": "postgres",
+        "USER": "postgres.cucamuatyldtkvxripor",
+        "PASSWORD": "Basdat-7-marmut",
+        "HOST": "aws-0-ap-southeast-1.pooler.supabase.com",
+        "PORT": "5432",
+        "OPTIONS": {"options": "-c search_path=marmut"},
+    }
+}
 
 # Check if the Supabase database URL is set
-if SUPABASE_DB_URL:
-    # Use the Supabase database configuration
-    DATABASES = {
-        "default": dj_database_url.config(
-            default=SUPABASE_DB_URL,
-            conn_max_age=600
-        )
-    }
-else:
-    # Use the SQLite database configuration for development
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            "NAME": "postgres",
-            "USER": "postgres.cucamuatyldtkvxripor",
-            "PASSWORD": "Basdat-7-marmut",
-            "HOST": "aws-0-ap-southeast-1.pooler.supabase.com",
-            "PORT": "5432",
-            "OPTIONS": {"options": "-c search_path=marmut"},
-        }
-    }
+# if SUPABASE_DB_URL:
+#     # Use the Supabase database configuration
+#     DATABASES = {
+#         "default": dj_database_url.config(
+#             default=SUPABASE_DB_URL,
+#             conn_max_age=600
+#         )
+#     }
+# else:
+#     # Use the SQLite database configuration for development
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.postgresql',
+#             "NAME": "postgres",
+#             "USER": "postgres.cucamuatyldtkvxripor",
+#             "PASSWORD": "Basdat-7-marmut",
+#             "HOST": "aws-0-ap-southeast-1.pooler.supabase.com",
+#             "PORT": "5432",
+#             "OPTIONS": {"options": "-c search_path=marmut"},
+#         }
+#     }
 
 
 
