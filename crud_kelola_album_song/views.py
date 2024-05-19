@@ -250,7 +250,18 @@ def daftar_album(request):
 
     album = []
 
-    if request.session.get('is_artist'):
+    if request.session.get('is_artist') and request.session.get('is_songwriter'):
+        cursor.execute(get_artist_id(email))
+        res = parse(cursor)
+
+        artist_id = res[0].get('id')
+
+        cursor.execute(get_artist_songwriter_albums(artist_id))
+        res = parse(cursor)
+        for item in res:
+            album.append(item)
+
+    elif request.session.get('is_artist'):
         cursor.execute(get_artist_id(email))
         res = parse(cursor)
 
@@ -261,7 +272,7 @@ def daftar_album(request):
         for item in res:
             album.append(item)
     
-    if request.session.get('is_songwriter'):
+    elif request.session.get('is_songwriter'):
         cursor.execute(get_songwriter_id(email))
         res = parse(cursor)
 
@@ -370,7 +381,7 @@ def add_album(request):
         )
         id_label = parse(cursor)[0].get('id')
         query2 = f"""
-            INSERT INTO ALBUM VALUES ('{id_album}', '{judul}', 1, '{id_label}', {durasi});
+            INSERT INTO ALBUM VALUES ('{id_album}', '{judul}', 0, '{id_label}', 0);
         """
         cursor.execute(query2)
 

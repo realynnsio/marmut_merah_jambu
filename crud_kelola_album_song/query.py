@@ -64,3 +64,34 @@ def get_songwriter_albums(id):
             sw.id_songwriter = '{id}'
         ;
     """
+
+def get_artist_songwriter_albums(id):
+    return f"""
+        (SELECT
+            a.id,
+            a.judul,
+            l.nama,
+            a.jumlah_lagu,
+            a.total_durasi
+        FROM
+            SONG as s
+            JOIN ALBUM as a ON s.id_album = a.id
+            JOIN LABEL as l ON a.id_label = l.id
+        WHERE
+            s.id_artist = '{id}')
+        UNION
+        (SELECT
+            a.id,
+            a.judul,
+            l.nama,
+            a.jumlah_lagu,
+            a.total_durasi
+        FROM
+            SONGWRITER as sw
+            JOIN SONG as s ON sw.id_song = s.id_konten
+            JOIN ALBUM as a ON s.id_album = a.id
+            JOIN LABEL as l ON a.id_label = l.id
+        WHERE
+            sw.id_songwriter = '{id}')
+        ;
+    """
