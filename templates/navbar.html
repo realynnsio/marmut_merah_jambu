@@ -75,7 +75,7 @@
 
   <nav class="navbar navbar-expand-lg fixed-top shadow" id="important">
     <div class="container-fluid">
-        <a class="navbar-brand" id="appname" href="#">
+        <a class="navbar-brand" id="appname" href="{% url 'dashboard:show_dashboard' %}">
             Marmut Merah Jambu
         </a>
 
@@ -87,7 +87,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'dashboard:show_dashboard' %}">Dashboard</a>
-                  </li>
+                </li>
                 
                 {% if request.session.is_pengguna %}
                 <li class="nav-item">
@@ -103,8 +103,14 @@
                         
                         {% if request.session.is_pengguna %}
                         <a class="dropdown-item" href="#">Playlist</a>
-                        <a class="dropdown-item" href="{% url 'langganan_paket:show_list_paket' %}">Langganan Paket akskaskaksas</a>
+                        <a class="dropdown-item" href="{% url 'langganan_paket:show_list_paket' %}">Langganan Paket</a>
+                        {% endif %}
+
+                        {% if request.session.is_premium %}
                         <a class="dropdown-item" href="{% url 'downloaded_songs:download_list' %}">Downloaded Songs</a>
+                        {% endif %}
+
+                        {% if request.session.is_podcaster %}
                         <a class="dropdown-item" href="{% url 'kelola_podcast:show_list_podcast' %}">Podcast</a>
                         {% endif %}
 
@@ -117,7 +123,7 @@
                         {% endif %}
 
                         {% if request.session.is_artist or request.session.is_songwriter or request.session.is_label %}
-                        <a class="dropdown-item" href="#">Royalti</a>
+                        <a class="dropdown-item" href="{% url 'royalti:show_list_royalti' %}">Royalti</a>
                         {% endif %}
                     </div>
                 </li>
@@ -129,7 +135,7 @@
             <form class="form-inline">
                 <div>
                     <li class="nav-item" style="margin-left: 4%;">
-                        <a class="nav-link"href = "{% url 'pencarian:ke_halaman' %}" class="btn btn-outline-success my-2 my-sm-0">Search</a>
+                        <a class="nav-link" href="{% url 'pencarian:ke_halaman' %}" class="btn btn-outline-success my-2 my-sm-0">Search</a>
                     </li>
                 </div>
               </form>

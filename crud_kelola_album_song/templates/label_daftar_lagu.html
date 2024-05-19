@@ -80,31 +80,33 @@
                 </tr>
             </thead>
             <tbody id="table_content">
-                {% for song in songs %}
+                {% if songs %}
+                    {% for song in songs %}
 
-                <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{ song.judul }}</td>
-                    <td>{{ song.durasi }} menit</td>
-                    <td>{{ song.total_play }}</td>
-                    <td>{{ song.total_download }}</td>
-                    <td class="album-actions">
-                        <div class="container">
-                            <div class="row">
-                              <div class="col">
-                                <button class="song-list-button">Lihat Detail</button>
-                              </div>
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ song.judul }}</td>
+                        <td>{{ song.durasi }} menit</td>
+                        <td>{{ song.total_play }}</td>
+                        <td>{{ song.total_download }}</td>
+                        <td class="album-actions">
+                            <div class="container">
+                                <div class="row">
+                                <div class="col">
+                                    <button class="song-list-button">Lihat Detail</button>
+                                </div>
+                                </div>
+                                <div class="row">
+                                <div class="col">
+                                    <button class="delete-album-button" onclick="delete_song_from_album('{{ song.id_konten }}')">Hapus</button>
+                                </div>
+                                </div>
                             </div>
-                            <div class="row">
-                            <div class="col">
-                                <button class="delete-album-button" onclick="delete_song_from_album('{{ song.id_konten }}')">Hapus</button>
-                            </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
 
-                {% endfor %}
+                    {% endfor %}
+                {% endif %}
             </tbody> 
         </table>
     </div>

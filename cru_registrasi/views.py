@@ -230,6 +230,20 @@ def login_user(request):
                 request.session['is_songwriter'] = True
             else:
                 request.session['is_songwriter'] = False
+
+            query5 = f"""
+                    SELECT COUNT(*) FROM MARMUT.PREMIUM WHERE email = '{email}';
+                    """
+            
+            with connection.cursor() as cursor:
+                cursor.execute(query5)
+                row = cursor.fetchone()
+                is_premium = row[0] > 0
+            
+            if is_premium:
+                request.session['is_premium'] = True
+            else:
+                request.session['is_premium'] = False
             
             request.session['is_label'] = False
             request.session['is_pengguna'] = True
@@ -243,6 +257,7 @@ def login_user(request):
             request.session['is_songwriter'] = False
             request.session['is_label'] = True
             request.session['is_pengguna'] = False
+            request.session['is_premium'] = False
 
             return HttpResponseRedirect(reverse('dashboard:show_dashboard'))
 
