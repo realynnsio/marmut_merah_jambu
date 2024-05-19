@@ -8,10 +8,12 @@ from django.db import connection
 #     return render(request, "search_bar.html", context)
 
 def ke_halaman(request):
+    email = request.session.get('email')
     context = {}
     return render(request, 'search.html', context)
 
 def show_search(request):
+    email = request.session.get('email')
     hasil = search_data(request)
     context = {
         'data': hasil if hasil else []  # Return an empty list if hasil is None or empty
@@ -20,6 +22,7 @@ def show_search(request):
 
 def search_data(request):  
     if request.method == 'GET' and 'search' in request.GET:
+        email = request.session.get('email')
         search_value = request.GET.get('search', None)
 
         with connection.cursor() as cursor:
