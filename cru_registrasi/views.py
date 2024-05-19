@@ -231,6 +231,53 @@ def login_user(request):
             else:
                 request.session['is_songwriter'] = False
 
+            # STORED PROCEDURE --------------------------------------------------------
+            has_transaction = f"""
+                SELECT COUNT(*) FROM MARMUT.TRANSACTION WHERE email = '{email}';
+            """
+
+            query5 = f"""
+                    SELECT COUNT(*) FROM MARMUT.PREMIUM WHERE email = '{email}';
+                    """
+            
+            with connection.cursor() as cursor:
+                cursor.execute(query5)
+                row = cursor.fetchone()
+                is_premium = row[0] > 0
+
+            is_expired = False
+
+            cursor = connection.cursor()
+            cursor.execute(has_transaction)
+            row = cursor.fetchone()
+            exists_transaction = row[0] > 0
+            
+            if exists_transaction and is_premium:
+                cursor.execute(f"""
+                SELECT 
+                    CASE 
+                        WHEN CURRENT_TIMESTAMP > timestamp_berakhir THEN TRUE 
+                        ELSE FALSE 
+                    END AS is_expired
+                FROM 
+                    MARMUT.TRANSACTION
+                WHERE
+                    email = '{email}';
+                """)
+
+                rows = cursor.fetchall()
+                is_expired = all(row[0] for row in rows)
+
+            if is_expired:
+                cursor.execute(f"""
+                    DELETE FROM MARMUT.PREMIUM WHERE email = '{email}';
+                """)
+
+                cursor.execute(f"""
+                    INSERT INTO MARMUT.NON_PREMIUM (email) VALUES ('{email}');
+                """)
+            # STORED PROCEDURE --------------------------------------------------------
+
             query5 = f"""
                     SELECT COUNT(*) FROM MARMUT.PREMIUM WHERE email = '{email}';
                     """

@@ -82,13 +82,10 @@
         {% if request.session.email or request.session.is_label %}
         <ul class="navbar-nav">
 
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'dashboard:show_dashboard' %}">Dashboard</a>
-              </li>
             
             {% if request.session.is_pengguna %}
             <li class="nav-item">
-            <a class="nav-link" href="#">Chart</a>
+            <a class="nav-link" href="{% url 'chart:show_chart' %}">Chart</a>
             </li>
             {% endif %}
 
@@ -99,9 +96,15 @@
                 <div class="dropdown-menu" aria-labelledby="manage">
                     
                     {% if request.session.is_pengguna %}
-                    <a class="dropdown-item" href="#">Playlist</a>
+                    <a class="dropdown-item" href="{% url 'playlist:show_playlist' %}">Playlist</a>
                     <a class="dropdown-item" href="{% url 'langganan_paket:show_list_paket' %}">Langganan Paket</a>
+                    {% endif %}
+
+                    {% if request.session.is_premium %}
                     <a class="dropdown-item" href="{% url 'downloaded_songs:download_list' %}">Downloaded Songs</a>
+                    {% endif %}
+
+                    {% if request.session.is_podcaster %}
                     <a class="dropdown-item" href="{% url 'kelola_podcast:show_list_podcast' %}">Podcast</a>
                     {% endif %}
 
@@ -114,7 +117,7 @@
                     {% endif %}
 
                     {% if request.session.is_artist or request.session.is_songwriter or request.session.is_label %}
-                    <a class="dropdown-item" href="#">Royalti</a>
+                    <a class="dropdown-item" href="{% url 'royalti:show_list_royalti' %}">Royalti</a>
                     {% endif %}
                 </div>
             </li>
@@ -126,14 +129,10 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'dashboard:show_dashboard' %}">Dashboard</a>
-                  </li>
                 
                 {% if request.session.is_pengguna %}
                 <li class="nav-item">
-                <a class="nav-link" href="#">Chart</a>
+                <a class="nav-link" href="{% url 'chart:show_chart' %}">Chart</a>
                 </li>
                 {% endif %}
 
@@ -144,9 +143,15 @@
                     <div class="dropdown-menu" aria-labelledby="manage">
                         
                         {% if request.session.is_pengguna %}
-                        <a class="dropdown-item" href="#">Playlist</a>
+                        <a class="dropdown-item" href="{% url 'playlist:show_playlist' %}">Playlist</a>
                         <a class="dropdown-item" href="{% url 'langganan_paket:show_list_paket' %}">Langganan Paket</a>
+                        {% endif %}
+
+                        {% if request.session.is_premium %}
                         <a class="dropdown-item" href="{% url 'downloaded_songs:download_list' %}">Downloaded Songs</a>
+                        {% endif %}
+
+                        {% if request.session.is_podcaster %}
                         <a class="dropdown-item" href="{% url 'kelola_podcast:show_list_podcast' %}">Podcast</a>
                         {% endif %}
 
@@ -159,7 +164,7 @@
                         {% endif %}
 
                         {% if request.session.is_artist or request.session.is_songwriter or request.session.is_label %}
-                        <a class="dropdown-item" href="#">Royalti</a>
+                        <a class="dropdown-item" href="{% url 'royalti:show_list_royalti' %}">Royalti</a>
                         {% endif %}
                     </div>
                 </li>

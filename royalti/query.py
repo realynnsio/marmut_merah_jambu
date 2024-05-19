@@ -5,7 +5,7 @@ def get_royalti_artist(email):
             FROM
                 ARTIST a
                 JOIN PEMILIK_HAK_CIPTA phc ON phc.id = a.id_pemilik_hak_cipta
-                WHERE a.email = '{email}'
+                WHERE a.email_akun = '{email}'
         ), song_info AS (
             SELECT s.id_artist, k.judul as judul_lagu, al.judul as judul_album, s.total_play, s.total_download, s.id_konten as id_song
             FROM
@@ -14,7 +14,7 @@ def get_royalti_artist(email):
                 JOIN ALBUM as al ON al.id = s.id_album
         )
         SELECT
-            ai.id_pemilik_hak_cipta
+            ai.id_pemilik_hak_cipta,
             si.judul_lagu,
             si.judul_album,
             si.total_play,
@@ -44,7 +44,7 @@ def get_royalti_songwriter(email):
                 JOIN SONGWRITER_WRITE_SONG sws ON sws.id_song = s.id_konten
         )
         SELECT
-            swi.id_pemilik_hak_cipta
+            swi.id_pemilik_hak_cipta,
             si.judul_lagu,
             si.judul_album,
             si.total_play,
@@ -63,7 +63,7 @@ def get_royalti_both_roles(email):
             SELECT a.id AS artist_id, phc.rate_royalti AS artist_rate_royalti, a.id_pemilik_hak_cipta as artist_phc
             FROM ARTIST a
             JOIN PEMILIK_HAK_CIPTA phc ON phc.id = a.id_pemilik_hak_cipta
-            WHERE a.email = '{email}'
+            WHERE a.email_akun = '{email}'
         ), songwriter_info AS (
             SELECT sw.id AS songwriter_id, phc.rate_royalti AS songwriter_rate_royalti, sw.id_pemilik_hak_cipta as songwriter_phc
             FROM SONGWRITER sw
@@ -84,8 +84,8 @@ def get_royalti_both_roles(email):
             JOIN songwriter_info swi ON sws.id_songwriter = swi.songwriter_id
         )
         SELECT
-            COALESCE(asi.artist_phc, 0) AS artist_phc,
-            COALESCE(ssi.songwriter_phc, 0) AS songwriter_phc,
+            asi.artist_phc,
+            ssi.songwriter_phc,
             COALESCE(asi.id_konten, ssi.id_konten) AS id_song,
             COALESCE(asi.judul_lagu, ssi.judul_lagu) AS judul_lagu,
             COALESCE(asi.judul_album, ssi.judul_album) AS judul_album,

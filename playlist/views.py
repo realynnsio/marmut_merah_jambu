@@ -273,4 +273,35 @@ def play_song(request, id_song):
     print(id_song)
 
     return HttpResponseRedirect(reverse('playlist:show_playlist'))
-    
+
+
+def show_detail_song_from_podcast(request, id_song):
+    songs_info=[]
+    songwriter_info=[]
+    query1 = f"""
+                SELECT K.judul, G.genre, AK.nama, K.durasi, K.tanggal_rilis, K.tahun, S.total_play, S.total_download, AB.judul
+                FROM MARMUT.SONG S, MARMUT.KONTEN K, MARMUT.ARTIST AT, MARMUT.AKUN AK, MARMUT.GENRE G, MARMUT.ALBUM AB
+                WHERE S.id_konten = '{id_song}' AND S.id_konten = K.id AND S.id_artist = AT.id AND AT.email_akun = AK.email AND G.id_konten = K.id AND AB.id = S.id_album
+                """
+
+    query2 = f"""
+                SELECT A.nama
+                FROM MARMUT.SONGWRITER SW, MARMUT.SONGWRITER_WRITE_SONG SWS, MARMUT.AKUN A
+                WHERE SWS.id_song = '{id_song}' AND SWS.id_songwriter = SW.id AND SW.email_akun = A.email
+                """
+
+    with connection.cursor() as cursor:
+        cursor.execute(query1)
+        row = cursor.fetchall()
+        songs_info = row
+
+        cursor.execute(query2)
+        row = cursor.fetchall()
+        songwriter_info = row
+
+    context = {
+        'id_song': id_song,
+        'infos' : songs_info,
+        'songwriter' : songwriter_info,
+    }
+    return render(request, "detail_song_from_chart.html", context)

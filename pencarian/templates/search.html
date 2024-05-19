@@ -1,7 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Example Layout</title>
+{% extends 'base.html' %}
+
+{% block content %}
+    <title>Search</title>
     <style>
         body {
             display: flex;
@@ -61,7 +61,7 @@
         .table-container th {
             background-color: #4CAF50;
             color: white;
-            border-radius: 10px 10px 0 0;
+            border-radius: 0 0 0 0;
         }
         .table-container tr:nth-child(even) {
             background-color: #f2f2f2;
@@ -90,31 +90,37 @@
         <input type="text" name="search" id="search" placeholder="Cari disini..." required>
         <input type="submit" value="CARI">
     </form>
-    <table class="table-container">
-        <thead>
-            <tr>
-                <th>Tipe</th>
-                <th>Judul</th>
-                <th>Oleh</th>
-                <th>aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if data %}
-                {% for data in hasil %}
-                    <tr>
-                        <td>{{ data.tipe }}</td>
-                        <td>{{ data.judul }}</td>
-                        <td>{{ data.oleh }}</td>
-                        <td><button>Lihat</button></td>
-                    </tr>
-                {% endfor %}
-            {% else %}
+    <div style="padding: 20px;">
+        <table class="table-container">
+            <thead>
                 <tr>
-                    <td colspan="4" style="text-align: center;">Tidak ada</td>
+                    <th>Tipe</th>
+                    <th>Judul</th>
+                    <th>Oleh</th>
+                    <th>aksi</th>
                 </tr>
-            {% endif %}
-        </tbody>
+            </thead>
+            <tbody>
+                {% if data %}
+                    {% for item in data %}
+                        <tr>
+                            <td>{{ item.tipe }}</td>
+                            <td>{{ item.judul }}</td>
+                            <td>{{ item.oleh }}</td>
+                            <td><button>Lihat</button></td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="4" style="text-align: center;">Your Search Was Not Found</td>
+                    </tr>
+                {% endif %}
+            </tbody>
     </table>
+    </div>
+    <!-- <div style="text-align: center; margin-top: 20px;">
+        <a href = "/dashboard"><button>Kembali</button></a>
+    </div> -->
 </body>
 </html>
+{% endblock content %}

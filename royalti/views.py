@@ -34,7 +34,7 @@ def show_list_royalti(request):
         for item in res:
             royalties.append(item)
 
-            if item.get('artist_phc') != 0:
+            if item.get('artist_phc') is not None:
                 id_pemilik_hak_cipta = item.get('artist_phc')
                 id_song = item.get('id_song')
                 total_royalti = item.get('artist_royalti')
@@ -47,7 +47,7 @@ def show_list_royalti(request):
                     """
                 )
             
-            if item.get('songwriter_phc') != 0:
+            if item.get('songwriter_phc') is not None:
                 id_pemilik_hak_cipta = item.get('songwriter_phc')
                 id_song = item.get('id_song')
                 total_royalti = item.get('songwriter_royalti')

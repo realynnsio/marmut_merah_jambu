@@ -31,7 +31,7 @@
                 <td class="border border-gray-500 px-4 py-2"> {{result.tanggal_rilis}} </td>
                 <td class="border border-gray-500 px-4 py-2"> {{result.total_play}} </td>
                 <td class="border border-gray-500 px-4 py-2">
-                    <a href="">Lihat</a> 
+                    <a href="{% url 'playlist:show_detail_song_from_podcast' id_song=result.id_lagu %}">Lihat</a> 
                 </td>
             </tr>
            {% endfor %}

@@ -93,7 +93,7 @@
                             <div class="container">
                                 <div class="row">
                                 <div class="col">
-                                    <button class="song-list-button">Lihat Detail</button>
+                                    <button class="song-list-button" onclick="detail_song('{{ song.id_konten }}')">Lihat Detail</button>
                                 </div>
                                 </div>
                                 <div class="row">
@@ -121,6 +121,10 @@
             // Redirect to the delete URL with the albumId
             location.href = `/albums/label/delete-song/${songId}/`;
         }
+    }
+
+    function detail_song(songId) {
+        location.href = `/albums/detail-song/${songId}/`;
     }
 </script>
 

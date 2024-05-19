@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+{% include 'navbar.html' %}
+
     <title>Download list</title>
     <style>
         body {
@@ -101,8 +104,9 @@
             const popupContainer = document.querySelector('.popup-container');
             popupContainer.style.display = 'none';
         }
-        function redirectDelete(songID) {
-        window.location.href = `/downloaded_songs/hapus_song?id_song=${encodeURIComponent(songID)}`;
+        function redirectDelete(songID,songTitle) {
+        window.location.href = `/downloaded_songs/hapus_song?id_song=${encodeURIComponent(songID)}&id={{ id }}`;
+        showPopup(`Kamu berhasil menghapus ${songTitle}`);
         }
     </script>
     <div class="header">
@@ -118,21 +122,36 @@
                 </tr>
             </thead>
             <tbody>
-                {% for song in downloaded_songs %}
-                    <tr id="song-{{ song.id }}">
-                        <td>{{ song.judul_lagu }}</td>
-                        <td>{{ song.nama_artis }}</td>
-                        <td>{{ song.tanggal_download }}</td>
-                        <td>
-                            <button>Lihat</button>
-                            <!-- <button onclick="showPopup('Kamu berhasil menghapus {{ song.judul_lagu }}')">Hapus</button> -->
-                            <button type="delete_album" onclick="redirectDelete('{{ song.id }}')" class="relative inline-flex items-center justify-center p-1 mb-2 me-2 overflow-hidden text-base font-medium text-black rounded-lg group bg-gradient-to-br from-white-600 to-white-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-black dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 border-3 border-black-500">                                
-                                <class="w-5 h-5 text-white me-2">
-                                Hapus
-                            </button> 
-                        </td>
+                {% if downloaded_songs %}
+                    {% for song in downloaded_songs %}
+                        <tr id="song-{{ song.id }}">
+                            <td>{{ song.judul_lagu }}</td>
+                            <td>{{ song.nama_artis }}</td>
+                            <td>{{ song.tanggal_download }}</td>
+                            <td>
+                                <button class="relative inline-flex items-center justify-center p-1 mb-2 me-2 overflow-hidden text-base font-medium text-black rounded-lg group bg-gradient-to-br from-white-600 to-white-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-black dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 border-3 border-black-500">
+                                    <class="w-5 h-5 text-white me-2">
+                                    Lihat
+                                </button>
+                                <!-- <button onclick="showPopup('Kamu berhasil menghapus {{ song.judul_lagu }}')">Hapus</button> -->
+                                <button type="delete_album" onclick="redirectDelete('{{ song.id }}', '{{ song.judul_lagu }}')" class="relative inline-flex items-center justify-center p-1 mb-2 me-2 overflow-hidden text-base font-medium text-black rounded-lg group bg-gradient-to-br from-white-600 to-white-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-black dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 border-3 border-black-500">                                
+                                    <class="w-5 h-5 text-white me-2">
+                                    Hapus
+                                </button> 
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    {% if status %}
+                    <tr>
+                        <td colspan="4" style="text-align: center;">You haven't downloaded any songs yet</td>
                     </tr>
-                {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="4" style="text-align: center;">Kamu belum berlanggan</td>
+                    </tr>
+                    {% endif %}
+                {% endif %}
             </tbody>
         </table>
     </div>
