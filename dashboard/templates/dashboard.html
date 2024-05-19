@@ -9,6 +9,7 @@
             <div class="flex flex-col ml-5 p-4 rounded-xl border-4 w-50">
                 <h1 class="text-center">Profile</h1>
                 <div class="flex flex-row justify-evenly pt-8">
+                    {% if not request.session.is_label %}
                     <div>
                         <p>Nama: {{ user.nama }}</p>
                         <p>Email: {{ user.email }}</p>
@@ -20,6 +21,13 @@
                         <p>Tanggal Lahir: {{ user.tanggal_lahir }}</p>
                         <p>Role: {{ roles }}</p>
                     </div>
+                    {% else %}
+                    <div>
+                        <p>Nama: {{ user.nama }}</p>
+                        <p>Email: {{ user.email }}</p>
+                        <p>Kontak: {{ user.kontak }}</p>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
             <div class="flex flex-col ml-2 mr-5 p-4 rounded-xl border-4 w-50">
