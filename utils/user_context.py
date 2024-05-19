@@ -17,5 +17,3 @@ def context_user_getter(request):
         'status': result1
     }
     return user
-
-

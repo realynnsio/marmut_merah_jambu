@@ -236,6 +236,15 @@ def login_user(request):
                 SELECT COUNT(*) FROM MARMUT.TRANSACTION WHERE email = '{email}';
             """
 
+            query5 = f"""
+                    SELECT COUNT(*) FROM MARMUT.PREMIUM WHERE email = '{email}';
+                    """
+            
+            with connection.cursor() as cursor:
+                cursor.execute(query5)
+                row = cursor.fetchone()
+                is_premium = row[0] > 0
+
             is_expired = False
 
             cursor = connection.cursor()
@@ -243,7 +252,7 @@ def login_user(request):
             row = cursor.fetchone()
             exists_transaction = row[0] > 0
             
-            if exists_transaction:
+            if exists_transaction and is_premium:
                 cursor.execute(f"""
                 SELECT 
                     CASE 
@@ -256,7 +265,8 @@ def login_user(request):
                     email = '{email}';
                 """)
 
-                is_expired = parse(cursor)[0].get('is_expired')
+                rows = cursor.fetchall()
+                is_expired = all(row[0] for row in rows)
 
             if is_expired:
                 cursor.execute(f"""
