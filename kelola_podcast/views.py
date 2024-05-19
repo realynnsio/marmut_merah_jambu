@@ -87,9 +87,9 @@ def show_list_episode(request, id_input):
         id_episode = result[1]
         judul = result[2]
         deskripsi = result[3]
-        durasi = result[4]
-        tanggal_rilis = result[5]
-
+        tanggal_rilis = result[4]
+        durasi = result[5]
+        
         result_data.append({
             'judul': judul,
             'deskripsi': deskripsi,
