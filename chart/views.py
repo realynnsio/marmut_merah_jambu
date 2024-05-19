@@ -84,7 +84,7 @@ def chart_detail_monthly(request):
     AND ARTIST.email_akun = AKUN.email 
     GROUP BY KONTEN.judul, AKUN.nama, KONTEN.tanggal_rilis, SONG.id_konten ORDER BY total_plays DESC LIMIT 20;
     """
-
+    
     results = execute_raw_query(query)
 
     result_data = []
