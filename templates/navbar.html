@@ -145,7 +145,13 @@
                         {% if request.session.is_pengguna %}
                         <a class="dropdown-item" href="{% url 'playlist:show_playlist' %}">Playlist</a>
                         <a class="dropdown-item" href="{% url 'langganan_paket:show_list_paket' %}">Langganan Paket</a>
+                        {% endif %}
+
+                        {% if request.session.is_premium %}
                         <a class="dropdown-item" href="{% url 'downloaded_songs:download_list' %}">Downloaded Songs</a>
+                        {% endif %}
+
+                        {% if request.session.is_podcaster %}
                         <a class="dropdown-item" href="{% url 'kelola_podcast:show_list_podcast' %}">Podcast</a>
                         {% endif %}
 
@@ -158,7 +164,7 @@
                         {% endif %}
 
                         {% if request.session.is_artist or request.session.is_songwriter or request.session.is_label %}
-                        <a class="dropdown-item" href="#">Royalti</a>
+                        <a class="dropdown-item" href="{% url 'royalti:show_list_royalti' %}">Royalti</a>
                         {% endif %}
                     </div>
                 </li>
