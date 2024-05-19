@@ -4,9 +4,6 @@ from marmut_merah_jambu.db import fetch
 from django.db import connection
 from utils.user_context import context_user_getter
 
-# def show_search_bar(request):
-#     context = {}
-#     return render(request, "search_bar.html", context)
 
 def ke_halaman(request):
     context = {}
@@ -28,6 +25,7 @@ def search_data(request):
                 """
                 (SELECT 
                     K.judul, 
+                    K.id AS id,
                     'Song' AS tipe,
                     A.nama AS oleh
                 FROM marmut.KONTEN K
@@ -38,6 +36,7 @@ def search_data(request):
                 UNION ALL  
                 (SELECT 
                     K.judul, 
+                    K.id AS id,
                     'Podcast' AS tipe,
                     AK.nama AS oleh
                 FROM marmut.KONTEN K
@@ -47,6 +46,7 @@ def search_data(request):
                 UNION ALL
                 (SELECT
                     UP.judul,
+                    UP.id_user_playlist AS id,
                     'User Playlist' AS tipe,
                     AKN.nama AS oleh
                 FROM marmut.user_playlist UP

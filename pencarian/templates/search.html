@@ -111,7 +111,21 @@
                             <td>{{ item.tipe }}</td>
                             <td>{{ item.judul }}</td>
                             <td>{{ item.oleh }}</td>
-                            <td><button>Lihat</button></td>
+                            <td>
+                                {% if item.tipe == "Podcast" %}
+                                    <div><a href="{% url 'kelola_podcast:show_podcast_detail' id_input=item.id|stringformat:'s' %}" class="btn btn-outline-success my-2 my-sm-0">
+                                        Lihat Podcast
+                                    </a></div>
+                                {% elif item.tipe == "Song" %}
+                                    <div><a href="{% url 'playlist:show_detail_song_from_podcast' id_song=item.id|stringformat:'s' %}" class="btn btn-outline-success my-2 my-sm-0">
+                                        Lihat Lagu
+                                    </a></div>
+                                {% elif item.tipe == "User Playlist" %}
+                                    <div><a href="{% url 'playlist:show_detail_playlist' id=item.id|stringformat:'s' %}" class="btn btn-outline-success my-2 my-sm-0">
+                                        Lihat User Playlist
+                                    </a></div>
+                                {% endif %}
+                            </td>
                         </tr>
                     {% endfor %}
                 {% else %}
