@@ -9,6 +9,7 @@
             <div class="flex flex-col ml-5 p-4 rounded-xl border-4 w-50">
                 <h1 class="text-center">Profile</h1>
                 <div class="flex flex-row justify-evenly pt-8">
+                    {% if request.session.is_pengguna %}
                     <div>
                         <p>Nama: {{ user.nama }}</p>
                         <p>Email: {{ user.email }}</p>
@@ -20,12 +21,19 @@
                         <p>Tanggal Lahir: {{ user.tanggal_lahir }}</p>
                         <p>Role: {{ roles }}</p>
                     </div>
+                    {% else %}
+                    <div>
+                        <p>Nama: {{ user.nama }}</p>
+                        <p>Email: {{ user.email }}</p>
+                        <p>Kontak: {{ user.kontak }}</p>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
             <div class="flex flex-col ml-2 mr-5 p-4 rounded-xl border-4 w-50">
                 <h1 class="text-center">Picture</h1>
                 <div class="mx-auto my-auto">
-                    <img src="https://cdn.discordapp.com/attachments/1020531071479201793/1186512367551520798/man.png?ex=66345bc0&is=66330a40&hm=f7efbc6b835a7b78809e89d0961557f220fa0418a16ee4307cdaa5539d43c5b3&" width="200"/>
+                    <img src="https://cdn.discordapp.com/attachments/1020531071479201793/1186512367551520798/man.png?ex=6648cb00&is=66477980&hm=6e808b00ffac7e26c008e924bfc7c49c468023ac38e4d54af1497facd2d0a3b1&" width="200"/>
                 </div>
             </div>
         </div>

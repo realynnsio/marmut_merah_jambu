@@ -5,6 +5,7 @@ import uuid
 from django.http import HttpResponseRedirect
 from main.helper.function import *
 from cru_registrasi.query import *
+import random
 
 
 # Create your views here.
@@ -32,6 +33,43 @@ def registration_label_form(request):
 def login_form(request):
     context = {}
     return render(request, "login.html", context)
+
+@csrf_exempt
+def register_label(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        nama = request.POST.get('nama')
+        kontak = request.POST.get('kontak')
+    if (not (email and password and nama and kontak)):
+        context = {'message': "Harap isi data dengan benar!",
+                   'gagal': True}
+        return render(request, 'registration_menu.html', context)
+    else:
+        with connection.cursor() as cursor:
+            cursor.execute(f"SELECT COUNT(*) FROM MARMUT.AKUN WHERE email = '{email}'")
+            row = cursor.fetchone()
+            email_exists = row[0] > 0
+
+            if email_exists:
+                context = {'message': "Email sudah terdaftar!",
+                           'gagal': True}
+                return render(request, 'registration_menu.html', context)
+            else :
+                id_label = uuid.uuid4()
+                id_pemilik_hak_cipta = uuid.uuid4()
+                royalti_list = [10,20,30,40,50]
+                query1 = f"""
+                            INSERT INTO MARMUT.PEMILIK_HAK_CIPTA VALUES ('{id_pemilik_hak_cipta}', '{random.choice(royalti_list)}')
+                            """
+                query2 = f"""
+                            INSERT INTO MARMUT.LABEL VALUES ('{id_label}', '{nama}', '{email}', '{password}', '{kontak}', '{id_pemilik_hak_cipta}')
+                            """
+                with connection.cursor() as cursor:
+                    cursor.execute(query1)
+                    cursor.execute(query2)
+                    
+                return HttpResponseRedirect(reverse('cru_registrasi:login_form'))
 
 @csrf_exempt
 def register_user(request):
@@ -124,7 +162,7 @@ def login_user(request):
 
         if not (email and password):
             context = {'message': "Email dan password harus diisi!", 'gagal': True}
-            return render(request, 'login_form.html', context)
+            return render(request, 'login.html', context)
 
         query = f"""
         SELECT COUNT(*)
@@ -136,6 +174,17 @@ def login_user(request):
             cursor.execute(query)
             row = cursor.fetchone()
             user_exists = row[0] > 0
+        
+        with connection.cursor() as cursor:
+            cursor.execute(
+                f"""
+                    SELECT COUNT(*)
+                    FROM MARMUT.LABEL
+                    WHERE EMAIL = '{email}' AND password = '{password}';
+                """
+            )
+            row = cursor.fetchone()
+            label_exists = row[0] > 0
 
         if user_exists:
             request.session['email'] = email  
@@ -182,11 +231,80 @@ def login_user(request):
             else:
                 request.session['is_songwriter'] = False
 
-            return HttpResponseRedirect(reverse('dashboard:show_dashboard')) 
+            # STORED PROCEDURE --------------------------------------------------------
+            has_transaction = f"""
+                SELECT COUNT(*) FROM MARMUT.TRANSACTION WHERE email = '{email}';
+            """
+
+            is_expired = False
+
+            cursor = connection.cursor()
+            cursor.execute(has_transaction)
+            row = cursor.fetchone()
+            exists_transaction = row[0] > 0
+            
+            if exists_transaction:
+                cursor.execute(f"""
+                SELECT 
+                    CASE 
+                        WHEN CURRENT_TIMESTAMP > timestamp_berakhir THEN TRUE 
+                        ELSE FALSE 
+                    END AS is_expired
+                FROM 
+                    MARMUT.TRANSACTION
+                WHERE
+                    email = '{email}';
+                """)
+
+                is_expired = parse(cursor)[0].get('is_expired')
+
+            if is_expired:
+                cursor.execute(f"""
+                    DELETE FROM MARMUT.PREMIUM WHERE email = '{email}';
+                """)
+
+                cursor.execute(f"""
+                    INSERT INTO MARMUT.NON_PREMIUM (email) VALUES ('{email}');
+                """)
+            # STORED PROCEDURE --------------------------------------------------------
+
+            query5 = f"""
+                    SELECT COUNT(*) FROM MARMUT.PREMIUM WHERE email = '{email}';
+                    """
+            
+            with connection.cursor() as cursor:
+                cursor.execute(query5)
+                row = cursor.fetchone()
+                is_premium = row[0] > 0
+            
+            if is_premium:
+                request.session['is_premium'] = True
+            else:
+                request.session['is_premium'] = False
+            
+            request.session['is_label'] = False
+            request.session['is_pengguna'] = True
+
+            return HttpResponseRedirect(reverse('dashboard:show_dashboard'))
+        
+        elif label_exists:
+            request.session['email'] = email
+            request.session['is_artist'] = False
+            request.session['is_podcaster'] = False
+            request.session['is_songwriter'] = False
+            request.session['is_label'] = True
+            request.session['is_pengguna'] = False
+            request.session['is_premium'] = False
+
+            return HttpResponseRedirect(reverse('dashboard:show_dashboard'))
+
         else:
             context = {'message': "Email atau password salah!", 'gagal': True}
-            return render(request, 'login_form.html', context)
+            return render(request, 'login.html', context)
     else:
-        return render(request, 'login_form.html')
+        return render(request, 'login.html')
        
 
+def logout(request):
+    request.session.flush()
+    return redirect('/')

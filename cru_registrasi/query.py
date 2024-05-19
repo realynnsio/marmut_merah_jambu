@@ -37,16 +37,3 @@ def is_user_label(email):
         WHERE email = '{email}'
         ;
     """
-
-# Spesifikasi Navbar Pengguna (Sudah Login)
-# Dashboard
-# [Jika Pengguna Biasa/Artist/Songwriter/Podcaster] Chart
-# [Jika Pengguna Biasa/Artist/Songwriter/Podcaster] Search Bar
-# [Jika Pengguna Biasa/Artist/Songwriter/Podcaster] Kelola Playlist
-# [Jika Pengguna Biasa/Artist/Songwriter/Podcaster] Langganan Paket
-# [Jika Premium] Kelola Downloaded Songs
-# [Jika Podcaster] Kelola Podcast
-# [Jika Artist/Songwriter] Kelola Album & Songs
-# [Jika Label] Kelola Album
-# [Jika Artist/Songwriter/Label] Cek Royalti
-# Logout

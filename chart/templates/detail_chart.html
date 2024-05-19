@@ -8,7 +8,7 @@
     <div class="flex justify-center items-center pb-5">
         <h1>Chart Detail</h1>
     </div>
-    <p class="text-center"> Tipe: Daily Top 20</p>
+    <p class="text-center"> Tipe: {{type}} Top 20</p>
     
     <table class="table-auto mx-auto my-auto border border-gray-500">
         <thead>
@@ -24,46 +24,21 @@
             </tr>
         </thead>
         <tbody>
+            {% for result in results %}
             <tr>
-                <td class="border border-gray-500 px-4 py-2"> Rapsodi </td>
-                <td class="border border-gray-500 px-4 py-2"> JKT 48 </td>
-                <td class="border border-gray-500 px-4 py-2"> 09/01/2020 </td>
-                <td class="border border-gray-500 px-4 py-2"> 12000000 </td>
+                <td class="border border-gray-500 px-4 py-2"> {{result.judul}} </td>
+                <td class="border border-gray-500 px-4 py-2"> {{result.nama}} </td>
+                <td class="border border-gray-500 px-4 py-2"> {{result.tanggal_rilis}} </td>
+                <td class="border border-gray-500 px-4 py-2"> {{result.total_play}} </td>
                 <td class="border border-gray-500 px-4 py-2">
-                    <a href="">Lihat</a> 
+                    <a href="{% url 'playlist:show_detail_song_from_podcast' id_song=result.id_lagu %}">Lihat</a> 
                 </td>
             </tr>
-            <tr>
-                <td class="border border-gray-500 px-4 py-2"> 2112 </td>
-                <td class="border border-gray-500 px-4 py-2"> Reality club </td>
-                <td class="border border-gray-500 px-4 py-2"> 30/08/2019 </td>
-                <td class="border border-gray-500 px-4 py-2"> 8000000 </td>
-                <td class="border border-gray-500 px-4 py-2">
-                    <a href="">Lihat</a> 
-                </td>
-            </tr>
-            <tr>
-                <td class="border border-gray-500 px-4 py-2"> Pink Venom </td>
-                <td class="border border-gray-500 px-4 py-2"> Blackpink </td>
-                <td class="border border-gray-500 px-4 py-2"> 19/08/2022 </td>
-                <td class="border border-gray-500 px-4 py-2"> 7000000 </td>
-                <td class="border border-gray-500 px-4 py-2">
-                    <a href="">Lihat</a> 
-                </td>
-            </tr>
-            <tr>
-                <td class="border border-gray-500 px-4 py-2"> So american </td>
-                <td class="border border-gray-500 px-4 py-2"> Olivia Rodrigo </td>
-                <td class="border border-gray-500 px-4 py-2"> 22/03/2024 </td>
-                <td class="border border-gray-500 px-4 py-2"> 5000000 </td>
-                <td class="border border-gray-500 px-4 py-2">
-                    <a href="">Lihat</a> 
-                </td>
-            </tr>
+           {% endfor %}
         </tbody>
     </table>
     <div class="pt-4">
-        <button class="border-2 border-black border-solid bg-green-500 rounded-xl px-10 py-2 text-white" id="showPopUp">Kembali</button>
+        <a href="{% url 'chart:show_chart' %}" class="border-2 border-black border-solid bg-green-500 rounded-xl px-10 py-2 text-white no-underline" id="showPopUp">Kembali</a>
     </div>
 </div>
 

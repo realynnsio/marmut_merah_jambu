@@ -41,12 +41,24 @@
         display: block;
         margin-bottom: 5px;
     }
-    .form-group input {
+    .form-group select {
         width: 100%;
         padding: 12px;
         border: 1px solid #ccc;
         border-radius: 4px;
         box-sizing: border-box;
+        appearance: none;
+        background-image: linear-gradient(45deg, transparent 50%, #1DB954 50%);
+        background-position: calc(100% - 20px) center;
+        background-size: 12px 12px;
+        background-repeat: no-repeat;
+        color: #555;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .form-group select:focus {
+        outline: none;
+        border-color: #1DB954;
     }
     .submit-button {
         padding: 12px 20px;
@@ -64,27 +76,40 @@
 </style>
 
 <header>
-    <h1>TAMBAH PLAYLIST</h1>
+    <h1>TAMBAH LAGU KE PLAYLIST</h1>
 </header>
 <div class="container">
     <div class="form-container">
-        <h2>Isi Detail Playlist</h2>
-        <form action="{% url 'playlist:add_playlist' %}" method="post">
+        <h2>Pilih Playlist</h2>
+        <form id="form-registrasi">
             <div class="form-group">
-                <label for="judul">Judul:</label>
-                <input type="text" id="judul" name="judul" placeholder="Masukkan judul playlist">
+                <label for="playlist">Lagu:</label>
+                <select id="playlist" name="playlist">
+                    {% for playlist in playlists %}
+                    <option value='{{ playlist.6 }}'>{{ playlist.2 }}</option>
+                    {% endfor %}
+                </select>
             </div>
-            <div class="form-group">
-                <label for="deskripsi">Deskripsi:</label>
-                <input type="text" id="deskripsi" name="deskripsi" placeholder="Masukkan deskripsi playlist">
-            </div>
-            <p>{{ pesan }}</p>
-            <button type="submit" class="submit-button">Submit</button>
+            <button type="submit" class="submit-button" onclick="submitForm()" >Submit</button>
         </form>
     </div>
 </div>
 
 <script>
+    async function submitForm() {
+        var form = new FormData(document.querySelector('#form-registrasi'))
+
+        var action = confirm("Apakah informasi yang Anda masukkan sudah benar?")
+        if (action) {
+            fetch(`/playlist/add-song-to-playlist/{{ id_song }}/`, {
+                method: "POST",
+                body: new FormData(document.querySelector('#form-registrasi'))
+            })
+
+            document.getElementById("form-registrasi").reset()
+            return false
+        }
+    }
     async function navbarOption() {
         var contents = document.getElementById("important")
 
@@ -113,7 +138,7 @@
                             Manage
                         </a>
                         <div class="dropdown-menu" aria-labelledby="manage" id="dropdown-contents">
-                            <a class="dropdown-item" href="{% url 'playlist:show_playlist' %}">Playlist</a>
+                            <a class="dropdown-item" href="#">Playlist</a>
                             <a class="dropdown-item" href="#">Langganan Paket</a>
                         </div>
                     </li>

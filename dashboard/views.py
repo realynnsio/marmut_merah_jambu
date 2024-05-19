@@ -12,23 +12,31 @@ def show_dashboard(request):
     email = request.session.get('email')    
     with connection.cursor() as cursor:
         cursor.execute("set search_path to marmut;")
-        cursor.execute(get_user(email))
-        res = parse(cursor)
+        if not request.session.get('is_label'):
+            cursor.execute(get_user(email))
+            res = parse(cursor)
+        else:
+            cursor.execute(
+                f""" SELECT * FROM LABEL WHERE email = '{email}';
+                """
+            )
+            res = parse(cursor)
     
     gender = ""
     role_string = ""
     
-    if res[0].get('gender') == 0:
-        gender = "Perempuan"
-    else:
-        gender = "Laki-Laki"
-    
-    if request.session.get('is_artist'):
-        role_string += "Artist \n"
-    if request.session.get('is_songwriter'):
-        role_string += "Songwriter \n"
-    if request.session.get('is_podcaster'):
-        role_string += "Podcaster \n"
+    if not request.session.get('is_label'):
+        if res[0].get('gender') == 0:
+            gender = "Perempuan"
+        else:
+            gender = "Laki-Laki"
+        
+        if request.session.get('is_artist'):
+            role_string += "Artist \n"
+        if request.session.get('is_songwriter'):
+            role_string += "Songwriter \n"
+        if request.session.get('is_podcaster'):
+            role_string += "Podcaster \n"
 
     context = {
         "user" : res[0],

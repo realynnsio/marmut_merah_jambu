@@ -75,36 +75,105 @@
 
   <nav class="navbar navbar-expand-lg fixed-top shadow" id="important">
     <div class="container-fluid">
-        <a class="navbar-brand" id="appname" href="#">
+        <a class="navbar-brand" id="appname" href="{% url 'dashboard:show_dashboard' %}">
             Marmut Merah Jambu
         </a>
+
+        {% if request.session.email or request.session.is_label %}
+        <ul class="navbar-nav">
+
+            
+            {% if request.session.is_pengguna %}
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'chart:show_chart' %}">Chart</a>
+            </li>
+            {% endif %}
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="manage" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Manage
+                </a>
+                <div class="dropdown-menu" aria-labelledby="manage">
+                    
+                    {% if request.session.is_pengguna %}
+                    <a class="dropdown-item" href="{% url 'playlist:show_playlist' %}">Playlist</a>
+                    <a class="dropdown-item" href="{% url 'langganan_paket:show_list_paket' %}">Langganan Paket</a>
+                    {% endif %}
+
+                    {% if request.session.is_premium %}
+                    <a class="dropdown-item" href="{% url 'downloaded_songs:download_list' %}">Downloaded Songs</a>
+                    {% endif %}
+
+                    {% if request.session.is_podcaster %}
+                    <a class="dropdown-item" href="{% url 'kelola_podcast:show_list_podcast' %}">Podcast</a>
+                    {% endif %}
+
+                    {% if request.session.is_artist or request.session.is_songwriter %}
+                    <a class="dropdown-item" href="{% url 'crud_kelola_album_song:daftar_album' %}">Album & Songs</a>
+                    {% endif %}
+                    
+                    {% if request.session.is_label %}
+                    <a class="dropdown-item" href="{% url 'crud_kelola_album_song:show_label_album' %}">Album</a>
+                    {% endif %}
+
+                    {% if request.session.is_artist or request.session.is_songwriter or request.session.is_label %}
+                    <a class="dropdown-item" href="{% url 'royalti:show_list_royalti' %}">Royalti</a>
+                    {% endif %}
+                </div>
+            </li>
+        </ul>
+        {% endif %}
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
-
+                
+                {% if request.session.is_pengguna %}
                 <li class="nav-item">
+<<<<<<< HEAD
                     <a class="nav-link" href="{% url 'dashboard:show_dashboard' %}">Dashboard</a>
                   </li>
 
                 <li class="nav-item">
                 <a class="nav-link" href="#">Chart</a>
+=======
+                <a class="nav-link" href="{% url 'chart:show_chart' %}">Chart</a>
+>>>>>>> 62eeba6c6e3decfa0a70993c2cffafbf0698caec
                 </li>
+                {% endif %}
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="manage" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Manage
                     </a>
                     <div class="dropdown-menu" aria-labelledby="manage">
-                        <a class="dropdown-item" href="#">Playlist</a>
+                        
+                        {% if request.session.is_pengguna %}
+                        <a class="dropdown-item" href="{% url 'playlist:show_playlist' %}">Playlist</a>
                         <a class="dropdown-item" href="{% url 'langganan_paket:show_list_paket' %}">Langganan Paket</a>
+                        {% endif %}
+
+                        {% if request.session.is_premium %}
                         <a class="dropdown-item" href="{% url 'downloaded_songs:download_list' %}">Downloaded Songs</a>
-                        <a class="dropdown-item" href="#">Podcast</a>
-                        <a class="dropdown-item" href="#">Album & Songs</a>
-                        <a class="dropdown-item" href="#">Album</a>
-                        <a class="dropdown-item" href="#">Royalti</a>
+                        {% endif %}
+
+                        {% if request.session.is_podcaster %}
+                        <a class="dropdown-item" href="{% url 'kelola_podcast:show_list_podcast' %}">Podcast</a>
+                        {% endif %}
+
+                        {% if request.session.is_artist or request.session.is_songwriter %}
+                        <a class="dropdown-item" href="{% url 'crud_kelola_album_song:daftar_album' %}">Album & Songs</a>
+                        {% endif %}
+                        
+                        {% if request.session.is_label %}
+                        <a class="dropdown-item" href="{% url 'crud_kelola_album_song:show_label_album' %}">Album</a>
+                        {% endif %}
+
+                        {% if request.session.is_artist or request.session.is_songwriter or request.session.is_label %}
+                        <a class="dropdown-item" href="{% url 'royalti:show_list_royalti' %}">Royalti</a>
+                        {% endif %}
                     </div>
                 </li>
             </ul>
@@ -121,7 +190,7 @@
               </form>
 
             <li class="nav-item" style="margin-left: 4%;">
-                <a class="nav-link" href="#">Logout</a>
+                <a class="nav-link" href="{% url 'cru_registrasi:logout' %}">Logout</a>
                 </li>
 
             </div>

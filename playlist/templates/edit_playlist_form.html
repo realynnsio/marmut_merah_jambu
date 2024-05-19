@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+{% include 'navbar.html' %}
+
 <style>
     body {
         font-family: 'Montserrat', sans-serif;
@@ -38,21 +41,12 @@
         display: block;
         margin-bottom: 5px;
     }
-    .form-group input,
-    .form-group select {
+    .form-group input {
         width: 100%;
         padding: 12px;
         border: 1px solid #ccc;
         border-radius: 4px;
         box-sizing: border-box;
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        background-image: url('data:image/svg+xml;utf8,<svg fill="#000000" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24px" height="24px"><path d="M7 10l5 5 5-5z" /><path d="M0 0h24v24H0z" fill="none" /></svg>');
-        background-position: right 10px center;
-        background-repeat: no-repeat;
-        background-size: 20px;
-        cursor: pointer;
     }
     .submit-button {
         padding: 12px 20px;
@@ -67,120 +61,45 @@
     .submit-button:hover {
         background-color: #0a802b;
     }
-    /* Modal */
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.4);
-    }
-    .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
-        border-radius: 8px;
-    }
-    .modal-content p {
-        margin-bottom: 20px;
-    }
-    .modal-buttons {
-        text-align: center;
-    }
-    .modal-buttons button {
-        padding: 12px 20px;
-        margin: 0 10px;
-        border: none;
-        border-radius: 8px;
-        background-color: #1DB954;
-        color: #fff;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-    .modal-buttons button:hover {
-        background-color: #0a802b;
-    }
 </style>
 
 <header>
-    <h1>TAMBAH LAGU KE PLAYLIST</h1>
+    <h1>EDIT PLAYLIST</h1>
 </header>
 <div class="container">
     <div class="form-container">
-        <h2>Isi Detail Lagu</h2>
-        <form action="#" id="songForm">
+        <h2>Ubah Detail Playlist</h2>
+        <form id="form-registrasi">
             <div class="form-group">
                 <label for="judul">Judul:</label>
-                <input type="text" id="judul" name="judul" placeholder="Masukkan judul lagu">
+                <input type="text" id="judul" name="judul" placeholder="Masukkan judul playlist">
             </div>
             <div class="form-group">
-                <label for="artist">Artist:</label>
-                <input type="text" id="artist" name="artist" placeholder="Masukkan nama artis">
+                <label for="deskripsi">Deskripsi:</label>
+                <input type="text" id="deskripsi" name="deskripsi" placeholder="Masukkan deskripsi playlist">
             </div>
-            <div class="form-group">
-                <label for="playlist">Playlist:</label>
-                <select id="playlist" name="playlist">
-                    <option value="playlist1">Playlist 1</option>
-                    <option value="playlist2">Playlist 2</option>
-                    <!-- Tambahkan opsi playlist lainnya sesuai dengan daftar playlist pengguna -->
-                </select>
-            </div>
-            <button type="submit" class="submit-button">TAMBAH</button>
-            <button type="button" class="submit-button" onclick="goBack()">KEMBALI</button>
+            <p>{{ pesan }}</p>
+            <button type="submit" class="submit-button" onclick="submitForm()">Submit</button>
         </form>
     </div>
 </div>
 
-<!-- Modal -->
-<div id="myModal" class="modal">
-    <div class="modal-content">
-        <p>Berhasil menambahkan Lagu dengan judul 'Song1' ke 'Playlist1'!</p>
-        <div class="modal-buttons">
-            <button onclick="goToPlaylist()">KE PLAYLIST</button>
-            <button onclick="closeModal()">KEMBALI</button>
-        </div>
-    </div>
-</div>
-
 <script>
-    // Fungsi untuk menampilkan modal
-    function showModal() {
-        var modal = document.getElementById("myModal");
-        modal.style.display = "block";
+
+    async function submitForm() {
+        var form = new FormData(document.querySelector('#form-registrasi'))
+
+        var action = confirm("Apakah informasi yang Anda masukkan sudah benar?")
+        if (action) {
+            fetch(`/playlist/edit-playlist/{{ id_playlist }}/`, {
+                method: "POST",
+                body: new FormData(document.querySelector('#form-registrasi'))
+            })
+
+            document.getElementById("form-registrasi").reset()
+            return false
+        }
     }
-
-    // Fungsi untuk menutup modal
-    function closeModal() {
-        var modal = document.getElementById("myModal");
-        modal.style.display = "none";
-    }
-
-    // Fungsi untuk kembali ke playlist setelah menambahkan lagu
-    function goToPlaylist() {
-        // Redirect ke halaman playlist
-        window.location.href = "playlist.html";
-    }
-
-    // Fungsi untuk kembali ke halaman sebelumnya
-    function goBack() {
-        window.history.back();
-    }
-
-    // Submit form dan tampilkan modal setelah submit
-    document.getElementById("songForm").addEventListener("submit", function(event) {
-        event.preventDefault(); // Hindari reload halaman
-        showModal(); // Tampilkan modal
-    });
-</script>
-
-<script>
     async function navbarOption() {
         var contents = document.getElementById("important")
 
@@ -209,7 +128,7 @@
                             Manage
                         </a>
                         <div class="dropdown-menu" aria-labelledby="manage" id="dropdown-contents">
-                            <a class="dropdown-item" href="#">Playlist</a>
+                            <a class="dropdown-item" href="{% url 'playlist:show_playlist' %}">Playlist</a>
                             <a class="dropdown-item" href="#">Langganan Paket</a>
                         </div>
                     </li>
@@ -240,6 +159,5 @@
     navbarOption()
 </script>
 {% endblock content %}
-
 
 

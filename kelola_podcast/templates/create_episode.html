@@ -7,7 +7,9 @@
 
 <div class="min-h-screen bg-gray-100 text-gray-800 antialiased px-4 py-6 flex flex-col flex-wrap justify-center sm:py-12">
     <div class="relative py-2 sm:max-w-xl mx-auto text-center">
-        <span class="text-2xl font-light">Add New Episode to Podcast Agak Laen</span>
+        {% for result in results %}
+        <span class="text-2xl font-light">Add New Episode to Podcast {{result.judul_podcast}}</span>
+        {% endfor %}
         <div class="relative mt-4 bg-white shadow-md sm:rounded-lg text-left sm:mt-4">
             <div class="py-10 px-8">
                 <form action="{% url 'kelola_podcast:add_episode' id_podcast=data %}" method="post">

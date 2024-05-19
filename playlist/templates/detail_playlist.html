@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+{% include 'navbar.html' %}
+
 <style>
     body {
         font-family: 'Montserrat', sans-serif;
@@ -111,62 +114,43 @@
     <h1>DETAIL PLAYLIST</h1>
 </header>
 <div class="container" id="container">
+    {% for info in playlist_info %}
     <div class="playlist-header">
-        <h2>Playlist Name</h2>
-        <p>Pembuat: John Doe</p>
-        <p>Total Durasi: 8 jam 20 menit</p>
-        <p>Tanggal Dibuat: 18/03/24</p>
+        <h2>{{ info.0 }}</h2>
+        <p>Pembuat: {{ info.1 }}</p>
+        <p>Total Durasi: {{ info.2 }}</p>
+        <p>Tanggal Dibuat: {{ info.3 }}</p>
     </div>
     <div class="playlist-actions">
         <button>Shuffle Play</button>
-        <button>Kembali</button>
-        <button>Tambah Lagu</button>
+        <button onclick="location.href = '/playlist/all'">Kembali</button>
+        {% if own_playlist %}
+            <button onclick="location.href = '/playlist/add-song/{{ info.5 }}/'">Tambah Lagu</button>
+        {% endif %}
     </div>
     <div class="playlist-info">
         <h2>Deskripsi Playlist</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu ligula ac turpis interdum aliquet.</p>
+        <p>{{ info.4 }}</p>
     </div>
     <div class="song-list">
+        {% for song in songs %}
         <div class="song-list-item">
             <div>
-                <p class="song-title">Song 1</p>
-                <p class="song-artist">Artist 1</p>
-                <p class="song-duration">Durasi: 3 menit 30 detik</p>
+                <p class="song-title">{{ song.0 }}</p>
+                <p class="song-artist">{{ song.1 }}</p>
             </div>
             <div class="song-actions">
-                <button>Lihat</button>
-                <button>Play</button>
-                <button>Hapus</button>
+                <button onclick="location.href = '/playlist/detail-song/{{ song.2 }}/{{ info.5 }}/'">Lihat</button>
+                <button onclick="location.href = '/playlist/detail-song/{{ song.2 }}/{{ info.5 }}/'">Play</button>
+                {% if own_playlist %}
+                    <button onclick="location.href = '/playlist/delete-song/{{ song.2 }}/'">Hapus</button>
+                {% endif %}
             </div>
         </div>
-        <div class="song-list-item">
-            <div>
-                <p class="song-title">Song 2</p>
-                <p class="song-artist">Artist 2</p>
-                <p class="song-duration">Durasi: 4 menit 15 detik</p>
-            </div>
-            <div class="song-actions">
-                <button>Lihat</button>
-                <button>Play</button>
-                <button>Hapus</button>
-            </div>
-        </div>
-        <div class="song-list-item">
-            <div>
-                <p class="song-title">Song 3</p>
-                <p class="song-artist">Artist 3</p>
-                <p class="song-duration">Durasi: 5 menit</p>
-            </div>
-            <div class="song-actions">
-                <button>Lihat</button>
-                <button>Play</button>
-                <button>Hapus</button>
-            </div>
-        </div>
-        <!-- Add more song list items as needed -->
+        {% endfor %}
     </div>
+    {% endfor %}
 </div>
-<<<<<<< HEAD
 
 <script>
     async function navbarOption() {
@@ -197,7 +181,7 @@
                             Manage
                         </a>
                         <div class="dropdown-menu" aria-labelledby="manage" id="dropdown-contents">
-                            <a class="dropdown-item" href="#">Playlist</a>
+                                   <a class="dropdown-item" href="{% url 'playlist:show_playlist' %}">Playlist</a>
                             <a class="dropdown-item" href="#">Langganan Paket</a>
                         </div>
                     </li>
@@ -241,13 +225,13 @@
         contents = document.getElementsByClassName("playlist-actions")
         htmlString = `
         <button>Shuffle Play</button>
-        <button>Kembali</button>
+       <button onclick="location.href = '/playlist/all'">Kembali</button>
         `
         for (var i = 0; i < contents.length; i++) {
             contents[i].innerHTML = htmlString;
         }
     }
-    someonePlaylist()
+    // someonePlaylist()
 
     async function noPlaylist() {
         var contents = document.getElementsByClassName("container")
@@ -268,9 +252,3 @@
 
 </script>
 {% endblock content %}
-
-
-
-=======
-{% endblock content %}
->>>>>>> origin/athar2

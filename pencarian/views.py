@@ -17,7 +17,6 @@ def show_search(request):
     context = {
         'data': hasil
     }
-    print(context)
     return render(request, "search.html", context)
 
 def search_data(request):  

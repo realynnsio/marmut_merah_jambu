@@ -3,6 +3,9 @@
 {% block title %}List Album{% endblock title %}
 
 {% block content %}
+
+{% include 'navbar.html' %}
+
 <style>
     body {
         font-family: 'Montserrat', sans-serif;
@@ -96,17 +99,17 @@
                             <div class="container">
                                 <div class="row">
                                   <div class="col">
-                                    <button class="song-list-button" onclick="song_list()">Lihat Daftar Lagu</button>
+                                    <button class="song-list-button" onclick="song_list('{{ album.id }}')">Lihat Daftar Lagu</button>
                                   </div>
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                      <button class="add-song-button" onclick="add_song()">Tambah Lagu</button>
+                                      <button class="add-song-button" onclick="add_song('{{ album.id }}')">Tambah Lagu</button>
                                     </div>
                                 </div>
                                 <div class="row">
                                 <div class="col">
-                                    <button class="delete-album-button">Hapus</button>
+                                    <button class="delete-album-button" onclick="delete_album('{{ album.id }}')">Hapus</button>
                                 </div>
                                 </div>
                             </div>
@@ -114,61 +117,6 @@
                     </tr>
                     {% endfor %}
                 {% endif %}
-                <!-- Daftar Album -->
-                <!-- <tr>
-                    <th scope="row">1</th>
-                    <td>Album 1</td>
-                    <td>LabelA</td>
-                    <td>0</td>
-                    <td>0 menit</td>
-                    <td class="album-actions">
-                        <div class="container">
-                            <div class="row">
-                              <div class="col">
-                                <button class="song-list-button" onclick="song_list()">Lihat Daftar Lagu</button>
-                              </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                  <button class="add-song-button" onclick="add_song()">Tambah Lagu</button>
-                                </div>
-                            </div>
-                            <div class="row">
-                            <div class="col">
-                                <button class="delete-album-button">Hapus</button>
-                            </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr> -->
-
-                <!-- Album 2 -->
-                <!-- <tr>
-                    <th scope="row">2</th>
-                    <td>Album 2</td>
-                    <td>LabelB</td>
-                    <td>2</td>
-                    <td>4 menit</td>
-                    <td class="album-actions">
-                        <div class="container">
-                            <div class="row">
-                              <div class="col">
-                                <button class="song-list-button" onclick="song_list()">Lihat Daftar Lagu</button>
-                              </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                  <button class="add-song-button" onclick="add_song()">Tambah Lagu</button>
-                                </div>
-                            </div>
-                            <div class="row">
-                            <div class="col">
-                                <button class="delete-album-button">Hapus</button>
-                            </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr> -->
                 
             </tbody> 
         </table>
@@ -179,15 +127,23 @@
 
 <script>
     function add_album() {
-         location.href = "/albums/add/";
+         location.href = "{% url 'crud_kelola_album_song:create_album' %}";
     } 
 
-    function song_list() {
-         location.href = "/albums/detail/";
+    function song_list(albumId) {
+         location.href = `/albums/detail/${albumId}/`;
     } 
 
-    function add_song() {
-         location.href = "/albums/add-song/";
+    function add_song(albumId) {
+         location.href = `/albums/add-song/${albumId}/`;
+    } 
+
+    function delete_album(albumId) {
+         // Confirm deletion
+        if (confirm("Are you sure you want to delete this album?")) {
+            // Redirect to the delete URL with the albumId
+            location.href = `/albums/delete/${albumId}/`;
+        }
     } 
 </script>
 
