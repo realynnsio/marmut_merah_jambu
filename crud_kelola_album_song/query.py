@@ -24,7 +24,7 @@ def get_artist_id(email):
 
 def get_artist_albums(id):
     return f"""
-        SELECT
+        SELECT DISTINCT
             a.id,
             a.judul,
             l.nama,
@@ -49,25 +49,25 @@ def get_songwriter_id(email):
 
 def get_songwriter_albums(id):
     return f"""
-        SELECT
+        SELECT DISTINCT
             a.id,
             a.judul,
             l.nama,
             a.jumlah_lagu,
             a.total_durasi
         FROM
-            SONGWRITER as sw
-            JOIN SONG as s ON sw.id_song = s.id_konten
+            SONGWRITER_WRITE_SONG as sws
+            JOIN SONG as s ON sws.id_song = s.id_konten
             JOIN ALBUM as a ON s.id_album = a.id
             JOIN LABEL as l ON a.id_label = l.id
         WHERE
-            sw.id_songwriter = '{id}'
+            sws.id_songwriter = '{id}'
         ;
     """
 
 def get_artist_songwriter_albums(id):
     return f"""
-        (SELECT
+        (SELECT DISTINCT
             a.id,
             a.judul,
             l.nama,
@@ -80,18 +80,18 @@ def get_artist_songwriter_albums(id):
         WHERE
             s.id_artist = '{id}')
         UNION
-        (SELECT
+        (SELECT DISTINCT
             a.id,
             a.judul,
             l.nama,
             a.jumlah_lagu,
             a.total_durasi
         FROM
-            SONGWRITER as sw
-            JOIN SONG as s ON sw.id_song = s.id_konten
+            SONGWRITER_WRITE_SONG as sws
+            JOIN SONG as s ON sws.id_song = s.id_konten
             JOIN ALBUM as a ON s.id_album = a.id
             JOIN LABEL as l ON a.id_label = l.id
         WHERE
-            sw.id_songwriter = '{id}')
+            sws.id_songwriter = '{id}')
         ;
     """

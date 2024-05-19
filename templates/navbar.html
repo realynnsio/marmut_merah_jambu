@@ -88,7 +88,7 @@
             
             {% if request.session.is_pengguna %}
             <li class="nav-item">
-            <a class="nav-link" href="#">Chart</a>
+            <a class="nav-link" href="{% url 'chart:show_chart' %}">Chart</a>
             </li>
             {% endif %}
 
@@ -133,7 +133,7 @@
                 
                 {% if request.session.is_pengguna %}
                 <li class="nav-item">
-                <a class="nav-link" href="#">Chart</a>
+                <a class="nav-link" href="{% url 'chart:show_chart' %}">Chart</a>
                 </li>
                 {% endif %}
 

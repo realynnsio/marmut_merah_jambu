@@ -36,4 +36,4 @@ def delete_song(request):
     # Lakukan operasi penghapusan data
     with connection.cursor() as cursor:
         cursor.execute("DELETE FROM marmut.downloaded_song WHERE id_song = %s", (id_song,))
-    return redirect(reverse('download_song:download_list'))
+    return redirect(reverse('downloaded_songs:download_list'))
