@@ -5,14 +5,14 @@ import datetime
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.db import connection
+from .decorators import podcaster_required
 
 
-
-
-
-# @login_required
+@podcaster_required
 def show_list_podcast(request):
-    query = """
+    user_email = request.session.get('email')
+
+    query = f"""
     SELECT KONTEN.judul, COALESCE(COUNT(id_episode), 0) AS episode, KONTEN.id,
     CASE
         WHEN SUM(EPISODE.durasi) % 60 = 0 THEN (SUM(EPISODE.durasi) / 60) || ' jam'
@@ -22,6 +22,7 @@ def show_list_podcast(request):
     FROM MARMUT.PODCAST
     LEFT JOIN MARMUT.KONTEN ON id_konten = id
     LEFT JOIN MARMUT.EPISODE ON id_konten_podcast = id_konten 
+    WHERE PODCAST.email_podcaster = '{user_email}'
     GROUP BY KONTEN.judul, KONTEN.id
     """
     results = execute_raw_query(query)
@@ -41,9 +42,11 @@ def show_list_podcast(request):
             'total_durasi' : total_durasi
         })
 
-    context = {'results': result_data}
+    context = {'results': result_data,}
     return render(request, "list_podcast.html", context)
 
+
+@podcaster_required
 def show_list_episode(request, id_input):
     query = f"""
     SELECT KONTEN.id, EPISODE.id_episode, EPISODE.judul, EPISODE.deskripsi, EPISODE.tanggal_rilis, 
@@ -57,6 +60,25 @@ def show_list_episode(request, id_input):
     """
 
     results = execute_raw_query(query)
+
+    query2 = f"""
+    SELECT KONTEN.judul
+    FROM MARMUT.KONTEN, MARMUT.PODCAST, MARMUT.EPISODE 
+    WHERE id_konten = id AND id_konten_podcast = id_konten AND id = '{id_input}';
+    """
+
+    results2 = execute_raw_query(query2)
+
+    list_judul_podcast = []
+
+    for result2 in results2:
+        judul_podcast = result2[0]
+
+
+        if len(list_judul_podcast) == 0 : 
+            list_judul_podcast.append({
+                'judul_podcast': judul_podcast,
+            })
 
     result_data = []
 
@@ -77,7 +99,10 @@ def show_list_episode(request, id_input):
             'id_episode': id_episode
         })
     
-    context = {'results': result_data}
+    context = {
+        'results': result_data, 
+        'results2' : list_judul_podcast
+        }
     return render(request, 'list_episode.html', context)
 
 def show_podcast_detail(request, id_input):
@@ -165,26 +190,60 @@ def show_podcast_detail(request, id_input):
     context = {'results': result_data}
     return render(request, "podcast_detail.html", context)
 
+@podcaster_required
 def show_form_episode(request, id_podcast):
 
+    query = f"""
+            SELECT KONTEN.judul
+            FROM MARMUT.KONTEN, MARMUT.PODCAST, MARMUT.EPISODE 
+            WHERE id_konten = id AND id_konten_podcast = id_konten AND id = '{id_podcast}';
+            """
 
-    context = {'data' : id_podcast }
+    results = execute_raw_query(query)
+
+    list_judul_podcast = []
+
+    for result in results:
+        judul_podcast = result[0]
+
+
+        if len(list_judul_podcast) == 0 : 
+            list_judul_podcast.append({
+                'judul_podcast': judul_podcast,
+            })
+
+
+    context = {
+        'data' : id_podcast,
+        'results' : list_judul_podcast
+                }
     return render(request, "create_episode.html", context)
 
+@podcaster_required
 def show_form_podcast(request):
     context = {}
     return render(request, "create_podcast.html", context)
 
 def add_podcast_raw(judul, genres, konten_id, tanggal_rilis, user_email):
 
-    query = f"""
-    INSERT INTO KONTEN VALUES (id, judul, tanggal_rilis, tahun, durasi)
-    VALUES ({konten_id}, {judul}, {tanggal_rilis}, {tanggal_rilis.year}, 0)
+    query1 = f"""
+    SELECT AKUN.nama FROM MARMUT.AKUN, MARMUT.PODCASTER WHERE PODCASTER.email = AKUN.email AND PODCASTER.email = '{user_email}'
     """
 
-    # query = f"""
-    # INSERT INTO MARMUT.KONTEN VALUES ('{konten_id}', '{judul}', '{tanggal_rilis}', '{tanggal_rilis.year}', 540)
-    # """
+    results = execute_raw_query(query1)
+
+    result_data = []
+
+    for result in results:
+        nama = result[0];
+
+    result_data.append({
+        'nama': nama
+    })
+
+    query = f"""
+    INSERT INTO MARMUT.KONTEN VALUES ('{konten_id}', '{judul}', '{tanggal_rilis}', '{tanggal_rilis.year}', 540)
+    """
 
     with connection.cursor() as cursor:
         cursor.execute(query)
@@ -198,7 +257,7 @@ def add_podcast_raw(judul, genres, konten_id, tanggal_rilis, user_email):
             cursor.execute(query1)
 
     query2 = f"""
-    INSERT INTO MARMUT.PODCAST VALUES('{konten_id}', 'usermarmut5@gmail.com')
+    INSERT INTO MARMUT.PODCAST VALUES('{konten_id}', '{user_email}')
     """
 
     with connection.cursor() as cursor:
@@ -220,11 +279,12 @@ def add_podcast(request):
         konten_id = uuid.uuid4()
         tanggal_rilis = datetime.date.today();
 
-        # user = request.user
+        user_email = request.session.get('email')
 
-        add_podcast_raw(judul, genres, konten_id, tanggal_rilis, 'usermarmut5@gmail.com')
+        add_podcast_raw(judul, genres, konten_id, tanggal_rilis, user_email)
         return HttpResponseRedirect(reverse('kelola_podcast:show_list_podcast'))
-    
+
+@podcaster_required
 def add_episode(request, id_podcast):
         judul = request.POST.get('judul')
         deskripsi = request.POST.get('deskripsi')
@@ -235,7 +295,7 @@ def add_episode(request, id_podcast):
         add_episode_raw(episode_id, id_podcast, judul, deskripsi, durasi, tanggal_rilis)
         return HttpResponseRedirect(reverse('kelola_podcast:show_list_podcast'))
      
-
+@podcaster_required
 def delete_episode(request, id_episode, id_konten):
     query = f"""
     DELETE FROM MARMUT.EPISODE WHERE id_episode = '{id_episode}'
@@ -246,6 +306,7 @@ def delete_episode(request, id_episode, id_konten):
 
     return HttpResponseRedirect(reverse('kelola_podcast:show_list_episode', kwargs={'id_input': id_konten}))
 
+@podcaster_required
 def delete_podcast(request, id_konten):
 
     query = f"""
