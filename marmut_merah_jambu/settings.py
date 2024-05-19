@@ -113,7 +113,7 @@ if SUPABASE_DB_URL:
     # Use the Supabase database configuration
     DATABASES = {
         "default": dj_database_url.config(
-            default=SUPABASE_DB_URL + '?options=-c%20search_path%3Dmarmut',
+            default=SUPABASE_DB_URL,
             conn_max_age=600
         )
     }
